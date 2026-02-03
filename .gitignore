@@ -1,3 +1,11 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
 # OS generated files
 .DS_Store
 .DS_Store?
@@ -32,6 +40,7 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 *.env
+.env.production
 
 # Temporary files
 *.tmp
@@ -42,11 +51,7 @@ pnpm-debug.log*
 # Gemini
 .gemini/
 
-# Node modules (if any)
-node_modules/
-
 # Build outputs
-dist/
 build/
 *.min.js
 *.min.css
@@ -74,6 +79,4 @@ target/
 *.aab
 local.properties
 .gradle/
-build/
 *.iml
-.idea/

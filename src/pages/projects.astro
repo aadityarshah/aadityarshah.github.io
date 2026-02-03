@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import projectsData from '../data/projects.json';
+---
+
+<Layout title="Projects - Aaditya Shah">
+  <Header />
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold mb-8">Projects</h1>
+    <div class="grid md:grid-cols-2 gap-6">
+      {projectsData.map((project) => (
+        <article class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow">
+          <div class="flex items-center space-x-2 mb-2">
+            {project.tags.map((tag) => (
+              <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">{tag}</span>
+            ))}
+          </div>
+          <h3 class="text-xl font-bold mb-2">{project.title}</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">
+            {project.description}
+          </p>
+          <div class="flex gap-4 flex-wrap">
+            {project.links.playStore && (
+              <a 
+                href={project.links.playStore} 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Play Store
+              </a>
+            )}
+            {project.links.website && (
+              <a 
+                href={project.links.website} 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Website
+              </a>
+            )}
+            {project.links.demo && project.links.demo !== '#' && (
+              <a 
+                href={project.links.demo} 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Demo
+              </a>
+            )}
+            {project.links.github && (
+              <a 
+                href={project.links.github} 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
+  <Footer />
+</Layout>

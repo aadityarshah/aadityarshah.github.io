@@ -1,0 +1,215 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import newsData from '../data/news.json';
+import projectsData from '../data/projects.json';
+
+// Sort news by date (newest first)
+const sortedNews = newsData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Format date function
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+
+// Get relative time (e.g., "2 days ago")
+function getRelativeTime(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return 'Yesterday';
+  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+  return `${Math.floor(diffDays / 365)} years ago`;
+}
+
+// Get featured projects (for homepage)
+const featuredProjects = projectsData.filter(p => p.featured).slice(0, 2);
+---
+
+<Layout title="Aaditya Shah - CSE Student at IIT Gandhinagar">
+  <Header />
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero Section -->
+    <section class="mb-16">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Aaditya Shah</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-2">
+          Undergraduate <em>CSE</em> Student, <em>Mobile App</em> Developer
+        </p>
+        <p class="text-gray-600 dark:text-gray-400">
+          Hi! I'm Aaditya Shah, a B.Tech. student in Computer Science and Engineering at IIT Gandhinagar.
+        </p>
+      </div>
+      
+      <div class="prose prose-lg dark:prose-invert max-w-3xl mx-auto">
+        <p>
+          Ever since I learned about Java in my CS classes, I've been passionate about building software: 
+          from mobile applications to web applications. I've transitioned from Java to Kotlin for Android 
+          development and have deployed an app to the Play Store for beta testing. Lately, I've been 
+          exploring <em>React</em> and <em>React Native</em> for cross-platform mobile and web development.
+        </p>
+        <p>
+          What drives me most is building practical applications that solve real-world problems and 
+          helping others learn along the way.
+        </p>
+        <p>
+          Beyond software development, I'm interested in <em>quantum computing</em>, <em>mathematics</em>, and 
+          <em>cognitive science</em>. I enjoy exploring how these fields intersect with computing and 
+          contribute to understanding complex systems.
+        </p>
+        <p>
+          If you share similar interests or want to collaborate, feel free to reach out!
+        </p>
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-gray-600 dark:text-gray-400 mb-4">
+          <strong>Aaditya Shah</strong><br />
+          From Ahmedabad, Gujarat | Currently at IIT Gandhinagar
+        </p>
+        <div class="flex justify-center space-x-4">
+          <a
+            href="mailto:aaditya.shah@iitgn.ac.in"
+            class="inline-flex items-center px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+          >
+            Mail me
+          </a>
+          <a
+            href="https://github.com/aadityarshah"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            View on Github
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8">News</h2>
+      <div class="relative">
+        <!-- Timeline line - extended upward for in-progress section -->
+        <div class="absolute left-4 -top-6 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700"></div>
+        
+        <!-- Small "In progress..." text to the right of timeline -->
+        <div class="relative pl-12 -mb-4">
+          <p class="text-xs text-gray-500 dark:text-gray-400 italic">In progress...</p>
+        </div>
+        
+        <div class="space-y-6 mt-6">
+          <!-- News Items -->
+          {sortedNews.map((item, index) => (
+            <article class="relative pl-12">
+              <!-- Timeline dot -->
+              <div class="absolute left-3 top-1 w-3 h-3 rounded-full bg-blue-500 dark:bg-blue-400 border-2 border-white dark:border-gray-900 z-10"></div>
+              
+              <!-- Outline box for each news item -->
+              <div class="border border-gray-300 dark:border-gray-700 rounded-lg p-5 bg-white dark:bg-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                      {item.title}
+                    </h3>
+                    {item.category && (
+                      <span class="inline-block text-xs font-medium px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">
+                        {item.category}
+                      </span>
+                    )}
+                  </div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400 flex-shrink-0">
+                    <time datetime={item.date} title={formatDate(item.date)}>
+                      {formatDate(item.date)}
+                    </time>
+                    <span class="ml-2 text-xs">({getRelativeTime(item.date)})</span>
+                  </div>
+                </div>
+                
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {item.content}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Projects Section -->
+    <section class="mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold">Some Projects</h2>
+        <a href="/projects" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+          All projects »
+        </a>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {featuredProjects.map((project) => (
+          <article class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow">
+            <div class="flex items-center space-x-2 mb-2">
+              {project.tags.map((tag) => (
+                <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">{tag}</span>
+              ))}
+            </div>
+            <h3 class="text-xl font-bold mb-2">{project.title}</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              {project.description}
+            </p>
+            <div class="flex gap-4">
+              {project.links.playStore && (
+                <a 
+                  href={project.links.playStore} 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Play Store
+                </a>
+              )}
+              {project.links.website && (
+                <a 
+                  href={project.links.website} 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Website
+                </a>
+              )}
+              {project.links.demo && project.links.demo !== '#' && (
+                <a 
+                  href={project.links.demo} 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Demo
+                </a>
+              )}
+              {project.links.github && (
+                <a 
+                  href={project.links.github} 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  GitHub
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

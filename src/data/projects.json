@@ -1,0 +1,21 @@
+[
+  {
+    "title": "MusicLib",
+    "description": "An Android music library application deployed to the Play Store for beta testing. Built with Kotlin and modern Android development practices.",
+    "tags": ["Kotlin", "Android"],
+    "links": {
+      "playStore": "https://play.google.com/store/apps/details?id=com.musiclib",
+      "website": "https://musiclib538-cmd.github.io"
+    },
+    "featured": true
+  },
+  {
+    "title": "Blithchron'26 App",
+    "description": "A React Native application for cross-platform mobile development with React for the annual cultural fest of IIT Gandhinagar, Blithchron'26.",
+    "tags": ["React", "React Native"],
+    "links": {
+      "demo": "https://blithchron"
+    },
+    "featured": true
+  }
+]
