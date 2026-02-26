@@ -2,9 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { personalData } from '../data/personal.js';
 ---
 
-<Layout title="Toolkit - Aaditya Shah">
+<Layout title={`Toolkit - ${personalData.name}`}>
   <Header />
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <h1 class="text-4xl font-bold mb-8">Toolkit</h1>

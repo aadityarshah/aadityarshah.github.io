@@ -1,10 +1,12 @@
 ---
+import { personalData } from '../data/personal.js';
+
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Aaditya Shah - CSE Student at IIT Gandhinagar" } = Astro.props;
+const { title, description = `${personalData.name} - Your short description goes here` } = Astro.props;
 ---
 
 <!doctype html>
@@ -17,7 +19,13 @@ const { title, description = "Aaditya Shah - CSE Student at IIT Gandhinagar" } =
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen relative overflow-x-hidden">
+    <!-- Mesh Gradient Background -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+      <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-100/40 dark:bg-blue-900/10 blur-[100px]"></div>
+      <div class="absolute top-[20%] -right-[10%] w-[35%] h-[35%] rounded-full bg-indigo-100/30 dark:bg-indigo-900/10 blur-[100px]"></div>
+      <div class="absolute bottom-[10%] left-[20%] w-[30%] h-[30%] rounded-full bg-sky-100/30 dark:bg-sky-900/10 blur-[100px]"></div>
+    </div>
     <slot />
   </body>
 </html>
@@ -25,5 +33,39 @@ const { title, description = "Aaditya Shah - CSE Student at IIT Gandhinagar" } =
 <style is:global>
   html {
     font-family: system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  /* Global style for links to make them clearer */
+  a {
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Target text-based links while avoiding most buttons/header items */
+  p a, 
+  article a, 
+  li a, 
+  .prose a,
+  [set\:html] a {
+    color: #2563eb; /* Bold blue for light mode */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .dark p a, 
+  .dark article a, 
+  .dark li a, 
+  .dark .prose a,
+  .dark [set\:html] a {
+    color: #93c5fd; /* Lighter blue for dark mode */
+  }
+
+  p a:hover, 
+  article a:hover, 
+  li a:hover, 
+  .prose a:hover,
+  [set\:html] a:hover {
+    opacity: 0.8;
+    border-bottom-color: currentColor;
   }
 </style>

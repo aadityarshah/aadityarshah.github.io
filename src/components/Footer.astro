@@ -1,4 +1,6 @@
 ---
+import { personalData } from '../data/personal.js';
+
 const currentYear = new Date().getFullYear();
 ---
 
@@ -6,11 +8,11 @@ const currentYear = new Date().getFullYear();
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
       <p class="text-gray-600 dark:text-gray-400 text-sm">
-        Aaditya Shah © {currentYear}
+        {personalData.name} © {currentYear}
       </p>
       <div class="flex space-x-6">
         <a
-          href="https://github.com/aadityarshah"
+          href={personalData.socialLinks.github}
           target="_blank"
           rel="noopener noreferrer"
           class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -18,14 +20,14 @@ const currentYear = new Date().getFullYear();
           GitHub
         </a>
         <a
-          href="mailto:aaditya.shah@iitgn.ac.in"
+          href={`mailto:${personalData.socialLinks.mail}`}
           class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
         >
           Mail
         </a>
       </div>
       <p class="text-gray-500 dark:text-gray-500 text-xs">
-        Created using Astro with template created by Syakir @ Devaradise
+        Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors">Astro</a>. Template created by <a href="https://github.com/aadityarshah" target="_blank" class="hover:underline transition-colors">Aaditya Shah</a>.
       </p>
     </div>
   </div>
