@@ -1,0 +1,186 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import newsData from '../../data/news.json';
+import projectsData from '../../data/projects.json';
+import postsData from '../../data/posts.json';
+import { personalData } from '../../data/personal.js';
+
+export async function getStaticPaths() {
+  const newsTags = newsData.flatMap(item => item.category ? [item.category] : []);
+  const projectTags = projectsData.flatMap(item => item.tags || []);
+  const postTags = postsData.flatMap(item => item.category ? [item.category] : []);
+  const allTags = [...new Set([...newsTags, ...projectTags, ...postTags])];
+  
+  return allTags.map(tag => ({
+    params: { tag: tag.toLowerCase() },
+    props: { tagName: tag },
+  }));
+}
+
+const { tag } = Astro.params;
+const { tagName } = Astro.props;
+
+const filteredNews = newsData.filter(n => n.category?.toLowerCase() === tag);
+const filteredProjects = projectsData.filter(p => p.tags?.some(t => t.toLowerCase() === tag));
+const filteredPosts = postsData.filter(p => p.category?.toLowerCase() === tag);
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+---
+
+<Layout title={`Tag: ${tagName} - ${personalData.name}`}>
+  <Header />
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
+    <div class="mb-12">
+      <a href="/tags" class="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1 group mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:-translate-x-1">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+        </svg>
+        Back to Tags
+      </a>
+      <h1 class="text-4xl font-bold tracking-tight mb-2 uppercase text-slate-400 dark:text-slate-500 text-sm tracking-widest">Tag</h1>
+      <h2 class="text-5xl font-bold tracking-tight mb-4">{tagName}</h2>
+    </div>
+
+    {filteredProjects.length > 0 && (
+      <section class="mb-20">
+        <div class="flex items-center gap-4 mb-10">
+          <h3 class="text-2xl font-bold tracking-tight">Projects</h3>
+          <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+          {filteredProjects.map((project) => (
+            <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full relative will-change-transform transform-gpu">
+              <!-- Clickable Top Area -->
+              <div class="relative flex-1">
+                {project.mainUrl && (
+                  <a href={project.mainUrl} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-30" aria-label={`View ${project.title}`}></a>
+                )}
+                <div class="p-8 pb-0 relative z-20">
+                  <div class="flex items-center gap-2 mb-6">
+                    {project.tags.map((t) => (
+                      <a 
+                        href={`/tags/${t.toLowerCase()}`}
+                        class={`text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md border relative z-40 transition-all ${
+                          t.toLowerCase() === tag 
+                            ? 'bg-blue-600 text-white border-blue-500 shadow-md' 
+                            : 'bg-slate-200/50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-400'
+                        }`}
+                      >
+                        {t}
+                      </a>
+                    ))}
+                  </div>
+                  <h4 class="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h4>
+                  <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed" set:html={project.description} />
+                </div>
+              </div>
+              
+              <!-- Button Row -->
+              {(project.links.playStore || project.links.website || (project.links.demo && project.links.demo !== '#')) && (
+                <div class="relative z-40 p-8 pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto">
+                  <div class="flex gap-6 flex-wrap">
+                    {project.links.playStore && (
+                      <a href={project.links.playStore} target="_blank" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        Play Store
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                        </svg>
+                      </a>
+                    )}
+                    {project.links.website && (
+                      <a href={project.links.website} target="_blank" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        Website
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                        </svg>
+                      </a>
+                    )}
+                    {project.links.demo && project.links.demo !== '#' && (
+                      <a href={project.links.demo} target="_blank" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        Demo
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {filteredPosts.length > 0 && (
+      <section class="mb-20">
+        <div class="flex items-center gap-4 mb-10">
+          <h3 class="text-2xl font-bold tracking-tight">Posts</h3>
+          <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+        <div class="grid gap-8">
+          {filteredPosts.map((post) => (
+            <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all relative overflow-hidden">
+              <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-x-4">
+                  <time datetime={post.date} class="text-sm font-medium text-slate-500">{formatDate(post.date)}</time>
+                  <a 
+                    href={`/tags/${post.category.toLowerCase()}`}
+                    class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-blue-600 text-white border border-blue-500 shadow-md relative z-40 transition-all"
+                  >
+                    {post.category}
+                  </a>
+                </div>
+                <h4 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <a href={post.link}>{post.title}</a>
+                </h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl">{post.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {filteredNews.length > 0 && (
+      <section>
+        <div class="flex items-center gap-4 mb-10">
+          <h3 class="text-2xl font-bold tracking-tight">Timeline</h3>
+          <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+        <div class="relative">
+          <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
+          <div class="space-y-10">
+            {filteredNews.map((item) => (
+              <article class="relative pl-12 group">
+                <div class="absolute left-3 top-1.5 w-3 h-3 rounded-full bg-white dark:bg-slate-950 border-2 border-blue-500 z-10 transition-transform group-hover:scale-125"></div>
+                <div class="flex flex-col gap-1">
+                  <div class="flex items-center gap-3 mb-1">
+                    <time class="text-sm font-medium text-slate-500" datetime={item.date}>{formatDate(item.date)}</time>
+                    <a 
+                      href={`/tags/${item.category?.toLowerCase()}`}
+                      class="text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white border border-blue-500 shadow-sm relative z-10"
+                    >
+                      {item.category}
+                    </a>
+                  </div>
+                  <h4 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                    {item.mainUrl ? <a href={item.mainUrl} target="_blank" class="hover:text-blue-600 transition-colors">{item.title}</a> : item.title}
+                  </h4>
+                  <div class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl" set:html={item.content} />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Layout>

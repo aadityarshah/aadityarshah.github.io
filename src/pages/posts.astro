@@ -2,21 +2,36 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import postsData from '../data/posts.json';
 import { personalData } from '../data/personal.js';
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
 ---
 
 <Layout title={`Posts - ${personalData.name}`}>
   <Header />
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-4xl font-bold mb-8">Posts</h1>
-    <div class="space-y-6">
-      <article class="border-b border-gray-200 dark:border-gray-800 pb-6">
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Coming soon...</p>
-        <h2 class="text-2xl font-bold mb-2">Blog posts will appear here</h2>
-        <p class="text-gray-600 dark:text-gray-400">
-          Check back later for updates on Android development, React, and more!
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold tracking-tight mb-2">Posts</h1>
+      <p class="text-slate-500 dark:text-slate-500 text-lg">Sharing my thoughts and experiences.</p>
+    </div>
+
+    <div class="grid gap-8">
+      <div class="bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-3xl p-10 text-center py-20">
+        <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-600 dark:text-blue-400">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v1.5m-9 0h.75m-.75 0l-.375 2.25M12 7.5V4.5m0 3l.375 2.25" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3">Coming Soon</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-base max-w-sm mx-auto leading-relaxed">
+          I'm currently working on some interesting articles about Android development, React Native, and tech. Stay tuned!
         </p>
-      </article>
+      </div>
     </div>
   </main>
   <Footer />

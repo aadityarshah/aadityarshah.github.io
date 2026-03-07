@@ -1,12 +1,13 @@
 [
   {
     "title": "MusicLib",
-    "description": "An Android music library application deployed to the Play Store for beta testing. Built with Kotlin and modern Android development practices.",
-    "tags": ["Kotlin", "Android"],
+    "description": "An Android application built with Android Studio and Kotlin for short-form content creators. It provides 60-second background music tracks and features AI-powered music generation for creating custom 30-60 second tracks in the premium version.",
+    "tags": ["Kotlin", "Android", "AI"],
     "links": {
       "playStore": "https://play.google.com/store/apps/details?id=com.musiclib",
-      "website": "https://musiclib538-cmd.github.io"
+      "website": "https://musiclib-dev.github.io"
     },
+    "mainUrl": "https://play.google.com/store/apps/details?id=com.musiclib",
     "featured": true
   },
   {
@@ -16,6 +17,7 @@
     "links": {
       "demo": "#"
     },
+    "mainUrl": null,
     "featured": true
   }
 ]

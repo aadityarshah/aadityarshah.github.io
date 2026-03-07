@@ -1,14 +1,16 @@
 [
   {
-    "date": "2026-01-12",
-    "title": "MusicLib Released on Play Store",
-    "content": "📱 Released MusicLib (com.musiclib) to the Play Store for beta testing. Built with Kotlin and modern Android development practices. Check it out on the Play Store or visit musiclib538-cmd.github.io",
-    "category": "Development"
+    "date": "2026-03-03",
+    "title": "MusicLib Published to Play Store",
+    "content": "📱 MusicLib has been officially published to the Play Store! You can download it <a href=\"https://play.google.com/store/apps/details?id=com.musiclib\" target=\"_blank\" class=\"text-blue-500 hover:underline\">here</a> or visit the <a href=\"https://musiclib-dev.github.io\" target=\"_blank\" class=\"text-blue-500 hover:underline\">website</a> for more details.",
+    "category": "Release",
+    "mainUrl": "https://play.google.com/store/apps/details?id=com.musiclib"
   },
   {
     "date": "2025-12-10",
     "title": "Started working on React and React Native Projects",
     "content": "🚀 Started working on React and React Native projects for cross-platform mobile and web development.",
-    "category": "Development"
+    "category": "Development",
+    "mainUrl": null
   }
 ]
