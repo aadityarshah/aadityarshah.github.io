@@ -3,11 +3,11 @@ import DarkModeToggle from './DarkModeToggle.astro';
 import { personalData } from '../data/personal.js';
 
 const navItems = [
-  { name: 'Home', href: '/', isIcon: true },
-  { name: 'Posts', href: '/posts' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Tags', href: '/tags' },
-  { name: 'Toolkit', href: '/toolkit' },
+  { name: 'Home', href: '/', isIcon: true, icon: 'M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-1.125 1.125-1.125V9.75M8.25 21h8.25' },
+  { name: 'Posts', href: '/posts', icon: 'M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z' },
+  { name: 'Projects', href: '/projects', icon: 'M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15a2.25 2.25 0 002.25-2.25v-4.162c0-1.196-.833-2.213-1.996-2.458L12 7.5 3.996 9.1c-1.163.245-1.996 1.262-1.996 2.458z' },
+  { name: 'Tags', href: '/tags', icon: 'M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.659A2.25 2.25 0 009.568 3z' },
+  { name: 'Toolkit', href: '/toolkit', icon: 'M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-.007.037-.012.074-.012.113l-.371 3.71a2.25 2.25 0 01-.639 1.258l-2.022 2.022a.75.75 0 01-1.06 0l-1.06-1.06a.75.75 0 010-1.06l2.022-2.022a2.25 2.25 0 011.258-.639l3.71-.371c.039 0 .076-.005.113-.012a4.5 4.5 0 014.484-4.884l-.117-.117a.75.75 0 011.06-1.06l.117.117z' },
 ];
 
 const pathname = new URL(Astro.request.url).pathname;
@@ -18,37 +18,35 @@ const normalizedPathname = pathname.endsWith('/') && pathname !== '/' ? pathname
   transition:persist
   class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50"
 >
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-20">
-      <!-- Brand Area -->
-      <div class="flex items-center gap-3 min-w-[180px]">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 items-center h-20">
+      <!-- Brand Area (Left) -->
+      <div class="flex items-center gap-3 justify-self-start">
         <a href="/" class="relative flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 shadow-lg shadow-blue-500/20 hover:scale-110 hover:rotate-3 transition-all duration-300" aria-label="Home">
           <div class="absolute inset-0 rounded-xl bg-white/10 backdrop-blur-[1px]"></div>
         </a>
         <a 
-          href={personalData.socialLinks.github} 
-          target="_blank" 
-          rel="noopener noreferrer" 
+          href="/"
           class="hidden sm:inline-block text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
         >
           {personalData.name}
         </a>
       </div>
 
-      <!-- Navigation Links -->
-      <div class="hidden md:flex items-center bg-slate-100 dark:bg-slate-900/50 p-1 rounded-full border border-slate-200 dark:border-slate-800">
+      <!-- Desktop Navigation Links (Center) -->
+      <div class="hidden md:flex items-center justify-self-center bg-slate-100 dark:bg-slate-900/50 p-1 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm h-12">
         {navItems.map((item, index) => {
           const isActive = normalizedPathname === item.href || (item.href !== '/' && normalizedPathname.startsWith(item.href));
           
           return (
-            <>
+            <div class="h-full flex items-center relative px-1">
               {item.isIcon ? (
                 <a
                   href={item.href}
                   data-nav-link
                   data-href={item.href}
                   data-is-icon="true"
-                  class={`px-4 py-2 transition-all duration-200 flex items-center justify-center relative ${
+                  class={`px-4 transition-all duration-200 flex flex-col items-center justify-center h-full relative ${
                     isActive 
                       ? 'text-slate-900 dark:text-white nav-active' 
                       : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
@@ -56,9 +54,9 @@ const normalizedPathname = pathname.endsWith('/') && pathname !== '/' ? pathname
                   aria-label={item.name}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
                   </svg>
-                  {isActive && <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-slate-900 dark:bg-white active-dot"></div>}
+                  {isActive && <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-t-full bg-slate-900 dark:bg-white active-underline"></div>}
                 </a>
               ) : (
                 <a
@@ -75,14 +73,14 @@ const normalizedPathname = pathname.endsWith('/') && pathname !== '/' ? pathname
                 </a>
               )}
               {index === 0 && <div class="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>}
-            </>
+            </div>
           );
         })}
       </div>
 
-      <!-- Action Area -->
-      <div class="flex items-center gap-3 sm:gap-6 min-w-[120px] justify-end">
-        <div class="flex items-center gap-1 sm:gap-3">
+      <!-- Action Area (Right) -->
+      <div class="flex items-center gap-2 sm:gap-4 justify-self-end">
+        <div class="hidden sm:flex items-center gap-1 sm:gap-2">
           <a
             href={personalData.socialLinks.github}
             target="_blank"
@@ -95,6 +93,17 @@ const normalizedPathname = pathname.endsWith('/') && pathname !== '/' ? pathname
             </svg>
           </a>
           <a
+            href={personalData.socialLinks.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full transition-all"
+            aria-label="LinkedIn"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-4 2.239-4 5v14c0 2.761 2.239 4 4 4h14c2.762 0 4-2.239 4-4v-14c0-2.761-2.238-5-4-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a
             href={`mailto:${personalData.socialLinks.mail}`}
             class="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full transition-all"
             aria-label="Email"
@@ -104,12 +113,91 @@ const normalizedPathname = pathname.endsWith('/') && pathname !== '/' ? pathname
             </svg>
           </a>
         </div>
-        <div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
+        <div class="hidden sm:block h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
         <DarkModeToggle />
+        
+        <!-- Mobile Menu Toggle -->
+        <button 
+          id="mobile-menu-toggle"
+          class="md:hidden p-2 -mr-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-90"
+          aria-label="Toggle Menu"
+        >
+          <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 hidden">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
     </div>
   </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div 
+    id="mobile-menu" 
+    class="md:hidden fixed inset-x-0 top-[81px] bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 z-40 transform -translate-y-[110%] transition-transform duration-300 ease-in-out invisible"
+  >
+    <div class="px-4 py-6 space-y-2">
+      {navItems.map((item) => {
+        const isActive = normalizedPathname === item.href || (item.href !== '/' && normalizedPathname.startsWith(item.href));
+        return (
+          <a
+            href={item.href}
+            data-nav-link
+            data-href={item.href}
+            class={`flex items-center gap-4 px-4 py-3 rounded-xl text-lg font-medium transition-all duration-200 ${
+              isActive 
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' 
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+            }`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 opacity-70">
+              <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+            </svg>
+            {item.name}
+          </a>
+        );
+      })}
+      <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <span class="text-sm font-medium text-slate-500">Connect</span>
+        <div class="flex gap-4">
+          <a href={personalData.socialLinks.github} target="_blank" class="p-2 text-slate-500 hover:text-blue-600" aria-label="GitHub"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          <a href={personalData.socialLinks.linkedin} target="_blank" class="p-2 text-slate-500 hover:text-blue-700" aria-label="LinkedIn"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-4 2.239-4 5v14c0 2.761 2.239 4 4 4h14c2.762 0 4-2.239 4-4v-14c0-2.761-2.238-5-4-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+          <a href={`mailto:${personalData.socialLinks.mail}`} class="p-2 text-slate-500 hover:text-blue-600" aria-label="Email"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
+
+<!-- Floating Mobile Navigation (Cool Dock) -->
+<div class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[94%] max-w-md pointer-events-none">
+  <nav class="pointer-events-auto bg-slate-100/90 dark:bg-slate-900/90 backdrop-blur-lg p-1.5 rounded-full border border-slate-200 dark:border-slate-800 shadow-2xl flex items-center justify-between overflow-hidden">
+    {navItems.map((item) => {
+      const isActive = normalizedPathname === item.href || (item.href !== '/' && normalizedPathname.startsWith(item.href));
+      return (
+        <a 
+          href={item.href}
+          data-nav-link
+          data-href={item.href}
+          data-is-mobile-dock="true"
+          class={`flex flex-col items-center justify-center py-2 px-1 rounded-xl transition-all duration-300 min-w-[60px] relative ${
+            isActive 
+              ? 'text-slate-900 dark:text-white z-10' 
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+          }`}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class={`w-5 h-5 transition-transform duration-300`}>
+            <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+          </svg>
+          <span class="text-[9px] mt-0.5 font-bold tracking-tight uppercase opacity-90">{item.name}</span>
+          {isActive && <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-t-full bg-slate-900 dark:bg-white active-underline"></div>}
+        </a>
+      );
+    })}
+  </nav>
+</div>
 
 <script>
   /**
@@ -125,34 +213,97 @@ const normalizedPathname = pathname.endsWith('/') && pathname !== '/' ? pathname
     links.forEach(link => {
       const href = link.getAttribute('data-href');
       const isIcon = link.getAttribute('data-is-icon') === 'true';
+      const isMobileDock = link.getAttribute('data-is-mobile-dock') === 'true';
       const isActive = normalizedPathname === href || (href !== '/' && normalizedPathname.startsWith(href));
       
-      // Reset classes
-      link.className = link.className.replace(/bg-slate-900|text-white|dark:bg-white|dark:text-slate-950|shadow-md|nav-active|text-slate-900|dark:text-white|text-slate-500|dark:text-slate-400|text-slate-600|hover:text-slate-900|dark:hover:text-slate-100|hover:bg-white\/50|dark:hover:bg-slate-800\/20/g, '').trim();
+      const isMobileMenuLink = link.closest('#mobile-menu') !== null;
+
+      // Reset base classes
+      link.classList.remove('nav-active', 'bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-950', 'shadow-md', 'shadow-lg', 'scale-105', 'bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'text-slate-900', 'dark:text-white', 'bg-blue-50/50', 'text-slate-500', 'text-slate-600', 'hover:text-slate-900', 'dark:hover:text-slate-100', 'hover:bg-white/50', 'dark:hover:bg-slate-800/20');
       
-      // Remove dot if exists
-      const existingDot = link.querySelector('.active-dot');
-      if (existingDot) existingDot.remove();
+      const svg = link.querySelector('svg');
+      if (svg) svg.classList.remove('scale-110');
+      
+      const underline = link.querySelector('.active-underline');
+      if (underline) underline.remove();
 
       if (isActive) {
         link.classList.add('nav-active');
-        if (isIcon) {
-          link.classList.add('text-slate-900', 'dark:text-white', 'px-4', 'py-2', 'transition-all', 'duration-200', 'flex', 'items-center', 'justify-center', 'relative');
-          const dot = document.createElement('div');
-          dot.className = 'absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-slate-900 dark:bg-white active-dot';
-          link.appendChild(dot);
+        if (isMobileMenuLink) {
+          link.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400');
+        } else if (isMobileDock) {
+          link.classList.add('text-slate-900', 'dark:text-white');
+          if (!link.querySelector('.active-underline')) {
+            const underline = document.createElement('div');
+            underline.className = 'absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-t-full bg-slate-900 dark:bg-white active-underline';
+            link.appendChild(underline);
+          }
+        } else if (isIcon) {
+          link.classList.add('text-slate-900', 'dark:text-white');
+          if (!link.querySelector('.active-underline')) {
+            const underline = document.createElement('div');
+            underline.className = 'absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-t-full bg-slate-900 dark:bg-white active-underline';
+            link.appendChild(underline);
+          }
         } else {
-          link.classList.add('bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-950', 'shadow-md', 'px-5', 'py-2', 'rounded-full', 'text-sm', 'font-semibold', 'transition-all', 'duration-200', 'flex', 'items-center', 'justify-center');
+          link.classList.add('bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-950', 'shadow-md');
         }
       } else {
-        if (isIcon) {
-          link.classList.add('text-slate-500', 'dark:text-slate-400', 'px-4', 'py-2', 'transition-all', 'duration-200', 'flex', 'items-center', 'justify-center', 'relative');
+        if (isMobileMenuLink) {
+          link.classList.add('text-slate-600', 'dark:text-slate-400');
+        } else if (isMobileDock) {
+          link.classList.add('text-slate-500', 'dark:text-slate-400');
+        } else if (isIcon) {
+          link.classList.add('text-slate-500', 'dark:text-slate-400');
         } else {
-          link.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-slate-100', 'hover:bg-white/50', 'dark:hover:bg-slate-800/20', 'px-5', 'py-2', 'rounded-full', 'text-sm', 'font-semibold', 'transition-all', 'duration-200', 'flex', 'items-center', 'justify-center');
+          link.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-slate-100', 'hover:bg-white/50', 'dark:hover:bg-slate-800/20');
         }
       }
     });
   };
 
-  document.addEventListener('astro:page-load', updateActiveTab);
+  const toggleMobileMenu = (forceClose = false) => {
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+    
+    if (!menu || !openIcon || !closeIcon) return;
+
+    const isOpening = forceClose ? false : menu.classList.contains('invisible');
+
+    if (isOpening) {
+      menu.classList.remove('invisible', '-translate-y-[110%]');
+      menu.classList.add('translate-y-0');
+      openIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    } else {
+      menu.classList.add('-translate-y-[110%]');
+      menu.classList.remove('translate-y-0');
+      setTimeout(() => {
+        if (menu.classList.contains('-translate-y-[110%]')) {
+          menu.classList.add('invisible');
+        }
+      }, 300);
+      openIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    updateActiveTab();
+  });
+
+  // Global delegation for mobile menu
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('#mobile-menu-toggle')) {
+      toggleMobileMenu();
+    } else if (target.closest('#mobile-menu a')) {
+      toggleMobileMenu(true);
+    } else if (!target.closest('#mobile-menu') && !target.closest('#mobile-menu-toggle')) {
+      toggleMobileMenu(true);
+    }
+  });
 </script>

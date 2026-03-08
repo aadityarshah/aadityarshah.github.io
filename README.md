@@ -4,7 +4,7 @@ Personal portfolio website built with Astro and deployed to GitHub Pages at [aad
 
 ## 👨‍💻 About Me
 
-I'm a B.Tech. student in Computer Science and Engineering at IIT Gandhinagar, passionate about mobile app development, quantum computing, mathematics, and cognitive science. You can view my profile page at [github.com/aadityarshah](https://github.com/aadityarshah).
+I'm a B.Tech. student in Computer Science and Engineering at IIT Gandhinagar, passionate about mobile app development, quantum computing, mathematics, and cognitive science. I am also keen on exploring the fascinating intersection of software and hardware. You can view my profile page at [github.com/aadityarshah](https://github.com/aadityarshah).
 
 ## 🚀 Project Structure
 

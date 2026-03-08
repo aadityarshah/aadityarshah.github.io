@@ -122,4 +122,25 @@ const { title, description = `${personalData.name} - Your short description goes
     opacity: 0.8;
     border-bottom-color: currentColor;
   }
+
+  /* Bio-specific Highlights and Links */
+  .bio-link, .bio-highlight {
+    font-weight: 600 !important;
+    color: #0f172a !important; /* slate-900 for light mode */
+  }
+
+  .dark .bio-link, .dark .bio-highlight {
+    color: #ffffff !important; /* White for dark mode */
+  }
+
+  .bio-link {
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+    text-decoration-thickness: 2px !important;
+    text-decoration-color: #2563eb !important; /* Theme blue underline */
+  }
+
+  .dark .bio-link {
+    text-decoration-color: #3b82f6 !important; /* Theme blue underline in dark mode */
+  }
 </style>

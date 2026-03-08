@@ -59,11 +59,10 @@ const featuredProjects = projectsData.filter(p => p.featured).slice(0, 2);
         </p>
       </div>
       
-      <div class="prose prose-lg dark:prose-invert max-w-3xl mx-auto text-slate-700 dark:text-slate-300 leading-relaxed mb-12 text-center">
-        <p>
-          {personalData.bio}
-        </p>
-      </div>
+      <div 
+        class="prose prose-lg dark:prose-invert max-w-3xl mx-auto text-slate-700 dark:text-slate-300 leading-relaxed mb-12 text-justify bio-text"
+        set:html={personalData.bio}
+      />
 
       <div class="mt-12 text-center">
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
