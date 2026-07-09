@@ -11,6 +11,22 @@
     "featured": true
   },
   {
+    "title": "SRIP 2026: Modelling and Cracking the Enigma",
+    "description": "A group-theoretic simulation of the Wehrmacht Enigma I and Marian Rejewski's 1932 algebraic indicator attack along with the SRIP Report that introduces novel, theoretical algorithms to resolve the historically open problem of absolute rotor-wiring recovery.",
+    "tags": ["SRIP", "Research", "Cryptanalysis", "Python"],
+    "links": {
+      "github": "https://github.com/aadityarshah/srip-2026",
+      "website": "/posts/srip-experience/",
+      "demo": "https://aadityarshah.github.io/srip-2026/srip_2026_report.pdf"
+    },
+    "linkLabels": {
+      "website": "Post",
+      "demo": "SRIP Report"
+    },
+    "mainUrl": "https://github.com/aadityarshah/srip-2026",
+    "featured": true
+  },
+  {
     "title": "Blithchron'26 App",
     "description": "A React Native application for cross-platform mobile development with React for the annual cultural fest of IIT Gandhinagar, Blithchron'26. I was the Lead Frontend Developer for this project.",
     "tags": ["React", "React Native"],
@@ -18,6 +34,6 @@
       "demo": "#"
     },
     "mainUrl": null,
-    "featured": true
+    "featured": false
   }
 ]
