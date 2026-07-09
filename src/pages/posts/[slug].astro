@@ -1,0 +1,218 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.data.slug ?? post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const postTags = post.data.tags?.length ? post.data.tags : post.data.category ? [post.data.category] : [];
+const readingTime = getReadingTime(post);
+
+function formatPostDate(date: Date): string {
+  const day = date.getDate();
+  const suffix = (day: number) => {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  };
+  const options: Intl.DateTimeFormatOptions = { month: 'long', year: 'numeric' };
+  return `${day}${suffix(day)} ${date.toLocaleDateString('en-US', options)}`;
+}
+
+function getReadingTime(post: CollectionEntry<'posts'>): string {
+  const wordCount = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(wordCount / 200));
+  return `${minutes} min read`;
+}
+---
+
+<Layout title={`${post.data.title} - Posts`} description={post.data.description}>
+  <Header />
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
+    <article>
+      <header class="mb-12">
+        {post.data.banner ? (
+          <div class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-2xl shadow-slate-900/10">
+            <picture>
+              {post.data.banner.avif && <source srcset={post.data.banner.avif} type="image/avif" />}
+              <img
+                src={post.data.banner.png}
+                alt={post.data.banner.alt}
+                class="h-[26rem] w-full object-cover opacity-80"
+                loading="eager"
+              />
+            </picture>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/45 to-slate-950/15"></div>
+            <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+              <div class="max-w-3xl">
+                <div class="flex flex-wrap items-center gap-2 mb-5">
+                  {(postTags.length ? postTags : ['Post']).map((tag) => (
+                    <a
+                      href={tag === 'Post' ? '/posts' : `/tags/${tag.toLowerCase()}`}
+                      class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-white/15 !text-white border border-white/20 backdrop-blur-sm relative z-40 transition-colors hover:bg-white/25"
+                    >
+                      {tag}
+                    </a>
+                  ))}
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white">
+                  {post.data.title}
+                </h1>
+                <p class="text-slate-200 font-medium italic">
+                  {formatPostDate(post.data.date)} · {readingTime}
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div class="max-w-3xl mx-auto text-center">
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-4">
+              {(postTags.length ? postTags : ['Post']).map((tag) => (
+                <a
+                  href={tag === 'Post' ? '/posts' : `/tags/${tag.toLowerCase()}`}
+                  class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
+                >
+                  {tag}
+                </a>
+              ))}
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-slate-900 dark:text-slate-50">
+              {post.data.title}
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 font-medium italic">
+              {formatPostDate(post.data.date)} · {readingTime}
+            </p>
+          </div>
+        )}
+      </header>
+
+      <div class="post-content max-w-3xl mx-auto text-slate-700 dark:text-slate-300 leading-relaxed bio-text">
+        <Content />
+      </div>
+
+      <div class="max-w-3xl mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+        <a
+          href="/posts"
+          class="inline-flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+          </svg>
+          Back to all posts
+        </a>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .post-content {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  @media (min-width: 640px) {
+    .post-content {
+      text-align: justify;
+    }
+  }
+
+  .post-content :global(p) {
+    margin: 1.25rem 0;
+  }
+
+  .post-content :global(h2),
+  .post-content :global(h3),
+  .post-content :global(h4) {
+    color: rgb(15 23 42);
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+    margin: 2.5rem 0 1rem;
+  }
+
+  :global(.dark) .post-content :global(h2),
+  :global(.dark) .post-content :global(h3),
+  :global(.dark) .post-content :global(h4) {
+    color: rgb(241 245 249);
+  }
+
+  .post-content :global(h2) {
+    font-size: 1.625rem;
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.25rem;
+  }
+
+  .post-content :global(h4) {
+    font-size: 1.125rem;
+  }
+
+  .post-content :global(a) {
+    color: rgb(15 23 42);
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-color: rgb(59 130 246);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  :global(.dark) .post-content :global(a) {
+    color: white;
+    text-decoration-color: rgb(96 165 250);
+  }
+
+  .post-content :global(a:hover) {
+    color: rgb(37 99 235);
+  }
+
+  :global(.dark) .post-content :global(a:hover) {
+    color: rgb(96 165 250);
+  }
+
+  .post-content :global(strong) {
+    color: rgb(15 23 42);
+    font-weight: 700;
+  }
+
+  :global(.dark) .post-content :global(strong) {
+    color: white;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .post-content :global(ul) {
+    list-style: disc;
+  }
+
+  .post-content :global(ol) {
+    list-style: decimal;
+  }
+
+  .post-content :global(li) {
+    margin: 0.5rem 0;
+  }
+</style>
