@@ -1,16 +1,30 @@
 [
   {
-    "date": "2026-03-03",
-    "title": "MusicLib Published to Play Store",
-    "content": "📱 MusicLib has been officially published to the Play Store! You can download it <a href=\"https://play.google.com/store/apps/details?id=com.musiclib\" target=\"_blank\" class=\"text-blue-500 hover:underline\">here</a> or visit the <a href=\"https://musiclib-dev.github.io\" target=\"_blank\" class=\"text-blue-500 hover:underline\">website</a> for more details.",
-    "category": "Release",
-    "mainUrl": "https://play.google.com/store/apps/details?id=com.musiclib"
+    "date": "2026-07-09",
+    "title": "Completed SRIP at IIT Gandhinagar",
+    "content": "Completed my Summer Research Internship Program at IIT Gandhinagar, focused on Enigma cryptanalysis, mathematical modeling, and simulation. I wrote about the experience in a <a href=\"/posts/srip-experience/\" class=\"text-blue-500 hover:underline\">blog post</a> and shared the research materials on <a href=\"https://github.com/aadityarshah/srip-2026\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-blue-500 hover:underline\">GitHub</a>.",
+    "category": "Research",
+    "mainUrl": "/posts/srip-experience/"
   },
   {
-    "date": "2025-12-10",
-    "title": "Started working on React and React Native Projects",
-    "content": "🚀 Started working on React and React Native projects for cross-platform mobile and web development.",
-    "category": "Development",
+    "date": "2026-05-07",
+    "title": "Started SRIP at IIT Gandhinagar",
+    "content": "Started my Summer Research Internship Program at IIT Gandhinagar, exploring the mathematics behind the Enigma machine and cryptanalysis.",
+    "category": "Research",
     "mainUrl": null
+  },
+  {
+    "date": "2026-04-06",
+    "title": "Appointed Blithchron'27 Design and Tech Coordinator",
+    "content": "Assumed Leadership as the Design and Tech Coordinator for Blithchron, the annual cultural festival of IIT Gandhinagar.",
+    "category": "Leadership",
+    "mainUrl": null
+  },
+  {
+    "date": "2026-03-03",
+    "title": "MusicLib Published to Play Store",
+    "content": "MusicLib has been officially published to the Play Store. You can download it <a href=\"https://play.google.com/store/apps/details?id=com.musiclib\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-blue-500 hover:underline\">here</a> or visit the <a href=\"https://musiclib-dev.github.io\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-blue-500 hover:underline\">website</a> for more details.",
+    "category": "Release",
+    "mainUrl": "https://play.google.com/store/apps/details?id=com.musiclib"
   }
 ]
