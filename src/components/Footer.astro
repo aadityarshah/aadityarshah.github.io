@@ -1,34 +1,17 @@
 ---
 import { personalData } from '../data/personal.js';
-
-const currentYear = new Date().getFullYear();
+const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-gray-200 dark:border-gray-800 mt-16">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-      <p class="text-gray-600 dark:text-gray-400 text-sm">
-        {personalData.name} © {currentYear}
-      </p>
-      <div class="flex space-x-6">
-        <a
-          href={personalData.socialLinks.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          GitHub
-        </a>
-        <a
-          href={`mailto:${personalData.socialLinks.mail}`}
-          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          Mail
-        </a>
-      </div>
-      <p class="text-gray-500 dark:text-gray-500 text-xs">
-        Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors">Astro</a>. Template created by <a href="https://github.com/aadityarshah" target="_blank" class="hover:underline transition-colors">Aaditya Shah</a>.
-      </p>
-    </div>
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <p>© {year} {personalData.name}</p>
+    <nav class="footer-links" aria-label="Contact links">
+      <a href={personalData.socialLinks.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href={personalData.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href={`mailto:${personalData.socialLinks.mail}`}>Email</a>
+      <a href="/timeline">Trail</a>
+    </nav>
+    <p class="footer-note">Ahmedabad · IIT Gandhinagar<br />Built as a record of questions in motion.</p>
   </div>
 </footer>

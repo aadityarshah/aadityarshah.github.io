@@ -3,12 +3,17 @@ title: "My SRIP Experience: Unravelling the Enigma"
 description: "A reflection on my IIT Gandhinagar SRIP research experience studying the mathematics of the Enigma machine, Rejewski's work, and combinatorial games."
 date: 2026-07-09
 slug: "srip-experience"
-category: "SRIP"
-tags:
+kind: "field-report"
+topics:
   - SRIP
   - Research
   - Cryptanalysis
   - Python
+draft: false
+relatedQuestions:
+  - hidden-structure-in-cryptography
+relatedInvestigations:
+  - enigma-cryptanalysis
 banner:
   avif: "/assets/enigma.avif"
   png: "/assets/enigma.png"

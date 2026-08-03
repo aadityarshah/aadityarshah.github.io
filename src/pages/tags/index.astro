@@ -2,108 +2,31 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { getCollection } from 'astro:content';
-import newsData from '../../data/news.json';
-import projectsData from '../../data/projects.json';
-import { personalData } from '../../data/personal.js';
-
-const posts = await getCollection('posts');
-
-// Get unique tags from all data sources
-const newsTags = newsData.flatMap(item => item.category ? [item.category] : []);
-const projectTags = projectsData.flatMap(item => item.tags || []);
-const postTags = posts.flatMap(item => item.data.tags?.length ? item.data.tags : item.data.category ? [item.data.category] : []);
-
-const allTags = [...new Set([...newsTags, ...projectTags, ...postTags])].sort();
-
-// Count occurrences for each tag
-const tagCounts = allTags.reduce((acc, tag) => {
-  const count = [
-    ...newsData.filter(n => n.category === tag), 
-    ...projectsData.filter(p => p.tags?.includes(tag)),
-    ...posts.filter(p => (p.data.tags?.length ? p.data.tags : p.data.category ? [p.data.category] : []).includes(tag))
-  ].length;
-  acc[tag] = count;
-  return acc;
-}, {} as Record<string, number>);
+import { getAtlasContent, topicSlug } from '../../lib/atlas';
+const { questions, notes } = await getAtlasContent();
+const counts = new Map<string, { label: string; count: number }>();
+for (const label of [...questions.flatMap((item) => item.data.domains), ...notes.flatMap((item) => item.data.topics)]) {
+  const slug = topicSlug(label);
+  const current = counts.get(slug);
+  counts.set(slug, { label, count: (current?.count ?? 0) + 1 });
+}
+const topics = [...counts.entries()].map(([slug, value]) => ({ slug, ...value })).sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 ---
 
-<Layout title={`Tags - ${personalData.name}`}>
+<Layout title="Topics — Aaditya Shah" description="Subject entrances into questions, investigations, and notes.">
   <Header />
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
-    <div class="mb-12">
-      <h1 class="text-4xl font-bold tracking-tight mb-2">Tags</h1>
-      <p class="text-slate-500 dark:text-slate-500 text-lg mb-8">Explore content by topic.</p>
-      
-      <!-- Search Box -->
-      <div class="relative max-w-md group mb-12">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-20">
-          <svg class="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-          </svg>
-        </div>
-        <input
-          type="text"
-          id="tag-search"
-          placeholder="Search tags..."
-          class="relative z-10 block w-full pl-11 pr-4 py-3.5 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-slate-900 dark:text-slate-100 shadow-sm"
-        />
-      </div>
-    </div>
-
-    <div id="tags-container" class="flex flex-wrap gap-4">
-      {allTags.map((tag) => (
-        <a 
-          href={`/tags/${tag.toLowerCase()}`}
-          data-tag-name={tag.toLowerCase()}
-          class="tag-card group bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all flex items-center justify-between min-w-[240px] gap-6"
-        >
-          <span class="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors whitespace-nowrap">
-            {tag}
-          </span>
-          <span class="bg-slate-100 dark:bg-slate-800 !text-slate-600 dark:!text-slate-300 text-xs font-bold px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 flex-shrink-0">
-            {tagCounts[tag]}
-          </span>
-        </a>
-      ))}
-    </div>
-
-    <!-- Empty State -->
-    <div id="no-results" class="hidden py-20 text-center">
-      <p class="text-slate-500 dark:text-slate-400 text-lg italic">No tags found matching your search.</p>
-    </div>
+  <main id="main-content">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Topics</p><h1>Entrances, not containers.</h1><p>Topics help locate the work, but they are not the structure of the mind. Follow one to see which questions and notes currently pass through it.</p></div></header>
+    <section class="page-body"><div class="shell topic-index">{topics.map((topic, index) => <a href={`/tags/${topic.slug}/`}><span class="index-number">{String(index + 1).padStart(2, '0')}</span><strong>{topic.label}</strong><span class="meta">{topic.count} {topic.count === 1 ? 'entry' : 'entries'} ↗</span></a>)}</div></section>
   </main>
   <Footer />
 </Layout>
 
-<script>
-  const setupSearch = () => {
-    const searchInput = document.getElementById('tag-search') as HTMLInputElement;
-    const tagCards = document.querySelectorAll('.tag-card');
-    const noResults = document.getElementById('no-results');
-
-    if (!searchInput) return;
-
-    searchInput.addEventListener('input', (e) => {
-      const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
-      let visibleCount = 0;
-
-      tagCards.forEach((card) => {
-        const tagName = card.getAttribute('data-tag-name') || '';
-        if (tagName.includes(searchTerm)) {
-          (card as HTMLElement).style.display = 'flex';
-          visibleCount++;
-        } else {
-          (card as HTMLElement).style.display = 'none';
-        }
-      });
-
-      if (noResults) {
-        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-      }
-    });
-  };
-
-  // Run on load and after every transition
-  document.addEventListener('astro:page-load', setupSearch);
-</script>
+<style>
+  .topic-index { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .topic-index a { min-height: 160px; padding: 1.4rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-decoration: none; display: grid; grid-template-columns: auto 1fr; gap: .5rem 1rem; align-content: space-between; }
+  .topic-index strong { font-family: var(--display); font-size: 2rem; font-weight: 470; }
+  .topic-index .meta { grid-column: 2; color: var(--muted); }
+  .topic-index a:hover { background: var(--surface); color: var(--rust); }
+  @media (max-width: 700px) { .topic-index { grid-template-columns: 1fr; } }
+</style>

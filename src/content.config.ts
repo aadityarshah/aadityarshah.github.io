@@ -1,15 +1,76 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const posts = defineCollection({
+const inquiryStatus = z.enum([
+  'noticing',
+  'reading',
+  'formalizing',
+  'experimenting',
+  'building',
+  'revisiting',
+]);
+
+const questions = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/questions' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    status: inquiryStatus,
+    domains: z.array(z.string()).min(1),
+    started: z.date().optional(),
+    featuredOrder: z.number().int().positive(),
+    relatedInvestigations: z.array(z.string()).default([]),
+    relatedNotes: z.array(z.string()).default([]),
+  }),
+});
+
+const investigations = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/investigations' }),
+  schema: z.object({
+    title: z.string(),
+    question: z.string(),
+    summary: z.string(),
+    status: z.enum(['active', 'complete', 'continuing', 'paused']),
+    startDate: z.date(),
+    endDate: z.date().optional(),
+    modes: z.array(z.string()).min(1),
+    relatedQuestions: z.array(z.string()).default([]),
+    evidence: z.array(z.object({
+      label: z.string(),
+      url: z.string(),
+    })).default([]),
+    milestones: z.array(z.object({
+      date: z.date(),
+      label: z.string(),
+      summary: z.string(),
+    })).default([]),
+    currentBelief: z.string().optional(),
+    evidenceSummary: z.string().optional(),
+    changedMind: z.string().optional(),
+    openQuestions: z.array(z.string()).default([]),
+    nextExperiment: z.string().optional(),
+    lastRevisited: z.date().optional(),
+    revisitReason: z.string().optional(),
+    featuredOrder: z.number().int().positive(),
+    cover: z.object({
+      src: z.string(),
+      alt: z.string(),
+    }).optional(),
+  }),
+});
+
+const notes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
     date: z.date(),
     slug: z.string().optional(),
-    category: z.string().optional(),
-    tags: z.array(z.string()).optional(),
+    kind: z.enum(['note', 'essay', 'field-report', 'reflection']).default('note'),
+    topics: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+    relatedQuestions: z.array(z.string()).default([]),
+    relatedInvestigations: z.array(z.string()).default([]),
     banner: z.object({
       avif: z.string().optional(),
       png: z.string(),
@@ -18,4 +79,18 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+const trail = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/trail' }),
+  schema: z.object({
+    date: z.date(),
+    title: z.string(),
+    summary: z.string(),
+    kind: z.enum(['research', 'release', 'leadership', 'learning']),
+    relatedQuestions: z.array(z.string()).default([]),
+    relatedInvestigations: z.array(z.string()).default([]),
+    relatedNotes: z.array(z.string()).default([]),
+    url: z.string().optional(),
+  }),
+});
+
+export const collections = { questions, investigations, notes, trail };

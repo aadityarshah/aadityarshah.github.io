@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getAtlasContent } from '../lib/atlas';
+const { questions } = await getAtlasContent();
+---
+
+<Layout title="Questions — Aaditya Shah" description="Open questions across mathematics, computation, cognition, physics, and engineering.">
+  <Header />
+  <main id="main-content">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Questions</p><h1>Directions of attention.</h1><p>Some questions become investigations. Others remain reading paths or persistent background thoughts. The status is deliberately visible.</p></div></header>
+    <section class="page-body"><div class="shell question-grid">
+      {questions.map((question, index) => <a class="question-card" href={`/questions/${question.id}/`}><span class="index-number">Q.{String(index + 1).padStart(2, '0')}</span><h2>{question.data.title}</h2><p>{question.data.summary}</p><footer><span class="status">{question.data.status}</span>{question.data.domains.map((domain) => <span class="topic">{domain}</span>)}</footer></a>)}
+    </div></section>
+  </main>
+  <Footer />
+</Layout>

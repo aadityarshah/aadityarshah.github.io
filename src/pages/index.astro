@@ -2,361 +2,65 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getCollection } from 'astro:content';
-import newsData from '../data/news.json';
-import projectsData from '../data/projects.json';
+import QuestionConstellation from '../components/QuestionConstellation.astro';
 import { personalData } from '../data/personal.js';
+import { entrySlug, formatDate, getAtlasContent } from '../lib/atlas';
 
-// Sort news by date (newest first)
-const sortedNews = newsData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-const latestNews = sortedNews.slice(0, 2);
-const recentPosts = (await getCollection('posts'))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 2);
-
-// Format date function
-function formatDate(dateValue: Date | string): string {
-  const date = dateValue instanceof Date ? dateValue : new Date(dateValue);
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
-}
-
-function getPostSlug(post: (typeof recentPosts)[number]): string {
-  return post.data.slug ?? post.id;
-}
-
-function getPostTags(post: (typeof recentPosts)[number]): string[] {
-  return post.data.tags?.length ? post.data.tags : post.data.category ? [post.data.category] : [];
-}
-
-function getReadingTime(post: (typeof recentPosts)[number]): string {
-  const wordCount = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.ceil(wordCount / 200));
-  return `${minutes} min read`;
-}
-
-// Get featured projects (for homepage)
-const featuredProjects = projectsData.slice(0, 2);
+const { questions, investigations, notes, trail } = await getAtlasContent();
+const featuredInvestigation = investigations[0];
+const latestNote = notes[0];
 ---
 
-<Layout title={`${personalData.name} - ${personalData.title}`}>
+<Layout title={`${personalData.name} — Questions worth staying with`}>
   <Header />
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
-    <!-- Hero Section -->
-    <section class="mb-20 mt-4">
-      <div class="text-center mb-10">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
-          <a 
-            href={personalData.socialLinks.github} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="hover:underline decoration-2 underline-offset-8 transition-all"
-          >
-            {personalData.name}
-          </a>
-        </h1>
-        <p class="text-2xl text-slate-600 dark:text-slate-400 mb-4 font-light">
-          {personalData.title}
-        </p>
-        <p class="text-slate-500 dark:text-slate-500 max-w-2xl mx-auto italic">
-          {personalData.shortBio}
-        </p>
-      </div>
-      
-      <div 
-        class="prose prose-lg dark:prose-invert max-w-3xl mx-auto text-slate-700 dark:text-slate-300 leading-relaxed mb-12 text-justify bio-text"
-        set:html={personalData.bio}
-      />
-
-      <div class="mt-12 text-center">
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-          <a
-            href={`mailto:${personalData.socialLinks.mail}`}
-            class="group relative inline-flex items-center px-8 py-3 bg-slate-900 dark:bg-slate-100 text-slate-50 dark:text-slate-900 rounded-full font-medium overflow-hidden transition-all hover:scale-105 active:scale-95"
-          >
-            <span class="relative z-10 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-              </svg>
-              Mail me
-            </span>
-          </a>
-          <a
-            href={personalData.socialLinks.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center px-8 py-3 border border-slate-200 dark:border-slate-800 rounded-full font-medium hover:bg-white dark:hover:bg-slate-900 transition-all hover:shadow-sm active:scale-95"
-          >
-            <span class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              View on Github
-            </span>
-          </a>
+  <main id="main-content">
+    <section class="shell hero">
+      <div class="hero-copy">
+        <h1 class="display hero-title">I like staying with difficult questions.</h1>
+        <p class="hero-lede">I move between mathematics, computation, and engineering—trying to understand why complex systems behave the way they do.</p>
+        <p class="hero-context">I’m Aaditya Shah, a second-year B.Tech student in Computer Science and Engineering at IIT Gandhinagar, graduating in 2029.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#start-here">Start exploring <span aria-hidden="true">↓</span></a>
+          <a class="button secondary" href="/about">Meet the person behind the work <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="text-slate-400 dark:text-slate-600 mt-6 text-sm">
-          {personalData.location}
-        </p>
+        <div class="hero-footnote meta"><span>IIT Gandhinagar</span><span>2026</span></div>
+      </div>
+      <QuestionConstellation />
+    </section>
+
+    <section class="section" id="start-here">
+      <div class="shell">
+        <header class="section-head"><div><p class="eyebrow">Start here</p><h2 class="section-title">Choose a place to begin.</h2><p class="section-intro">You do not need to understand the whole system at once. Begin with the part that interests you.</p></div></header>
+        <div class="entry-grid">
+          <a class="entry-card" href="/questions"><span class="index-number">01</span><h3>Questions I’m following</h3><p>Open problems, reading paths, and ideas still taking shape.</p><strong>Explore questions <span aria-hidden="true">→</span></strong></a>
+          <a class="entry-card" href="/projects"><span class="index-number">02</span><h3>Investigations I’ve built</h3><p>Research and engineering framed by the question that started them.</p><strong>See the investigations <span aria-hidden="true">→</span></strong></a>
+          <a class="entry-card" href="/notes"><span class="index-number">03</span><h3>Notes from the work</h3><p>Field reports, technical notes, and reflections from the middle of the work.</p><strong>Read the notes <span aria-hidden="true">→</span></strong></a>
+        </div>
       </div>
     </section>
 
-    <!-- News Section -->
-    <section class="mb-24">
-      <div class="flex justify-between items-end mb-10">
-        <div>
-          <h2 class="text-3xl font-bold tracking-tight mb-2">Timeline</h2>
-          <p class="text-slate-500 dark:text-slate-500">Recent milestones and updates.</p>
+    <section class="section" id="questions">
+      <div class="shell">
+        <header class="section-head"><div><p class="eyebrow">Current threads</p><h2 class="section-title">Questions I am following.</h2></div><a class="section-link" href="/questions">All questions →</a></header>
+        <div class="question-grid three-up">
+          {questions.slice(0, 3).map((question, index) => <a class="question-card" href={`/questions/${question.id}/`}><span class="index-number">Q.{String(index + 1).padStart(2, '0')}</span><h3>{question.data.title}</h3><p>{question.data.summary}</p><footer><span class="status">{question.data.status}</span><span class="topic">{question.data.domains[0]}</span></footer></a>)}
         </div>
-        <a href="/timeline" class="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1 group">
-          View all
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
-            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
-          </svg>
+      </div>
+    </section>
+
+    {featuredInvestigation && <section class="section">
+      <div class="shell">
+        <header class="section-head"><div><p class="eyebrow">One investigation</p><h2 class="section-title">A question carried into practice.</h2></div><a class="section-link" href="/projects">All investigations →</a></header>
+        <a class="featured-investigation" href={`/projects/${featuredInvestigation.id}/`}>
+          <div><span class="index-number">I.01 / {featuredInvestigation.data.status}</span><h3>{featuredInvestigation.data.title}</h3><p class="investigation-question">{featuredInvestigation.data.question}</p></div>
+          <div><p>{featuredInvestigation.data.summary}</p><div class="modes meta">{featuredInvestigation.data.modes.map((mode) => <span>{mode}</span>)}</div><span class="arrow" aria-hidden="true">↗</span></div>
         </a>
       </div>
-      
-      <div class="relative">
-        <!-- Timeline line -->
-        <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
-        
-        <div class="space-y-10">
-          <!-- News Items -->
-          {latestNews.map((item) => (
-            <article class="relative pl-12 group">
-              <!-- Timeline dot -->
-              <div class="absolute left-3 top-1.5 w-3 h-3 rounded-full bg-white dark:bg-slate-950 border-2 border-blue-500 dark:border-blue-400 z-10 transition-transform group-hover:scale-125"></div>
-              
-              <div class="flex flex-col gap-1">
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
-                  <time class="text-sm font-medium text-slate-500 dark:text-slate-500" datetime={item.date}>
-                    {formatDate(item.date)}
-                  </time>
-                  {item.category && (
-                    <a 
-                      href={`/tags/${item.category.toLowerCase()}`}
-                      class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                    >
-                      {item.category}
-                    </a>
-                  )}
-                </div>
-                
-                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2 transition-colors">
-                  {item.mainUrl ? (
-                    <a 
-                      href={item.mainUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      class="text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      {item.title}
-                    </a>
-                  ) : (
-                    item.title
-                  )}
-                </h3>
-                
-                <div
-                  class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl"
-                  set:html={item.content}
-                />
-              </div>
-            </article>
-          ))}
+    </section>}
 
-          {sortedNews.length > latestNews.length && (
-            <div class="relative pl-12 pt-1">
-              <div class="absolute left-4 top-1 -translate-x-1/2 flex flex-col items-center gap-1.5 bg-slate-50 dark:bg-slate-950 py-1">
-                <span class="w-2 h-2 rounded-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700"></span>
-                <span class="w-2 h-2 rounded-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700"></span>
-                <span class="w-2 h-2 rounded-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700"></span>
-              </div>
-              <a href="/timeline" class="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                Older updates
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
-                  <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-
-    <!-- Recent Posts Section -->
-    {recentPosts.length > 0 && (
-      <section class="mb-24">
-        <div class="flex justify-between items-end mb-10">
-          <div>
-            <h2 class="text-3xl font-bold tracking-tight mb-2">Recent Posts</h2>
-            <p class="text-slate-500 dark:text-slate-500">Recent writing and research notes.</p>
-          </div>
-          <a href="/posts" class="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1 group">
-            View all
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
-              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
-            </svg>
-          </a>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          {recentPosts.map((post) => (
-            <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all relative overflow-hidden">
-              <div class="flex flex-col gap-4">
-                <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <time datetime={post.data.date.toISOString()} class="text-sm font-medium text-slate-500 dark:text-slate-500">
-                    {formatDate(post.data.date)}
-                  </time>
-                  <span class="text-sm font-medium text-slate-500 dark:text-slate-500">{getReadingTime(post)}</span>
-                  {getPostTags(post).map((tag) => (
-                    <a
-                      href={`/tags/${tag.toLowerCase()}`}
-                      class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                    >
-                      {tag}
-                    </a>
-                  ))}
-                </div>
-
-                <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1 transition-colors">
-                  <a class="!text-slate-900 dark:!text-slate-100" href={`/posts/${getPostSlug(post)}/`}>{post.data.title}</a>
-                </h3>
-
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {post.data.description}
-                </p>
-
-                <a
-                  href={`/posts/${getPostSlug(post)}/`}
-                  class="inline-flex items-center gap-1.5 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors w-fit"
-                >
-                  Read post
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
-                    <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
-                  </svg>
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    )}
-
-    <!-- Recent Projects Section -->
-    <section class="mb-24">
-      <div class="flex justify-between items-end mb-10">
-        <div>
-          <h2 class="text-3xl font-bold tracking-tight mb-2">Featured Projects</h2>
-          <p class="text-slate-500 dark:text-slate-500">A few things I've built lately.</p>
-        </div>
-        <a href="/projects" class="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1 group">
-          View all 
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
-            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
-          </svg>
-        </a>
-      </div>
-      
-      <div class="grid md:grid-cols-2 gap-8">
-        {featuredProjects.map((project) => (
-          <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full relative will-change-transform transform-gpu">
-            <!-- Clickable Top Area -->
-            <div class="relative flex-1">
-              {project.mainUrl && (
-                <a 
-                  href={project.mainUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="absolute inset-0 z-30" 
-                  aria-label={`View ${project.title}`}
-                ></a>
-              )}
-              <div class="p-8 pb-0 relative z-20">
-                <div class="flex items-center gap-2 mb-6">
-                  {project.tags.map((tag) => (
-                    <a 
-                      href={`/tags/${tag.toLowerCase()}`}
-                      class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                    >
-                      {tag}
-                    </a>
-                  ))}            
-                </div>
-                
-                <h3 class="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h3>
-                
-                <p
-                  class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed"
-                  set:html={project.description}
-                />
-              </div>
-            </div>
-            
-            <!-- Button Row (Higher Z-index to be clickable over card link) -->
-            {(project.links.github || project.links.playStore || project.links.website || (project.links.demo && project.links.demo !== '#')) && (
-              <div class="relative z-40 p-8 pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto">
-                <div class="flex gap-6 flex-wrap">
-                  {project.links.github && (
-                    <a 
-                      href={project.links.github} 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      GitHub
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                      </svg>
-                    </a>
-                  )}
-                  {project.links.playStore && (
-                    <a 
-                      href={project.links.playStore} 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Play Store
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                      </svg>
-                    </a>
-                  )}
-                  {project.links.website && (
-                    <a 
-                      href={project.links.website} 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      {project.linkLabels?.website || 'Website'}
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                      </svg>
-                    </a>
-                  )}
-                  {project.links.demo && project.links.demo !== '#' && (
-                    <a 
-                      href={project.links.demo} 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      {project.linkLabels?.demo || 'Demo'}
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                      </svg>
-                    </a>
-                  )}
-                </div>
-              </div>
-            )}
-          </article>
-        ))}
-      </div>
-    </section>
-
+    {latestNote && <section class="section last-section">
+      <div class="shell latest-note"><div><p class="eyebrow">Latest note</p><h2 class="section-title">From the notebook.</h2></div><div><time class="meta" datetime={latestNote.data.date.toISOString()}>{formatDate(latestNote.data.date)}</time><h3><a href={`/notes/${entrySlug(latestNote)}/`}>{latestNote.data.title}</a></h3><p>{latestNote.data.description}</p><a class="section-link" href="/notes">Read all notes →</a></div></div>
+    </section>}
   </main>
   <Footer />
 </Layout>

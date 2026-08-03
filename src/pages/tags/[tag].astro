@@ -1,211 +1,40 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { getCollection } from 'astro:content';
-import newsData from '../../data/news.json';
-import projectsData from '../../data/projects.json';
-import { personalData } from '../../data/personal.js';
+import { entrySlug, formatDate, getAtlasContent, topicSlug } from '../../lib/atlas';
+
+type TopicProps = {
+  label: string;
+  questions: CollectionEntry<'questions'>[];
+  investigations: CollectionEntry<'investigations'>[];
+  notes: CollectionEntry<'notes'>[];
+};
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  const newsTags = newsData.flatMap(item => item.category ? [item.category] : []);
-  const projectTags = projectsData.flatMap(item => item.tags || []);
-  const postTags = posts.flatMap(item => item.data.tags?.length ? item.data.tags : item.data.category ? [item.data.category] : []);
-  const allTags = [...new Set([...newsTags, ...projectTags, ...postTags])];
-  
-  return allTags.map(tag => ({
-    params: { tag: tag.toLowerCase() },
-    props: { tagName: tag },
-  }));
+  const atlas = await getAtlasContent();
+  const labels = [...new Set([...atlas.questions.flatMap((item) => item.data.domains), ...atlas.notes.flatMap((item) => item.data.topics)])];
+  return labels.map((label) => {
+    const questions = atlas.questions.filter((item) => item.data.domains.some((domain) => topicSlug(domain) === topicSlug(label)));
+    const questionIds = new Set(questions.map((item) => item.id));
+    const notes = atlas.notes.filter((item) => item.data.topics.some((topic) => topicSlug(topic) === topicSlug(label)));
+    const investigations = atlas.investigations.filter((item) => item.data.relatedQuestions.some((id) => questionIds.has(id)));
+    return { params: { tag: topicSlug(label) }, props: { label, questions, investigations, notes } };
+  });
 }
 
-const { tag } = Astro.params;
-const { tagName } = Astro.props;
-const posts = await getCollection('posts');
-
-const filteredNews = newsData.filter(n => n.category?.toLowerCase() === tag);
-const filteredProjects = projectsData.filter(p => p.tags?.some(t => t.toLowerCase() === tag));
-const filteredPosts = posts
-  .filter(p => (p.data.tags?.length ? p.data.tags : p.data.category ? [p.data.category] : []).some(t => t.toLowerCase() === tag))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-function formatDate(date: Date | string): string {
-  const parsedDate = date instanceof Date ? date : new Date(date);
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  return parsedDate.toLocaleDateString('en-US', options);
-}
-
-function getPostSlug(post: (typeof filteredPosts)[number]): string {
-  return post.data.slug ?? post.id;
-}
-
-function getPostTags(post: (typeof filteredPosts)[number]): string[] {
-  return post.data.tags?.length ? post.data.tags : post.data.category ? [post.data.category] : [];
-}
-
-function getReadingTime(post: (typeof filteredPosts)[number]): string {
-  const wordCount = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.ceil(wordCount / 200));
-  return `${minutes} min read`;
-}
+const { label, questions, investigations, notes } = Astro.props as TopicProps;
 ---
 
-<Layout title={`Tag: ${tagName} - ${personalData.name}`}>
+<Layout title={`${label} — Topics`} description={`Questions, investigations, and notes connected to ${label}.`}>
   <Header />
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
-    <div class="mb-12">
-      <a href="/tags" class="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1 group mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:-translate-x-1">
-          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-        </svg>
-        Back to Tags
-      </a>
-      <h1 class="text-4xl font-bold tracking-tight mb-2 uppercase text-slate-400 dark:text-slate-500 text-sm tracking-widest">Tag</h1>
-      <h2 class="text-5xl font-bold tracking-tight mb-4">{tagName}</h2>
-    </div>
-
-    {filteredProjects.length > 0 && (
-      <section class="mb-20">
-        <div class="flex items-center gap-4 mb-10">
-          <h3 class="text-2xl font-bold tracking-tight">Projects</h3>
-          <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
-        </div>
-        <div class="grid md:grid-cols-2 gap-8">
-          {filteredProjects.map((project) => (
-            <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full relative will-change-transform transform-gpu">
-              <!-- Clickable Top Area -->
-              <div class="relative flex-1">
-                {project.mainUrl && (
-                  <a href={project.mainUrl} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-30" aria-label={`View ${project.title}`}></a>
-                )}
-                <div class="p-8 pb-0 relative z-20">
-                  <div class="flex items-center gap-2 mb-6">
-                    {project.tags.map((t) => (
-                      <a 
-                        href={`/tags/${t.toLowerCase()}`}
-                        class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                      >
-                        {t}
-                      </a>
-                    ))}
-                  </div>
-                  <h4 class="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h4>
-                  <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed" set:html={project.description} />
-                </div>
-              </div>
-              
-              <!-- Button Row -->
-              {(project.links.github || project.links.playStore || project.links.website || (project.links.demo && project.links.demo !== '#')) && (
-                <div class="relative z-40 p-8 pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto">
-                  <div class="flex gap-6 flex-wrap">
-                    {project.links.github && (
-                      <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        GitHub
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </a>
-                    )}
-                    {project.links.playStore && (
-                      <a href={project.links.playStore} target="_blank" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        Play Store
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </a>
-                    )}
-                    {project.links.website && (
-                      <a href={project.links.website} target="_blank" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        {project.linkLabels?.website || 'Website'}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </a>
-                    )}
-                    {project.links.demo && project.links.demo !== '#' && (
-                      <a href={project.links.demo} target="_blank" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        {project.linkLabels?.demo || 'Demo'}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
-    )}
-
-    {filteredPosts.length > 0 && (
-      <section class="mb-20">
-        <div class="flex items-center gap-4 mb-10">
-          <h3 class="text-2xl font-bold tracking-tight">Posts</h3>
-          <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
-        </div>
-        <div class="grid gap-8">
-          {filteredPosts.map((post) => (
-            <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all relative overflow-hidden">
-              <div class="flex flex-col gap-4">
-                <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <time datetime={post.data.date.toISOString()} class="text-sm font-medium text-slate-500">{formatDate(post.data.date)}</time>
-                  <span class="text-sm font-medium text-slate-500 dark:text-slate-500">{getReadingTime(post)}</span>
-                  {getPostTags(post).map((postTag) => (
-                  <a
-                    href={`/tags/${postTag.toLowerCase()}`}
-                    class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                  >
-                    {postTag}
-                  </a>
-                  ))}
-                </div>
-                <h4 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2 transition-colors">
-                  <a class="!text-slate-900 dark:!text-slate-100" href={`/posts/${getPostSlug(post)}/`}>{post.data.title}</a>
-                </h4>
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl">{post.data.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    )}
-
-    {filteredNews.length > 0 && (
-      <section>
-        <div class="flex items-center gap-4 mb-10">
-          <h3 class="text-2xl font-bold tracking-tight">Timeline</h3>
-          <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
-        </div>
-        <div class="relative">
-          <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
-          <div class="space-y-10">
-            {filteredNews.map((item) => (
-              <article class="relative pl-12 group">
-                <div class="absolute left-3 top-1.5 w-3 h-3 rounded-full bg-white dark:bg-slate-950 border-2 border-blue-500 z-10 transition-transform group-hover:scale-125"></div>
-                <div class="flex flex-col gap-1">
-                  <div class="flex items-center gap-3 mb-1">
-                    <time class="text-sm font-medium text-slate-500" datetime={item.date}>{formatDate(item.date)}</time>
-                    <a 
-                      href={`/tags/${item.category?.toLowerCase()}`}
-                      class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-10 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                    >
-                      {item.category}
-                    </a>
-                  </div>
-                  <h4 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    {item.mainUrl ? <a href={item.mainUrl} target="_blank" class="hover:text-blue-600 transition-colors">{item.title}</a> : item.title}
-                  </h4>
-                  <div class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl" set:html={item.content} />
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
+  <main id="main-content">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Topic</p><h1>{label}</h1><p>{questions.length} questions · {investigations.length} investigations · {notes.length} notes</p></div></header>
+    {questions.length > 0 && <section class="section"><div class="shell"><header class="section-head"><div><p class="eyebrow">Questions</p><h2 class="section-title">What this subject opens.</h2></div></header><div class="question-grid">{questions.map((question, index) => <a class="question-card" href={`/questions/${question.id}/`}><span class="index-number">Q.{String(index + 1).padStart(2, '0')}</span><h3>{question.data.title}</h3><p>{question.data.summary}</p><footer><span class="status">{question.data.status}</span></footer></a>)}</div></div></section>}
+    {investigations.length > 0 && <section class="section"><div class="shell"><header class="section-head"><div><p class="eyebrow">Investigations</p><h2 class="section-title">Where it became concrete.</h2></div></header><div class="investigation-list">{investigations.map((item, index) => <a class="investigation-row" href={`/projects/${item.id}/`}><span class="index-number">I.{String(index + 1).padStart(2, '0')}</span><div><h3>{item.data.title}</h3><p class="investigation-question">{item.data.question}</p></div><div class="investigation-summary"><p>{item.data.summary}</p></div><span class="arrow">↗</span></a>)}</div></div></section>}
+    {notes.length > 0 && <section class="section"><div class="shell"><header class="section-head"><div><p class="eyebrow">Notes</p><h2 class="section-title">Writing connected to the thread.</h2></div></header><ul class="note-list">{notes.map((note) => <li class="note-item"><time class="meta" datetime={note.data.date.toISOString()}>{formatDate(note.data.date, 'short')}</time><div><a href={`/notes/${entrySlug(note)}/`}><h3>{note.data.title}</h3></a><p>{note.data.description}</p></div></li>)}</ul></div></section>}
+    {questions.length + investigations.length + notes.length === 0 && <div class="shell empty-state">Nothing has been indexed here yet.</div>}
   </main>
   <Footer />
 </Layout>

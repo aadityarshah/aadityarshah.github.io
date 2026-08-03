@@ -1,72 +1,54 @@
-# Aaditya Shah - Portfolio
+# Aaditya Shah — Living Research Atlas
 
-Personal portfolio website built with Astro and deployed to GitHub Pages at [aadityarshah.github.io](https://aadityarshah.github.io).
+A personal website organized around questions, investigations, notes, and a chronological trail. It is built with Astro and deployed to GitHub Pages at [aadityarshah.github.io](https://aadityarshah.github.io).
 
-## 👨‍💻 About Me
+## Philosophy
 
-I'm a B.Tech. student in Computer Science and Engineering at IIT Gandhinagar, passionate about mobile app development, quantum computing, mathematics, and cognitive science. I am also keen on exploring the fascinating intersection of software and hardware. You can view my profile page at [github.com/aadityarshah](https://github.com/aadityarshah).
+The site treats projects as evidence of inquiry rather than as the organizing identity. Its content model is designed to grow from undergraduate notes and experiments into research, publications, talks, and longer-running bodies of work without requiring another structural redesign.
 
-## 🚀 Project Structure
+## Content model
 
-```
-/
-├── public/          # Static assets
-├── src/
-│   ├── components/  # Reusable components (Header, Footer, etc.)
-│   ├── data/        # JSON data files (news.json, projects.json)
-│   ├── layouts/     # Page layouts
-│   └── pages/       # Pages/routes
-├── .github/
-│   └── workflows/   # GitHub Actions for deployment
-└── package.json
+Content lives in `src/content/`:
+
+```text
+questions/       Open questions and their current stage
+investigations/  Research and engineering work framed by an initiating question
+posts/           Notes, essays, field reports, and reflections
+trail/           Dated milestones and changes in the work
 ```
 
-## 🛠️ Tech Stack
+Schemas are defined in `src/content.config.ts`. Cross-collection references are checked during the build by `src/lib/atlas.ts`.
 
-- **Astro** - Static site generator
-- **Tailwind CSS** - Styling
-- **GitHub Pages** - Hosting
-- **GitHub Actions** - CI/CD
+### Question states
 
-## 🧞 Commands
+Use one of: `noticing`, `reading`, `formalizing`, `experimenting`, `building`, or `revisiting`.
 
-All commands are run from the root of the project:
+These describe the state of attention, not the quality or importance of the question.
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:4321`     |
-| `npm run build`        | Build your production site to `./dist/`         |
-| `npm run preview`      | Preview your build locally, before deploying     |
+### Draft notes
 
-## 📦 Deployment
+Set `draft: true` in a note's frontmatter. Drafts are excluded from production pages, topic counts, indexes, and cross-reference validation. The incomplete first-year reflection is intentionally retained as a draft.
 
-This site is automatically deployed to GitHub Pages via GitHub Actions when you push to the `main` branch.
+### Stable routes
 
-### Manual Setup (if needed)
+The public labels changed while useful URLs remain stable:
 
-1. Go to your repository settings on GitHub
-2. Navigate to **Pages** under **Settings**
-3. Under **Source**, select **GitHub Actions**
+- `/notes` → Notes
+- `/projects` → Investigations
+- `/timeline` → Trail
+- `/tags` → Topics
 
-The workflow will automatically build and deploy your site to `https://aadityarshah.github.io`.
+## Development
 
-## 📝 Customization
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
 
-- Edit `src/data/news.json` for news timeline updates
-- Edit `src/data/projects.json` for project updates
-- Edit `src/pages/index.astro` for the homepage
-- Add blog posts in `src/pages/posts/` (create as needed)
-- Update personal info in components and pages
+The site uses semantic CSS and scoped Astro styles. Newsreader, IBM Plex Sans, and IBM Plex Mono are packaged locally through Fontsource; there are no external font requests. Small interactions use native TypeScript and progressive enhancement.
 
-## 📫 Connect with Me
+## Deployment
 
-<p align="center">
-  <a href="mailto:aaditya.shah@iitgn.ac.in">
-    <img src="https://img.shields.io/badge/Email-aaditya.shah@iitgn.ac.in-0066CC?style=flat-square&logo=gmail&logoColor=white" alt="Email" />
-  </a>
-</p>
-
----
-
-**Portfolio Website:** [aadityarshah.github.io](https://aadityarshah.github.io) 🚀
+Pushing to `main` runs `.github/workflows/deploy.yml`, builds the static site with Node 22, and deploys `dist/` to GitHub Pages.

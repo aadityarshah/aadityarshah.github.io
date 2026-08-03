@@ -1,0 +1,45 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { formatDate, getAtlasContent } from '../../lib/atlas';
+
+export async function getStaticPaths() {
+  const { investigations, questions } = await getAtlasContent();
+  return investigations.map((investigation) => ({ params: { slug: investigation.id }, props: { investigation, questions: questions.filter((item) => investigation.data.relatedQuestions.includes(item.id)) } }));
+}
+interface Props { investigation: CollectionEntry<'investigations'>; questions: CollectionEntry<'questions'>[]; }
+const { investigation, questions } = Astro.props;
+const { Content } = await render(investigation);
+---
+
+<Layout title={`${investigation.data.title} — Investigation`} description={investigation.data.summary} image={investigation.data.cover?.src} type="article">
+  <Header />
+  <main id="main-content">
+    <header class="detail-header"><div class="shell"><p class="eyebrow">Investigation · {investigation.data.status}</p><h1>{investigation.data.title}</h1><p class="detail-question">{investigation.data.question}</p><div class="detail-meta meta"><span>{formatDate(investigation.data.startDate, 'short')}—{investigation.data.endDate ? formatDate(investigation.data.endDate, 'short') : 'present'}</span>{investigation.data.modes.map((mode) => <span>{mode}</span>)}</div></div></header>
+    {investigation.data.cover && <img class="cover-image" src={investigation.data.cover.src} alt={investigation.data.cover.alt} />}
+    <div class="shell detail-grid">
+      <article class="prose">
+        <p><strong>{investigation.data.summary}</strong></p>
+        <div class="investigation-frame" aria-label="Current understanding">
+          {investigation.data.currentBelief && <div><p class="eyebrow">What I currently believe</p><p>{investigation.data.currentBelief}</p></div>}
+          {investigation.data.evidenceSummary && <div><p class="eyebrow">Evidence</p><p>{investigation.data.evidenceSummary}</p></div>}
+          {investigation.data.changedMind && <div><p class="eyebrow">What changed my mind</p><p>{investigation.data.changedMind}</p></div>}
+        </div>
+        <Content />
+        {investigation.data.openQuestions.length > 0 && <section class="open-questions"><h2>What remains open</h2><ul>{investigation.data.openQuestions.map((item) => <li>{item}</li>)}</ul></section>}
+        {investigation.data.nextExperiment && <div class="next-experiment"><p class="eyebrow">Next experiment</p><p>{investigation.data.nextExperiment}</p></div>}
+      </article>
+      <aside class="detail-aside" aria-label="Investigation references">
+        <div class="aside-block"><h2>State</h2><span class="status">{investigation.data.status}</span></div>
+        {investigation.data.milestones.length > 0 && <div class="aside-block"><h2>Process trail</h2><ol class="milestone-list">{investigation.data.milestones.map((milestone) => <li><time class="meta" datetime={milestone.date.toISOString()}>{formatDate(milestone.date, 'short')}</time><strong>{milestone.label}</strong><span>{milestone.summary}</span></li>)}</ol></div>}
+        {investigation.data.lastRevisited && <div class="aside-block"><h2>Last revisited</h2><time class="meta" datetime={investigation.data.lastRevisited.toISOString()}>{formatDate(investigation.data.lastRevisited)}</time>{investigation.data.revisitReason && <p>{investigation.data.revisitReason}</p>}</div>}
+        {questions.length > 0 && <div class="aside-block"><h2>Related question</h2>{questions.map((question) => <a href={`/questions/${question.id}/`}>{question.data.title}</a>)}</div>}
+        {investigation.data.evidence.length > 0 && <div class="aside-block"><h2>Evidence</h2>{investigation.data.evidence.map((item) => <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{item.label} ↗</a>)}</div>}
+        <div class="aside-block"><a href="/projects">← All investigations</a></div>
+      </aside>
+    </div>
+  </main>
+  <Footer />
+</Layout>

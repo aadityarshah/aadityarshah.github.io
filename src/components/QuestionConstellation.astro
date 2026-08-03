@@ -1,0 +1,63 @@
+---
+const nodes = [
+  { key: 'cryptography', label: 'Cryptography', x: 16, y: 50, question: 'How can hidden structure be recovered from incomplete evidence?' },
+  { key: 'quantum', label: 'Quantum', x: 50, y: 12, question: 'What makes a quantum advantage structurally possible?' },
+  { key: 'algorithms', label: 'Algorithms', x: 84, y: 50, question: 'When does an elegant explanation become a reliable procedure?' },
+  { key: 'mathematics', label: 'Mathematics', x: 50, y: 88, question: 'What is the smallest structure that explains what I am seeing?' },
+];
+const connections = [
+  ['cryptography', 'quantum'], ['quantum', 'algorithms'], ['algorithms', 'mathematics'], ['mathematics', 'cryptography'],
+];
+const nodeByKey = Object.fromEntries(nodes.map((node) => [node.key, node]));
+---
+
+<div class="constellation-wrap">
+  <span class="constellation-label coordinates">Current questions</span>
+  <div class="constellation" data-constellation data-active="cryptography">
+    <svg viewBox="0 0 100 100" role="img" aria-labelledby="constellation-title constellation-desc">
+      <title id="constellation-title">A map of connected questions</title>
+      <desc id="constellation-desc">Lines connect current questions in cryptography, quantum computing, algorithms, and mathematics.</desc>
+      {connections.map(([from, to]) => {
+        const a = nodeByKey[from];
+        const b = nodeByKey[to];
+        return <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} data-line={`${from} ${to}`} />;
+      })}
+      {nodes.map((node) => <line x1="50" y1="50" x2={node.x} y2={node.y} data-line={node.key} />)}
+    </svg>
+    <div class="constellation-center" aria-hidden="true">curiosity</div>
+    {nodes.map((node, index) => (
+      <button
+        type="button"
+        class="constellation-node"
+        style={`left:${node.x}%;top:${node.y}%`}
+        data-constellation-node={node.key}
+        data-question={node.question}
+        aria-pressed={index === 0 ? 'true' : 'false'}
+      >{node.label}</button>
+    ))}
+  </div>
+  <div class="constellation-reading" data-constellation-reading aria-live="polite">
+    <strong>Cryptography</strong>
+    How can hidden structure be recovered from incomplete evidence?
+  </div>
+  <noscript>
+    <ul>{nodes.map((node) => <li><strong>{node.label}:</strong> {node.question}</li>)}</ul>
+  </noscript>
+</div>
+
+<script>
+  const initConstellation = () => {
+    const constellation = document.querySelector('[data-constellation]');
+    const reading = document.querySelector('[data-constellation-reading]');
+    if (!(constellation instanceof HTMLElement) || !(reading instanceof HTMLElement)) return;
+    constellation.querySelectorAll('[data-constellation-node]').forEach((node) => {
+      if (!(node instanceof HTMLButtonElement)) return;
+      node.onclick = () => {
+        constellation.dataset.active = node.dataset.constellationNode;
+        constellation.querySelectorAll('[data-constellation-node]').forEach((item) => item.setAttribute('aria-pressed', String(item === node)));
+        reading.innerHTML = `<strong>${node.textContent?.trim() ?? ''}</strong>${node.dataset.question ?? ''}`;
+      };
+    });
+  };
+  document.addEventListener('astro:page-load', initConstellation);
+</script>

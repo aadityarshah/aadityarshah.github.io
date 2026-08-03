@@ -1,0 +1,36 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { formatDate, getAtlasContent } from '../../lib/atlas';
+
+export async function getStaticPaths() {
+  const { questions, investigations } = await getAtlasContent();
+  return questions.map((question) => ({
+    params: { slug: question.id },
+    props: { question, investigations: investigations.filter((item) => question.data.relatedInvestigations.includes(item.id)) },
+  }));
+}
+
+interface Props { question: CollectionEntry<'questions'>; investigations: CollectionEntry<'investigations'>[]; }
+const { question, investigations } = Astro.props;
+const { Content } = await render(question);
+---
+
+<Layout title={`${question.data.title} — Questions`} description={question.data.summary} type="article">
+  <Header />
+  <main id="main-content">
+    <header class="detail-header"><div class="shell"><p class="eyebrow">Question · {question.data.status}</p><h1>{question.data.title}</h1><p class="detail-question">{question.data.summary}</p><div class="detail-meta meta">{question.data.started && <span>Followed since {formatDate(question.data.started, 'short')}</span>}{question.data.domains.map((domain) => <span>{domain}</span>)}</div></div></header>
+    <div class="shell detail-grid">
+      <article class="prose"><Content /></article>
+      <aside class="detail-aside" aria-label="Related material">
+        <div class="aside-block"><h2>Current state</h2><span class="status">{question.data.status}</span></div>
+        <div class="aside-block"><h2>Domains</h2>{question.data.domains.map((domain) => <a href={`/tags/${domain.toLowerCase().replace(/[^a-z0-9]+/g, '-')}/`}>{domain}</a>)}</div>
+        {investigations.length > 0 && <div class="aside-block"><h2>Investigations</h2>{investigations.map((item) => <a href={`/projects/${item.id}/`}>{item.data.title}</a>)}</div>}
+        <div class="aside-block"><a href="/questions">← All questions</a></div>
+      </aside>
+    </div>
+  </main>
+  <Footer />
+</Layout>

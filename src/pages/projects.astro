@@ -2,113 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import projectsData from '../data/projects.json';
-import { personalData } from '../data/personal.js';
+import { getAtlasContent } from '../lib/atlas';
+const { investigations } = await getAtlasContent();
 ---
 
-<Layout title={`Projects - ${personalData.name}`}>
+<Layout title="Investigations — Aaditya Shah" description="Research and engineering work framed by the questions that started it.">
   <Header />
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
-    <div class="mb-12">
-      <h1 class="text-4xl font-bold tracking-tight mb-2">Projects</h1>
-      <p class="text-slate-500 dark:text-slate-500">A collection of things I've built and worked on.</p>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-8">
-      {projectsData.map((project) => (
-        <article class="group bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-blue-500/50 dark:hover:border-blue-400/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full relative will-change-transform transform-gpu">
-          <!-- Clickable Top Area -->
-          <div class="relative flex-1">
-            {project.mainUrl && (
-              <a 
-                href={project.mainUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="absolute inset-0 z-30" 
-                aria-label={`View ${project.title}`}
-              ></a>
-            )}
-            <div class="p-8 pb-0 relative z-20">
-              <div class="flex items-center gap-2 mb-6">
-                {project.tags.map((tag) => (
-                  <a 
-                    href={`/tags/${tag.toLowerCase()}`}
-                    class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                  >
-                    {tag}
-                  </a>
-                ))}
-              </div>
-              <h3 class="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h3>
-              <p
-                class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed"
-                set:html={project.description}
-              />
-            </div>
-          </div>
-
-          <!-- Button Row (Higher Z-index to be clickable over card link) -->
-          {(project.links.github || project.links.playStore || project.links.website || (project.links.demo && project.links.demo !== '#')) && (
-            <div class="relative z-40 p-8 pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto">
-              <div class="flex gap-6 flex-wrap">
-                {project.links.github && (
-                  <a 
-                    href={project.links.github} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    GitHub
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                      <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                    </svg>
-                  </a>
-                )}
-                {project.links.playStore && (
-                  <a 
-                    href={project.links.playStore} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Play Store
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                      <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                    </svg>
-                  </a>
-                )}
-                {project.links.website && (
-                  <a 
-                    href={project.links.website} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    {project.linkLabels?.website || 'Website'}
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                      <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                    </svg>
-                  </a>
-                )}
-                {project.links.demo && project.links.demo !== '#' && (
-                  <a 
-                    href={project.links.demo} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    {project.linkLabels?.demo || 'Demo'}
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                      <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-                    </svg>
-                  </a>
-                )}
-              </div>
-            </div>
-          )}
-        </article>
-      ))}
-    </div>
+  <main id="main-content">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Investigations</p><h1>Things built to understand something.</h1><p>Projects appear here as evidence of inquiry: the original question, the difficult middle, what changed in my understanding, and what remains open.</p></div></header>
+    <section class="page-body"><div class="shell investigation-list">
+      {investigations.map((investigation, index) => <a class="investigation-row" href={`/projects/${investigation.id}/`}><span class="index-number">I.{String(index + 1).padStart(2, '0')}</span><div><h2>{investigation.data.title}</h2><p class="investigation-question">{investigation.data.question}</p></div><div class="investigation-summary"><span class="status">{investigation.data.status}</span><p>{investigation.data.summary}</p><div class="modes meta">{investigation.data.modes.map((mode) => <span>{mode}</span>)}</div></div><span class="arrow" aria-hidden="true">↗</span></a>)}
+    </div></section>
   </main>
   <Footer />
 </Layout>

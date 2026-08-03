@@ -2,73 +2,25 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import newsData from '../data/news.json';
-import { personalData } from '../data/personal.js';
-
-const sortedNews = newsData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-function formatDate(dateValue: Date | string): string {
-  const date = dateValue instanceof Date ? dateValue : new Date(dateValue);
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
-}
+import { formatDate, getAtlasContent } from '../lib/atlas';
+const { trail } = await getAtlasContent();
 ---
 
-<Layout title={`Timeline - ${personalData.name}`}>
+<Layout title="Trail — Aaditya Shah" description="A chronological record of questions pursued, systems built, and ideas revisited.">
   <Header />
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-in fade-in slide-in-from-bottom-4 animate-speed-fast">
-    <div class="mb-12">
-      <h1 class="text-4xl font-bold tracking-tight mb-2">Timeline</h1>
-      <p class="text-slate-500 dark:text-slate-500 text-lg">Milestones, releases, and updates.</p>
-    </div>
-
-    <div class="relative">
-      <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
-
-      <div class="space-y-10">
-        {sortedNews.map((item) => (
-          <article class="relative pl-12 group">
-            <div class="absolute left-3 top-1.5 w-3 h-3 rounded-full bg-white dark:bg-slate-950 border-2 border-blue-500 dark:border-blue-400 z-10 transition-transform group-hover:scale-125"></div>
-
-            <div class="flex flex-col gap-1">
-              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
-                <time class="text-sm font-medium text-slate-500 dark:text-slate-500" datetime={item.date}>
-                  {formatDate(item.date)}
-                </time>
-                {item.category && (
-                  <a
-                    href={`/tags/${item.category.toLowerCase()}`}
-                    class="text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 !text-slate-700 dark:!text-slate-200 border border-slate-200 dark:border-slate-700 relative z-40 transition-colors hover:bg-blue-50 hover:!text-blue-700 hover:border-blue-200 dark:hover:bg-blue-500/10 dark:hover:!text-blue-300 dark:hover:border-blue-500/30"
-                  >
-                    {item.category}
-                  </a>
-                )}
-              </div>
-
-              <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2 transition-colors">
-                {item.mainUrl ? (
-                  <a
-                    href={item.mainUrl}
-                    target={item.mainUrl.startsWith('http') ? '_blank' : undefined}
-                    rel={item.mainUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    class="text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    {item.title}
-                  </a>
-                ) : (
-                  item.title
-                )}
-              </h2>
-
-              <div
-                class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl"
-                set:html={item.content}
-              />
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
+  <main id="main-content">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Trail</p><h1>Attention, accumulated.</h1><p>A chronological record of beginnings, releases, changing responsibilities, and questions that continued after the formal endpoint.</p></div></header>
+    <section class="page-body"><div class="shell"><ol class="trail-list trail-page">
+      {trail.map((entry, index) => <li class="trail-item"><div class="trail-date"><span class="index-number">T.{String(trail.length - index).padStart(2, '0')}</span><time class="meta" datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time></div><div><span class="kind">{entry.data.kind}</span><h2>{entry.data.url ? <a href={entry.data.url} target={entry.data.url.startsWith('http') ? '_blank' : undefined} rel={entry.data.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{entry.data.title}</a> : entry.data.title}</h2><p>{entry.data.summary}</p></div></li>)}
+    </ol></div></section>
   </main>
   <Footer />
 </Layout>
+
+<style>
+  .trail-page .trail-item { display: grid; grid-template-columns: 210px 1fr; gap: 3rem; padding: 2.3rem 0 2.3rem 2rem; }
+  .trail-page h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+  .trail-date { display: grid; align-content: start; gap: .5rem; }
+  .kind { color: var(--rust); }
+  @media (max-width: 700px) { .trail-page .trail-item { grid-template-columns: 1fr; gap: 1rem; } }
+</style>
