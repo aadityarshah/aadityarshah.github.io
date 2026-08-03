@@ -1,32 +1,92 @@
 ---
-title: "A Memorable First Year at IIT Gandhinagar"
-description: "A reflection on my first year at IIT Gandhinagar and my character development as an individual in various aspects of life."
-date: 2026-07-09
+title: "A first year of changing direction"
+description: "A reflection on entering IIT Gandhinagar in Mechanical Engineering, moving into CSE, and finding direction through research, projects, and people."
+date: 2026-08-04
 slug: "first-year-experience"
 kind: "reflection"
 topics:
   - Experiences
-draft: true
+  - CSE
+  - IIT Gandhinagar
+  - Research
+draft: false
 relatedQuestions: []
-relatedInvestigations: []
+relatedInvestigations:
+  - musiclib
+  - blithchron-app
+  - enigma-cryptanalysis
 banner:
   avif: "/assets/iitgn.avif"
   png: "/assets/iitgn.png"
   alt: "The IIT Gandhinagar campus"
 ---
 
-### Choosing Engineering
-Engineering or Medical - A question that bothered me the most as I had to make one of the most crucial decisions of my life at the mere age of 15. I was fascinated with the workings of the human brain from a very young age amd had always dreamt of becoming a neuroscientist. Medical was the only way a young boy could have thought of proceeding from there. Perhaps not. Technology has had significant contributions in discoveries made in the field of medicine and studying complex parts of human body and my father managed to convey this to that stubborn little boy. Along with that, exploring programming and enjoying app development also played a role in choosing the path for Engineering. After lot of thoughts, I finally decided with my own free will of taking up Engineering, probably one of the best decisions of my life which I might say repeatedly throughout this post and truely believe in. 
+**Second year begins today.**
 
-Now, it was about giving an exam and going into an Engineering college. I had no clue before giving JEE how hard it is considered and whether I will land up in an IIT or not. And that young boy didn't think much it and believed more in enjoying the journey. That mindset drived me throughout the two years and helped me secure good ranks in JEE Main and JEE Advanced. I was not too satisfied with my JEE Advanced rank after performing way above my expectations in JEE Main but it was not too bad either and I moved on from knowing that I gave it my all.
+Registration happened yesterday, and classes start on 4 August 2026. It feels strange to write that sentence. A year ago, I was arriving at [IIT Gandhinagar](https://iitgn.ac.in/) with a broad idea of what I wanted from college and very little idea of how quickly that idea would change.
 
-Now came another very crucial decision, choosing a college where I will just have to focus on Computer Science and related topics versus a college where I will not get Computer Science but get an opportunity to explore several branches and also change my branch to Computer Science according to my will if I would score sufficient grades. I chose the latter, that is, IIT Gandhinagar B.Tech in Mechanical Engineering.
+This is not a complete account of my first year. It is an attempt to pause at the boundary between two years and understand what the first one gave me: a change of branch, a few projects, an introduction to research, new friendships, and a clearer sense that I do not need to decide my entire future at once.
 
-### Starting at IITGN
-And this way came my first day at IITGN. I was excited to meet new people and know why IITs are praised a lot but nervous at the same time as it was my first time leaving my home and staying at a hostel (even though my home is just some thirties of kilometres away from the campus). It took me around a week to settle into the campus with the mess food, new people and the small hostel room. 
+## Before IIT Gandhinagar
 
-### Branch Change and Academics
- I must admit, I am a very optimistic person and I like that quality of mine. I believed that I would be able to do branch change without much difficulty. 
+For a long time, I thought I would become a neuroscientist. I was fascinated by the brain and assumed that medicine was the natural way to study it. Later, programming and app development gave me another way to think about complicated systems. I began to see that technology could also contribute to medicine and the study of the human body.
 
+That realization did not produce a perfectly clear decision. It only made Engineering feel like a wider beginning.
 
+Preparing for JEE was its own intense period. I did not fully understand how difficult the exams were when I began, and that may have helped me stay focused on the process instead of constantly imagining the result. I worked hard, received a result I could accept, and then faced another decision: should I choose a college where Computer Science was already guaranteed, or choose a place that offered a broader environment and the possibility of changing direction later?
 
+**I chose IIT Gandhinagar and entered Mechanical Engineering.**
+
+## Arriving at IIT Gandhinagar
+
+My first days on campus were exciting and uncomfortable at the same time. It was my first time leaving home and living in a hostel. Even though home was only a few dozen kilometres away, the small room, unfamiliar routines, mess food, and constant presence of new people made the campus feel like a different world.
+
+I needed time to settle. More importantly, I arrived as a fairly introverted person. I could speak to people when necessary, but I did not naturally seek out conversations or new groups. During the first semester, much of my attention was directed toward academics and the possibility of changing my branch. That focus gave me something concrete to work toward, but it also made my world smaller than it needed to be.
+
+One course that stayed with me was Design, Innovation and Prototyping. It required working with people, understanding a practical problem, and trying to build a solution rather than only discussing one. It helped me notice that engineering is not only about knowing a subject. It is also about listening, sharing decisions, dealing with incomplete ideas, and making something work together.
+
+## Changing direction
+
+I had started enjoying programming in school, and by the time I entered IIT Gandhinagar I knew that I wanted to move closer to Computer Science. I considered the possibility of continuing in Mechanical Engineering while pursuing a dual direction, but I wanted to give CSE my full attention if I could.
+
+**I was fortunate to change my branch at the end of my first semester.** The change brought relief, but it also brought responsibility. I had spent so much energy trying to reach CSE that I had not thought enough about what I would do once I got there.
+
+The second semester became less about reaching a destination and more about finding out what actually interested me. I began exploring projects, research, design, and the different ways computation could be used. The branch change did not give me a final answer. It gave me room to ask better questions.
+
+## The work that shaped the year
+
+[MusicLib](https://musiclib-dev.github.io/) was one of my first serious attempts to carry an idea into a complete product. I worked on it for a few months using Kotlin and Jetpack Compose. The idea was to help people making short-form content find or generate background music suited to their work.
+
+At first, I was mainly thinking about the application itself. As the project grew, I had to think about content, interface decisions, maintenance, and what it means for something to be usable beyond a prototype. MusicLib remains a personal project and an Android passion, but it also helped me understand that software is a tool I can use to investigate and make things concrete. It does not have to become my entire professional identity. The project is also available on the [Play Store](https://play.google.com/store/apps/details?id=com.musiclib).
+
+Around the same time, I joined Blithchron's Design and Tech team as a junior member. I contributed to the [2026 festival mobile application](/projects/blithchron-app/), working with React and with a team whose decisions were shaped by real deadlines, changing details, and many people with different responsibilities.
+
+That experience taught me a different kind of lesson. A product is not only the code or the interface. It is also the communication around the work: how decisions are made, how changes are absorbed, and how a group keeps a shared system understandable. I am now continuing with Blithchron as its Design and Tech Coordinator, which gives that lesson a longer life as I begin second year.
+
+## Discovering research
+
+The most important shift in the year came through the [Summer Research Internship Program (SRIP)](https://srip.iitgn.ac.in/) at IIT Gandhinagar. The formal internship ran from 7 May to 9 July 2026, and I worked on the mathematics of the Enigma machine and Marian Rejewski's cryptanalysis.
+
+I began by learning how the machine could be represented through permutations and how the historical indicator attack worked. That was already challenging: I was learning group theory while trying to understand a real historical system. But the work became more interesting when the mathematics exposed a gap between recovering a structure up to a transformation and recovering its absolute configuration.
+
+I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. A single triplet of observations was not enough for the recovery problem I was studying. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas involving additional observations and rotor turnovers.
+
+The project also introduced me to a form of work I had not experienced before: staying with a question after the first implementation stops being satisfying. The formal internship ended in July, but the [Enigma investigation](/projects/enigma-cryptanalysis/) continues. I am carrying that experience into second year as a reminder that understanding often develops through a sequence of models, failures, revisions, and returns.
+
+## Becoming less closed off
+
+One of the less visible changes in my first year was social. I arrived highly focused on branch change and not very comfortable with initiating interactions. After the first semester, I gradually began speaking to more people and paying more attention to the different ways they thought and worked.
+
+The change was not dramatic or complete. I still need time alone, and I am still not naturally the most outgoing person in a room. But I became more open to the possibility that other people could expand the way I understood a problem.
+
+Some friends also made me more comfortable with being deeply interested in things. I have been called a nerd, and I do not see that as an insult. Curiosity is one of the parts of myself I want to protect. At the same time, first year taught me that curiosity is not only about reading or thinking alone. It also grows through conversation, collaboration, disagreement, and attention to experiences different from my own.
+
+## What I am carrying into second year
+
+I am beginning second year as a B.Tech student in Computer Science and Engineering, but that sentence does not describe the whole direction I am taking.
+
+I want to keep studying mathematics and computation. I want to continue the Enigma project beyond the formal SRIP period. I want to learn what it means to coordinate a design and technical team responsibly. I have built the new Blithchron website, which is awaiting launch as I write this. By the time this note becomes public, it may already be live; either way, it marks the beginning of a more ambitious kind of interface work. I also want to keep making room for questions that do not yet have a project attached to them.
+
+**The first year did not give me a final career plan.** It gave me evidence about the kinds of work that hold my attention: difficult systems, mathematical structure, collaborative building, and questions that become clearer only after I try to make something concrete.
+
+That feels like enough to begin the second year.
