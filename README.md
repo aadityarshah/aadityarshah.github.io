@@ -21,13 +21,13 @@ Schemas are defined in `src/content.config.ts`. Cross-collection references are 
 
 ### Question states
 
-Use one of: `noticing`, `reading`, `formalizing`, `experimenting`, `building`, or `revisiting`.
+Use one of: `active investigation`, `foundational reading`, `speculative curiosity`, or `dormant rabbit hole`.
 
-These describe the state of attention, not the quality or importance of the question.
+These describe the current mode of inquiry, not the quality or importance of the question.
 
 ### Draft notes
 
-Set `draft: true` in a note's frontmatter. Drafts are excluded from production pages, topic counts, indexes, and cross-reference validation. The incomplete first-year reflection is intentionally retained as a draft.
+Set `draft: true` in a note's frontmatter. Drafts are excluded from production pages, topic counts, indexes, and cross-reference validation.
 
 ### Stable routes
 
