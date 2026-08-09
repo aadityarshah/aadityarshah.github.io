@@ -1,9 +1,9 @@
 ---
 const nodes = [
   { key: 'cryptography', label: 'Cryptography', x: 16, y: 50, question: 'How can hidden structure be recovered from incomplete evidence?' },
-  { key: 'quantum', label: 'Quantum', x: 50, y: 12, question: 'What makes a quantum advantage structurally possible?' },
-  { key: 'algorithms', label: 'Algorithms', x: 84, y: 50, question: 'When does an elegant explanation become a reliable procedure?' },
-  { key: 'mathematics', label: 'Mathematics', x: 50, y: 88, question: 'What is the smallest structure that explains what I am seeing?' },
+  { key: 'quantum', label: 'Quantum Computing', x: 50, y: 12, question: 'What makes an advantage in quantum computing structurally possible?' },
+  { key: 'algorithms', label: 'Algorithms', x: 84, y: 50, question: 'How can mathematical ideas become reliable algorithms?' },
+  { key: 'mathematics', label: 'Mathematics', x: 50, y: 88, question: 'How can mathematical structure make a complex system understandable?' },
 ];
 const connections = [
   ['cryptography', 'quantum'], ['quantum', 'algorithms'], ['algorithms', 'mathematics'], ['mathematics', 'cryptography'],
@@ -11,7 +11,7 @@ const connections = [
 const nodeByKey = Object.fromEntries(nodes.map((node) => [node.key, node]));
 ---
 
-<div class="constellation-wrap">
+<div class="constellation-wrap" data-reveal data-reveal-delay="1">
   <span class="constellation-label coordinates">Current questions</span>
   <div class="constellation" data-constellation data-active="cryptography">
     <svg viewBox="0 0 100 100" role="img" aria-labelledby="constellation-title constellation-desc">
@@ -29,7 +29,7 @@ const nodeByKey = Object.fromEntries(nodes.map((node) => [node.key, node]));
       <button
         type="button"
         class="constellation-node"
-        style={`left:${node.x}%;top:${node.y}%`}
+        style={`left:${node.x}%;top:${node.y}%;--constellation-delay:${300 + index * 90}ms`}
         data-constellation-node={node.key}
         data-question={node.question}
         aria-pressed={index === 0 ? 'true' : 'false'}
@@ -50,6 +50,7 @@ const nodeByKey = Object.fromEntries(nodes.map((node) => [node.key, node]));
     const constellation = document.querySelector('[data-constellation]');
     const reading = document.querySelector('[data-constellation-reading]');
     if (!(constellation instanceof HTMLElement) || !(reading instanceof HTMLElement)) return;
+
     constellation.querySelectorAll('[data-constellation-node]').forEach((node) => {
       if (!(node instanceof HTMLButtonElement)) return;
       node.onclick = () => {

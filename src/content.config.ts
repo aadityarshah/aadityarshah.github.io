@@ -18,6 +18,7 @@ const questions = defineCollection({
     status: inquiryStatus,
     domains: z.array(z.string()).min(1),
     started: z.date().optional(),
+    archived: z.boolean().default(false),
     featuredOrder: z.number().int().positive(),
     relatedInvestigations: z.array(z.string()).default([]),
     relatedNotes: z.array(z.string()).default([]),
@@ -32,7 +33,10 @@ const investigations = defineCollection({
     summary: z.string(),
     status: z.enum(['active', 'complete', 'continuing', 'paused']),
     startDate: z.date(),
+    startDateLabel: z.string().optional(),
+    lastUpdated: z.date(),
     endDate: z.date().optional(),
+    endDateLabel: z.string().optional(),
     modes: z.array(z.string()).min(1),
     relatedQuestions: z.array(z.string()).default([]),
     evidence: z.array(z.object({
@@ -41,6 +45,7 @@ const investigations = defineCollection({
     })).default([]),
     milestones: z.array(z.object({
       date: z.date(),
+      dateLabel: z.string().optional(),
       label: z.string(),
       summary: z.string(),
     })).default([]),
@@ -83,6 +88,7 @@ const trail = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/trail' }),
   schema: z.object({
     date: z.date(),
+    dateLabel: z.string().optional(),
     title: z.string(),
     summary: z.string(),
     kind: z.enum(['research', 'release', 'leadership', 'learning']),

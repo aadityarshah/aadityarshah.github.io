@@ -27,9 +27,10 @@ export function readingTime(body = ''): string {
 }
 
 export async function getAtlasContent(): Promise<AtlasContent> {
-  const [questions, investigations, allNotes, trail] = await Promise.all([
+  const [allQuestions, investigations, allNotes, trail] = await Promise.all([
     getCollection('questions'), getCollection('investigations'), getCollection('notes'), getCollection('trail'),
   ]);
+  const questions = allQuestions.filter((question) => !question.data.archived);
   const notes = allNotes.filter((note) => !note.data.draft);
   const questionIds = new Set(questions.map((entry) => entry.id));
   const investigationIds = new Set(investigations.map((entry) => entry.id));

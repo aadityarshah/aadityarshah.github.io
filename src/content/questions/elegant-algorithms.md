@@ -3,8 +3,9 @@ title: "When does an elegant explanation become a reliable system?"
 summary: "A concise idea and a dependable implementation reward different kinds of understanding. I am interested in the point where they have to meet."
 status: "revisiting"
 domains: ["Algorithms", "Software Engineering", "Complex Systems"]
+archived: true
 featuredOrder: 4
-relatedInvestigations: ["musiclib", "blithchron-app"]
+relatedInvestigations: []
 relatedNotes: []
 ---
 

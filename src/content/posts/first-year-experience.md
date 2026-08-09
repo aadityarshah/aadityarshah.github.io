@@ -55,13 +55,13 @@ The second semester became less about reaching a destination and more about find
 
 ## The work that shaped the year
 
-[MusicLib](https://musiclib-dev.github.io/) was one of my first serious attempts to carry an idea into a complete product. I worked on it for a few months using Kotlin and Jetpack Compose. The idea was to help people making short-form content find or generate background music suited to their work.
+[MusicLib](https://musiclib-dev.github.io/) was one of my first serious attempts to carry an idea into a complete product. I began it during the Diwali break in 2023 alongside my JEE preparation, returned to it after changing branches, and eventually built an Android app for lyric-free background music for short-form content. It included Firestore integration and an experiment in AI-generated music.
 
 At first, I was mainly thinking about the application itself. As the project grew, I had to think about content, interface decisions, maintenance, and what it means for something to be usable beyond a prototype. MusicLib remains a personal project and an Android passion, but it also helped me understand that software is a tool I can use to investigate and make things concrete. It does not have to become my entire professional identity. The project is also available on the [Play Store](https://play.google.com/store/apps/details?id=com.musiclib).
 
-Around the same time, I joined Blithchron's Design and Tech team as a junior member. I contributed to the [2026 festival mobile application](/projects/blithchron-app/), working with React and with a team whose decisions were shaped by real deadlines, changing details, and many people with different responsibilities.
+Near the end of August, I joined Blithchron's Design and Tech team as a Junior Technology and Design Executive. I first learned the basics of web development using React, then worked on a Campus Ambassador Program page in December and contributed to the [2026 festival mobile application](/projects/blithchron-app/) in January. The app was built with React Native, a framework for developing cross-platform mobile applications; I worked mostly on the frontend and the campus map while senior members provided the main ideas and direction. I now serve as a Design and Tech Coordinator for Blithchron.
 
-That experience taught me a different kind of lesson. A product is not only the code or the interface. It is also the communication around the work: how decisions are made, how changes are absorbed, and how a group keeps a shared system understandable. I am now continuing with Blithchron as its Design and Tech Coordinator, which gives that lesson a longer life as I begin second year.
+That experience taught me a different kind of lesson. A product is not only the code or the interface. It is also the communication around the work: how decisions are made, how changes are absorbed, and how a group keeps a shared system understandable.
 
 ## Discovering research
 
@@ -69,7 +69,7 @@ The most important shift in the year came through the [Summer Research Internshi
 
 I began by learning how the machine could be represented through permutations and how the historical indicator attack worked. That was already challenging: I was learning group theory while trying to understand a real historical system. But the work became more interesting when the mathematics exposed a gap between recovering a structure up to a transformation and recovering its absolute configuration.
 
-I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. A single triplet of observations was not enough for the recovery problem I was studying. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas involving additional observations and rotor turnovers.
+I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. The first recovery formulation was not enough to settle every part of the problem: some twist recovery required several independent triplets, while other methods required additional rotor-turnover constraints. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas.
 
 The project also introduced me to a form of work I had not experienced before: staying with a question after the first implementation stops being satisfying. The formal internship ended in July, but the [Enigma investigation](/projects/enigma-cryptanalysis/) continues. I am carrying that experience into second year as a reminder that understanding often develops through a sequence of models, failures, revisions, and returns.
 
@@ -85,7 +85,7 @@ Some friends also made me more comfortable with being deeply interested in thing
 
 I am beginning second year as a B.Tech student in Computer Science and Engineering, but that sentence does not describe the whole direction I am taking.
 
-I want to keep studying mathematics and computation. I want to continue the Enigma project beyond the formal SRIP period. I want to learn what it means to coordinate a design and technical team responsibly. I have built the new Blithchron website, which is awaiting launch as I write this. By the time this note becomes public, it may already be live; either way, it marks the beginning of a more ambitious kind of interface work. I also want to keep making room for questions that do not yet have a project attached to them.
+I want to keep studying mathematics and computation. I want to continue the Enigma project beyond the formal SRIP period. I want to learn more about responsible technical collaboration and keep making room for questions that do not yet have a project attached to them.
 
 **The first year did not give me a final career plan.** It gave me evidence about the kinds of work that hold my attention: difficult systems, mathematical structure, collaborative building, and questions that become clearer only after I try to make something concrete.
 

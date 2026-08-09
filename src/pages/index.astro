@@ -14,8 +14,8 @@ const latestNote = notes[0];
 <Layout title={`${personalData.name} — Questions worth staying with`}>
   <Header />
   <main id="main-content">
-    <section class="shell hero">
-      <div class="hero-copy">
+    <section class="shell hero" data-pointer-field>
+      <div class="hero-copy" data-reveal>
         <h1 class="display hero-title">I like staying with difficult questions.</h1>
         <p class="hero-lede">I move between mathematics, computation, and engineering—trying to understand why complex systems behave the way they do.</p>
         <p class="hero-context">I’m Aaditya Shah, a second-year B.Tech student in Computer Science and Engineering at IIT Gandhinagar, graduating in 2029.</p>
@@ -28,7 +28,7 @@ const latestNote = notes[0];
       <QuestionConstellation />
     </section>
 
-    <section class="section" id="start-here">
+    <section class="section" id="start-here" data-reveal>
       <div class="shell">
         <header class="section-head"><div><p class="eyebrow">Start here</p><h2 class="section-title">Choose a place to begin.</h2><p class="section-intro">You do not need to understand the whole system at once. Begin with the part that interests you.</p></div></header>
         <div class="entry-grid">
@@ -39,7 +39,7 @@ const latestNote = notes[0];
       </div>
     </section>
 
-    <section class="section" id="questions">
+    <section class="section" id="questions" data-reveal>
       <div class="shell">
         <header class="section-head"><div><p class="eyebrow">Current threads</p><h2 class="section-title">Questions I am following.</h2></div><a class="section-link" href="/questions">All questions →</a></header>
         <div class="question-grid three-up">
@@ -48,7 +48,7 @@ const latestNote = notes[0];
       </div>
     </section>
 
-    {featuredInvestigation && <section class="section">
+    {featuredInvestigation && <section class="section" data-reveal>
       <div class="shell">
         <header class="section-head"><div><p class="eyebrow">One investigation</p><h2 class="section-title">A question carried into practice.</h2></div><a class="section-link" href="/projects">All investigations →</a></header>
         <a class="featured-investigation" href={`/projects/${featuredInvestigation.id}/`}>
@@ -58,9 +58,35 @@ const latestNote = notes[0];
       </div>
     </section>}
 
-    {latestNote && <section class="section last-section">
+    {latestNote && <section class="section last-section" data-reveal>
       <div class="shell latest-note"><div><p class="eyebrow">Latest note</p><h2 class="section-title">From the notebook.</h2></div><div><time class="meta" datetime={latestNote.data.date.toISOString()}>{formatDate(latestNote.data.date)}</time><h3><a href={`/notes/${entrySlug(latestNote)}/`}>{latestNote.data.title}</a></h3><p>{latestNote.data.description}</p><a class="section-link" href="/notes">Read all notes →</a></div></div>
     </section>}
   </main>
   <Footer />
 </Layout>
+
+<script>
+  const initPointerField = () => {
+    const hero = document.querySelector('[data-pointer-field]');
+    if (!(hero instanceof HTMLElement) || hero.dataset.pointerReady === 'true') return;
+    const supportsPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const respectsMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!supportsPointer || !respectsMotion) return;
+
+    hero.dataset.pointerReady = 'true';
+    const updatePointer = (event) => {
+      const bounds = hero.getBoundingClientRect();
+      hero.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`);
+      hero.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`);
+      hero.dataset.pointerActive = 'true';
+    };
+    hero.addEventListener('pointerenter', updatePointer, { passive: true });
+    hero.addEventListener('pointermove', updatePointer, { passive: true });
+    hero.addEventListener('pointerleave', () => {
+      delete hero.dataset.pointerActive;
+    });
+  };
+
+  document.addEventListener('astro:page-load', initPointerField);
+  initPointerField();
+</script>

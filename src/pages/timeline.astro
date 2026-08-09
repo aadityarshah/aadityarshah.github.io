@@ -11,7 +11,7 @@ const { trail } = await getAtlasContent();
   <main id="main-content">
     <header class="page-hero"><div class="shell"><p class="eyebrow">Trail</p><h1>Attention, accumulated.</h1><p>A chronological record of beginnings, releases, changing responsibilities, and questions that continued after the formal endpoint.</p></div></header>
     <section class="page-body"><div class="shell"><ol class="trail-list trail-page">
-      {trail.map((entry, index) => <li class="trail-item"><div class="trail-date"><span class="index-number">T.{String(trail.length - index).padStart(2, '0')}</span><time class="meta" datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time></div><div><span class="kind">{entry.data.kind}</span><h2>{entry.data.url ? <a href={entry.data.url} target={entry.data.url.startsWith('http') ? '_blank' : undefined} rel={entry.data.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{entry.data.title}</a> : entry.data.title}</h2><p>{entry.data.summary}</p></div></li>)}
+      {trail.map((entry, index) => <li class="trail-item"><div class="trail-date"><span class="index-number">T.{String(trail.length - index).padStart(2, '0')}</span><time class="meta" datetime={entry.data.date.toISOString()}>{entry.data.dateLabel ?? formatDate(entry.data.date)}</time></div><div><span class="kind">{entry.data.kind}</span><h2>{entry.data.url ? <a href={entry.data.url} target={entry.data.url.startsWith('http') ? '_blank' : undefined} rel={entry.data.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{entry.data.title}</a> : entry.data.title}</h2><p>{entry.data.summary}</p></div></li>)}
     </ol></div></section>
   </main>
   <Footer />
