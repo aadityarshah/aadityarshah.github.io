@@ -29,11 +29,13 @@ This is not a complete account of my first year. It is an attempt to pause at th
 
 ## Before IIT Gandhinagar
 
-For a long time, I thought I would become a neuroscientist. I was fascinated by the brain and assumed that medicine was the natural way to study it. Later, programming and app development gave me another way to think about complicated systems. I began to see that technology could also contribute to medicine and the study of the human body.
+For a long time, I thought I would become a neuroscientist. I was fascinated by the brain and assumed that medicine was the natural way to study it. Later, programming and app development gave me another way to think about complicated systems. I began to see that technology could also contribute to medicine and the study of the human body. My father helped me see that connection.
 
-That realization did not produce a perfectly clear decision. It only made Engineering feel like a wider beginning.
+That realization did not produce a perfectly clear decision. It only made engineering feel like a wider beginning.
 
-Preparing for JEE was its own intense period. I did not fully understand how difficult the exams were when I began, and that may have helped me stay focused on the process instead of constantly imagining the result. I worked hard, received a result I could accept, and then faced another decision: should I choose a college where Computer Science was already guaranteed, or choose a place that offered a broader environment and the possibility of changing direction later?
+Preparing for JEE was its own intense period. I did not fully understand how difficult the exams were when I began, and that may have helped me stay focused on the process instead of constantly imagining the result. My father stood beside me throughout those two years, just as he had when I chose engineering. His presence mattered most when my health made everything else harder. Through some of the most difficult years of my life, he remained the person I could depend on. His patience, perspective, and belief in me shaped both my growth during JEE and the way I learned to handle uncertainty. I remain deeply grateful for the role he has played in every new direction my life has taken.
+
+I worked hard, received a result I could accept, and then faced another decision: should I choose a college where Computer Science was already guaranteed, or choose a place that offered a broader environment and the possibility of changing direction later?
 
 **I chose IIT Gandhinagar and entered Mechanical Engineering.**
 
@@ -45,6 +47,8 @@ I needed time to settle. More importantly, I arrived as a fairly introverted per
 
 One course that stayed with me was Design, Innovation and Prototyping. It required working with people, understanding a practical problem, and trying to build a solution rather than only discussing one. It helped me notice that engineering is not only about knowing a subject. It is also about listening, sharing decisions, dealing with incomplete ideas, and making something work together.
 
+Other first-semester courses helped me identify the kinds of ideas I enjoy pursuing. Linear Algebra and Single Variable Calculus deepened my enjoyment of mathematical rigour. Undergraduate Science Laboratory introduced me to writing lab reports in LaTeX and made me realise that I enjoy technical writing: organising what I have learned, explaining it clearly, and expressing myself through a structured report.
+
 ## Changing direction
 
 I had started enjoying programming in school, and by the time I entered IIT Gandhinagar I knew that I wanted to move closer to Computer Science. I considered the possibility of continuing in Mechanical Engineering while pursuing a dual direction, but I wanted to give CSE my full attention if I could.
@@ -53,11 +57,13 @@ I had started enjoying programming in school, and by the time I entered IIT Gand
 
 The second semester became less about reaching a destination and more about finding out what actually interested me. I began exploring projects, research, design, and the different ways computation could be used. The branch change did not give me a final answer. It gave me room to ask better questions.
 
+My coursework reflected that widening curiosity. Ordinary Differential Equations continued the mathematical direction I had enjoyed in the first semester. Principles and Applications of Electrical Engineering surprised me in a different way. I had assumed that electrical engineering would not interest me, but the way the course was taught made the connections between software and hardware feel alive. It sparked my curiosity about systems that cross that boundary, a direction I had not expected to find during my first year. Not every course resonated with me equally, but those differences also helped me understand what kinds of questions and ways of thinking hold my attention.
+
 ## The work that shaped the year
 
-[MusicLib](https://musiclib-dev.github.io/) was one of my first serious attempts to carry an idea into a complete product. I began it during the Diwali break in 2023 alongside my JEE preparation, returned to it after changing branches, and eventually built an Android app for lyric-free background music for short-form content. It included Firestore integration and an experiment in AI-generated music.
+[MusicLib](https://musiclib-dev.github.io/) was one of my first serious attempts to carry an idea into a complete product. I began it during the Diwali break in 2023 alongside my JEE preparation, returned to it after changing branches, and eventually built an Android app for lyric-free background music for short-form content. It included Firestore integration and an experiment in AI-generated music, and is available on the [Play Store](https://play.google.com/store/apps/details?id=com.musiclib).
 
-At first, I was mainly thinking about the application itself. As the project grew, I had to think about content, interface decisions, maintenance, and what it means for something to be usable beyond a prototype. MusicLib remains a personal project and an Android passion, but it also helped me understand that software is a tool I can use to investigate and make things concrete. It does not have to become my entire professional identity. The project is also available on the [Play Store](https://play.google.com/store/apps/details?id=com.musiclib).
+At first, I was mainly thinking about the application itself. As the project grew, I had to think about content, interface decisions, maintenance, and what it means for something to be usable beyond a prototype. MusicLib remains a personal project and an Android passion, but it also helped me understand that software is a tool I can use to investigate and make things concrete. It does not have to become my entire professional identity.
 
 Near the end of August, I joined Blithchron's Design and Tech team as a Junior Technology and Design Executive. I first learned the basics of web development using React, then worked on a Campus Ambassador Program page in December and contributed to the [2026 festival mobile application](/projects/blithchron-app/) in January. The app was built with React Native, a framework for developing cross-platform mobile applications; I worked mostly on the frontend and the campus map while senior members provided the main ideas and direction. I now serve as a Design and Tech Coordinator for Blithchron.
 
@@ -69,17 +75,21 @@ The most important shift in the year came through the [Summer Research Internshi
 
 I began by learning how the machine could be represented through permutations and how the historical indicator attack worked. That was already challenging: I was learning group theory while trying to understand a real historical system. But the work became more interesting when the mathematics exposed a gap between recovering a structure up to a transformation and recovering its absolute configuration.
 
-I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. The first recovery formulation was not enough to settle every part of the problem: some twist recovery required several independent triplets, while other methods required additional rotor-turnover constraints. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas.
+I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. The first recovery formulation was not enough to settle every part of the problem; different approaches needed more observations or additional constraints. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas.
 
 The project also introduced me to a form of work I had not experienced before: staying with a question after the first implementation stops being satisfying. The formal internship ended in July, but the [Enigma investigation](/projects/enigma-cryptanalysis/) continues. I am carrying that experience into second year as a reminder that understanding often develops through a sequence of models, failures, revisions, and returns.
 
-## Becoming less closed off
+## The culture and people around me
+
+Over the year, I began to understand what makes IIT Gandhinagar's culture special to me. There is room to explore beyond the boundaries of a branch, and curiosity is taken seriously even when it has not yet become a polished project or a career plan. These interdisciplinary possibilities were one of the main reasons I chose IIT Gandhinagar over IIIT Bangalore. Professors are knowledgeable, approachable, willing to discuss questions, and supportive of students who want to go deeper. Opportunities such as SRIP make research feel like something an undergraduate can genuinely participate in rather than something distant that begins much later.
+
+The peer group has been just as important. I am surrounded by people who are talented in very different ways: some are deeply invested in academics or research, while others build products, design, organise festivals, play sports, or pursue interests I had never considered. Their ambition pushes me to work harder, but the culture has also felt collaborative. Friends and seniors have shared ideas, offered help, and made it easier to try unfamiliar things. That combination of freedom, support, and exposure is one of the strongest reasons I feel choosing IIT Gandhinagar was the right decision for me.
 
 One of the less visible changes in my first year was social. I arrived highly focused on branch change and not very comfortable with initiating interactions. After the first semester, I gradually began speaking to more people and paying more attention to the different ways they thought and worked.
 
 The change was not dramatic or complete. I still need time alone, and I am still not naturally the most outgoing person in a room. But I became more open to the possibility that other people could expand the way I understood a problem.
 
-Some friends also made me more comfortable with being deeply interested in things. I have been called a nerd, and I do not see that as an insult. Curiosity is one of the parts of myself I want to protect. At the same time, first year taught me that curiosity is not only about reading or thinking alone. It also grows through conversation, collaboration, disagreement, and attention to experiences different from my own.
+Some friends also made me more comfortable with being deeply interested in things. I have been called a nerd, as have many people whose curiosity has led them to meaningful work. If you have heard the same label, I hope it never makes you feel that you should shrink your interests or hide how much you care. Curiosity is not something to be embarrassed by; it is a part of myself I want to protect. First year also taught me that curiosity does not grow through reading and thinking alone. It grows through conversation, collaboration, disagreement, and attention to experiences different from my own.
 
 ## What I am carrying into second year
 
