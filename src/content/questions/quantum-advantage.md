@@ -1,7 +1,7 @@
 ---
 title: "What makes a quantum advantage structurally possible?"
 summary: "I want to understand quantum computation beyond its vocabulary: which mathematical structures make a genuinely different kind of algorithm possible?"
-status: "reading"
+status: "foundational reading"
 domains: ["Quantum Computing", "Mathematics", "Algorithms"]
 featuredOrder: 2
 relatedInvestigations: []

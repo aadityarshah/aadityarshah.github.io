@@ -1,7 +1,7 @@
 ---
 title: "When does incomplete evidence determine hidden structure?"
 summary: "Enigma indicators reveal strong algebraic constraints, but reconstruction can stop at rotor-order, twist, or spin ambiguities. I am studying which observations and exact-twist conditions turn those constraints into a verified recovery."
-status: "experimenting"
+status: "active investigation"
 domains: ["Cryptography", "Mathematics", "Algorithms"]
 started: 2026-05-07
 featuredOrder: 1

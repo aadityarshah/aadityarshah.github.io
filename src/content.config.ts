@@ -2,12 +2,10 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const inquiryStatus = z.enum([
-  'noticing',
-  'reading',
-  'formalizing',
-  'experimenting',
-  'building',
-  'revisiting',
+  'active investigation',
+  'foundational reading',
+  'speculative curiosity',
+  'dormant rabbit hole',
 ]);
 
 const questions = defineCollection({

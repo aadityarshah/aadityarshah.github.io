@@ -1,7 +1,7 @@
 ---
 title: "Could quantum computation eventually explain the workings of the brain?"
 summary: "A far-reaching question about whether quantum computation could eventually illuminate cognition in depth. For now, it is speculative and remains a reading direction rather than an active research claim."
-status: "noticing"
+status: "speculative curiosity"
 domains: ["Quantum Computing", "Cognitive Science", "Mathematics"]
 featuredOrder: 6
 relatedInvestigations: []
