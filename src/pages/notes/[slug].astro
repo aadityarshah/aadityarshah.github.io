@@ -20,7 +20,7 @@ const { Content } = await render(note);
 
 <Layout title={`${note.data.title} — Notes`} description={note.data.description} image={note.data.banner?.avif ?? note.data.banner?.png} type="article">
   <Header />
-  <main id="main-content" class={note.data.banner ? 'detail-page has-cover' : 'detail-page'}>
+  <main id="main-content" class={`notes-page ${note.data.banner ? 'detail-page has-cover' : 'detail-page'}`}>
     <header class="detail-header"><div class="shell"><p class="eyebrow">{note.data.kind.replace('-', ' ')}</p><h1>{note.data.title}</h1><p class="detail-question">{note.data.description}</p><div class="detail-meta meta"><time datetime={note.data.date.toISOString()}>{formatDate(note.data.date)}</time><span>{readingTime(note.body)}</span>{note.data.topics.map((topic) => <a href={`/tags/${topicSlug(topic)}/`}>{topic}</a>)}</div></div></header>
     {note.data.banner && <div class="cover-image-frame shell detail-banner" data-reveal><picture><source srcset={note.data.banner.avif} type="image/avif" /><img class="cover-image" src={note.data.banner.png} alt={note.data.banner.alt} loading="eager" /></picture><div class="cover-image-copy"><p class="eyebrow">{note.data.kind.replace('-', ' ')}</p><h1>{note.data.title}</h1><p class="detail-question">{note.data.description}</p><div class="detail-meta meta"><time datetime={note.data.date.toISOString()}>{formatDate(note.data.date)}</time><span>{readingTime(note.body)}</span>{note.data.topics.map((topic) => <a href={`/tags/${topicSlug(topic)}/`}>{topic}</a>)}</div></div></div>}
     <div class="shell detail-grid">

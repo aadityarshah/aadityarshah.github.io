@@ -169,15 +169,18 @@ h1, h2, h3, p { margin-top: 0; }
 @keyframes constellation-node-in { from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); } to { opacity: 1; transform: translate(-50%, -50%); } }
 @keyframes constellation-center-in { from { opacity: 0; transform: translate(-50%, -50%) scale(.86); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 
-html[data-motion-ready] [data-reveal], html[data-motion-ready] .motion-target { opacity: 0; transform: translateY(14px); transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.7,.2,1); }
-html[data-motion-ready] [data-reveal].is-visible, html[data-motion-ready] .motion-target.is-visible { opacity: 1; transform: translateY(0); }
-html[data-motion-ready] [data-reveal][data-reveal-delay='1'] { transition-delay: 110ms; }
+html[data-motion-ready] [data-reveal], html[data-motion-ready] .motion-target { opacity: 1; transform: none; }
+html[data-motion-ready] [data-reveal].is-visible, html[data-motion-ready] .motion-target.is-visible { animation: atlas-reveal-in 700ms cubic-bezier(.2,.7,.2,1) both; }
+html[data-motion-ready] [data-reveal][data-reveal-delay='1'].is-visible { animation-delay: 110ms; }
+html[data-motion-ready] main.notes-page .motion-target,
+html[data-motion-ready] main.notes-page [data-reveal] { opacity: 1; transform: none; animation: none; }
 
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 220ms; }
 ::view-transition-old(root) { animation-name: atlas-fade-out; }
 ::view-transition-new(root) { animation-name: atlas-fade-in; }
 @keyframes atlas-fade-out { to { opacity: 0; } }
 @keyframes atlas-fade-in { from { opacity: 0; } }
+@keyframes atlas-reveal-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
 .premise { display: grid; grid-template-columns: .7fr 1.3fr; gap: 4rem; align-items: start; }
 .premise-note { position: sticky; top: 120px; color: var(--muted); max-width: 220px; }
