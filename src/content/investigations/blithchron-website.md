@@ -1,10 +1,13 @@
 ---
 title: "Architecting the Blithchron 2027 website"
+homepageTitle: "Blithchron 2027 Website"
 question: "How do you turn an open-source interactive experience into a festival website with its own structure and needs?"
 summary: "As a Design and Tech Coordinator, I adapted Bruno Simon's open-source work into the Blithchron 2027 website and made major architecture decisions that shaped how the site was organized and brought together."
+homepageSummary: "Adapted Bruno Simon's open-source work, made major architecture decisions, and deployed the Blithchron 2027 website."
 status: "complete"
 category: "Product Engineering"
 context: "Web · Blithchron 2027"
+homepageFeatured: true
 startDate: 2026-01-01
 startDateLabel: "2026"
 lastUpdated: 2026-10-06
@@ -24,7 +27,7 @@ currentBelief: "Building on open-source work does not remove the need for archit
 evidenceSummary: "I used Bruno Simon's open-source code as a foundation, made major architecture decisions while adapting it for Blithchron 2027, and deployed the site on 5 August 2026."
 changedMind: "I initially described the work mainly as deploying a site based on an existing open-source project. That left out my architectural role: adapting a foundation still required major decisions about the structure of the site."
 openQuestions: []
-featuredOrder: 5
+featuredOrder: 4
 ---
 
 ## Starting from an open-source foundation

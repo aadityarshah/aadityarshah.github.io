@@ -7,7 +7,7 @@ homepageSummary: "Implemented frontend features, including the campus map, on th
 status: "complete"
 category: "Product Engineering"
 context: "React Native · Blithchron 2026"
-homepageFeatured: true
+homepageFeatured: false
 startDate: 2025-08-31
 startDateLabel: "Late August 2025"
 lastUpdated: 2026-08-09
@@ -15,7 +15,7 @@ endDate: 2026-02-28
 endDateLabel: "February 2026"
 modes: ["Joined", "Learned", "Built", "Shipped"]
 relatedQuestions: []
-featuredOrder: 4
+featuredOrder: 5
 evidence:
   - label: "Blithchron 2026 PWA"
     url: "https://blith-website-26.web.app/"
