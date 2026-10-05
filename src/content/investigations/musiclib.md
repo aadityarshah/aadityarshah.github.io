@@ -3,13 +3,15 @@ title: "Building MusicLib from idea to release"
 question: "What does it take to carry a small mobile product from an idea through release and maintenance?"
 summary: "An Android app for short-form creators seeking lyric-free background music, including an AI-generation experiment and a brief public release before development stopped."
 status: "paused"
+category: "Product Engineering"
+context: "Android · public release"
 startDate: 2023-11-01
 startDateLabel: "Diwali break, 2023"
 lastUpdated: 2026-08-09
 endDate: 2026-03-31
 modes: ["Prototyped", "Integrated", "Experimented", "Released"]
 relatedQuestions: []
-featuredOrder: 3
+featuredOrder: 6
 evidence:
   - label: "Play Store"
     url: "https://play.google.com/store/apps/details?id=com.musiclib"

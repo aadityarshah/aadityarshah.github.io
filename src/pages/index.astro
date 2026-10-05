@@ -7,7 +7,8 @@ import { personalData } from '../data/personal.js';
 import { entrySlug, formatDate, getAtlasContent } from '../lib/atlas';
 
 const { questions, investigations, notes, trail } = await getAtlasContent();
-const featuredInvestigation = investigations[0];
+const selectedWorks = investigations.filter((item) => item.data.homepageFeatured);
+const homepageQuestions = questions.filter((question) => ['active investigation', 'foundational reading'].includes(question.data.status)).slice(0, 2);
 const latestNote = notes[0];
 ---
 
@@ -17,58 +18,41 @@ const latestNote = notes[0];
     <section class="shell hero" data-pointer-field>
       <div class="hero-copy" data-reveal>
         <h1 class="display hero-title">I like staying with difficult questions.</h1>
-        <p class="hero-lede">I move between mathematics, computation, and engineering—trying to understand why complex systems behave the way they do.</p>
+        <p class="hero-lede">A portfolio and research notebook about mathematics, computation, and engineering—through the questions I explore, projects I build, and notes I make along the way.</p>
         <p class="hero-context">I’m Aaditya Shah, a second-year B.Tech student in Computer Science and Engineering at IIT Gandhinagar, graduating in 2029.</p>
         <div class="hero-actions">
-          <a class="button primary" href="#start-here">Start exploring <span aria-hidden="true">↓</span></a>
-          <a class="button secondary" href="/about">Meet the person behind the work <span aria-hidden="true">↗</span></a>
+          <a class="button primary" href="/projects">Explore my projects <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="/questions">See the questions I’m following <span aria-hidden="true">↗</span></a>
         </div>
         <div class="hero-footnote meta"><span>IIT Gandhinagar</span><span>2026</span></div>
       </div>
       <QuestionConstellation />
     </section>
 
-    <section class="section" id="start-here" data-reveal>
+    {selectedWorks.length > 0 && <section class="section selected-work-section" id="selected-work" data-reveal>
       <div class="shell">
-        <header class="section-head"><div><p class="eyebrow">Start here</p><h2 class="section-title">Choose a place to begin.</h2><p class="section-intro">You do not need to understand the whole system at once. Begin with the part that interests you.</p></div></header>
-        <div class="entry-grid">
-          <a class="entry-card" href="/questions"><span class="index-number">01</span><h3>Questions I’m following</h3><p>Open problems, reading paths, and ideas still taking shape.</p><strong>Explore questions <span aria-hidden="true">→</span></strong></a>
-          <a class="entry-card" href="/projects"><span class="index-number">02</span><h3>Investigations I’ve built</h3><p>Research and engineering framed by the question that started them.</p><strong>See the investigations <span aria-hidden="true">→</span></strong></a>
-          <a class="entry-card" href="/notes"><span class="index-number">03</span><h3>Notes from the work</h3><p>Field reports, technical notes, and reflections from the middle of the work.</p><strong>Read the notes <span aria-hidden="true">→</span></strong></a>
+        <header class="section-head"><div><p class="eyebrow">Selected work</p><h2 class="section-title">Questions, taken into the world.</h2><p class="section-intro">Research, systems, open source, and product engineering—each with a trail you can follow.</p></div><a class="section-link" href="/projects">All investigations →</a></header>
+        <div class="selected-work-list">
+          {selectedWorks.map((work) => <article class="selected-work-row">
+            <div class="selected-work-meta meta"><span>{work.data.category}</span>{work.data.context && <span>{work.data.context}</span>}</div>
+            <div class="selected-work-copy"><h3><a href={`/projects/${work.id}/`}>{work.data.homepageTitle ?? work.data.title}<span aria-hidden="true">↗</span></a></h3>
+            <p>{work.data.homepageSummary ?? work.data.summary}</p></div>
+            <footer class="selected-work-links">
+              {work.data.evidence.slice(0, 1).map((item) => <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{item.label} <span aria-hidden="true">↗</span></a>)}
+            </footer>
+          </article>)}
         </div>
       </div>
-    </section>
-
-    <section class="section" id="right-now" data-reveal>
-      <div class="shell">
-        <header class="section-head"><div><p class="eyebrow">Right now <span aria-hidden="true">·</span> Updated August 2026</p><h2 class="section-title">A few things currently occupying my mind.</h2><p class="section-intro">I have a habit of turning “I’ll read about this for an hour” into a much longer investigation. These are the threads getting most of that attention at the moment.</p></div></header>
-        <div class="thinking-grid">
-          <article class="thought"><span class="index-number">01</span><h3>Enigma cryptanalysis</h3><p>Testing which algebraic constraints recover rotor wirings exactly—and where twist and spin ambiguities survive.</p></article>
-          <article class="thought"><span class="index-number">02</span><h3>Quantum foundations</h3><p>Working through the mathematics behind quantum computation before treating its vocabulary as understanding.</p></article>
-          <article class="thought"><span class="index-number">03</span><h3>Algorithms, properly</h3><p>Learning the ideas beneath implementation without accidentally turning one semester into an independent algorithms degree.</p></article>
-          <article class="thought"><span class="index-number">04</span><h3>Design through building</h3><p>Making interactive systems for Blithchron and learning how technical work changes when it belongs to a team.</p></article>
-        </div>
-      </div>
-    </section>
+    </section>}
 
     <section class="section" id="questions" data-reveal>
       <div class="shell">
-        <header class="section-head"><div><p class="eyebrow">Current threads</p><h2 class="section-title">Questions I am following.</h2></div><a class="section-link" href="/questions">All questions →</a></header>
-        <div class="question-grid three-up">
-          {questions.slice(0, 3).map((question, index) => <a class="question-card" href={`/questions/${question.id}/`}><span class="index-number">Q.{String(index + 1).padStart(2, '0')}</span><h3>{question.data.title}</h3><p>{question.data.summary}</p><footer><span class="status">{question.data.status}</span><span class="topic">{question.data.domains[0]}</span></footer></a>)}
+        <header class="section-head"><div><p class="eyebrow">Current Questions</p><h2 class="section-title">Questions I am following.</h2></div><a class="section-link" href="/questions">All questions →</a></header>
+        <div class="question-grid current-question-grid">
+          {homepageQuestions.map((question, index) => <a class="question-card" href={`/questions/${question.id}/`}><span class="index-number">Q.{String(index + 1).padStart(2, '0')}</span><h3>{question.data.title}</h3><p>{question.data.summary}</p><footer><span class="status">{question.data.status}</span><span class="topic">{question.data.domains[0]}</span></footer></a>)}
         </div>
       </div>
     </section>
-
-    {featuredInvestigation && <section class="section" data-reveal>
-      <div class="shell">
-        <header class="section-head"><div><p class="eyebrow">One investigation</p><h2 class="section-title">A question carried into practice.</h2></div><a class="section-link" href="/projects">All investigations →</a></header>
-        <a class="featured-investigation" href={`/projects/${featuredInvestigation.id}/`}>
-          <div><span class="index-number">I.01 / {featuredInvestigation.data.status}</span><h3>{featuredInvestigation.data.title}</h3><p class="investigation-question">{featuredInvestigation.data.question}</p></div>
-          <div><p>{featuredInvestigation.data.summary}</p><div class="modes meta">{featuredInvestigation.data.modes.map((mode) => <span>{mode}</span>)}</div><span class="arrow" aria-hidden="true">↗</span></div>
-        </a>
-      </div>
-    </section>}
 
     {latestNote && <section class="section last-section" data-reveal>
       <div class="shell latest-note"><div><p class="eyebrow">Latest note</p><h2 class="section-title">From the notebook.</h2></div><div><time class="meta" datetime={latestNote.data.date.toISOString()}>{formatDate(latestNote.data.date)}</time><h3><a href={`/notes/${entrySlug(latestNote)}/`}>{latestNote.data.title}</a></h3><p>{latestNote.data.description}</p><a class="section-link" href="/notes">Read all notes →</a></div></div>
@@ -76,29 +60,3 @@ const latestNote = notes[0];
   </main>
   <Footer />
 </Layout>
-
-<script>
-  const initPointerField = () => {
-    const hero = document.querySelector('[data-pointer-field]');
-    if (!(hero instanceof HTMLElement) || hero.dataset.pointerReady === 'true') return;
-    const supportsPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const respectsMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!supportsPointer || !respectsMotion) return;
-
-    hero.dataset.pointerReady = 'true';
-    const updatePointer = (event) => {
-      const bounds = hero.getBoundingClientRect();
-      hero.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`);
-      hero.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`);
-      hero.dataset.pointerActive = 'true';
-    };
-    hero.addEventListener('pointerenter', updatePointer, { passive: true });
-    hero.addEventListener('pointermove', updatePointer, { passive: true });
-    hero.addEventListener('pointerleave', () => {
-      delete hero.dataset.pointerActive;
-    });
-  };
-
-  document.addEventListener('astro:page-load', initPointerField);
-  initPointerField();
-</script>

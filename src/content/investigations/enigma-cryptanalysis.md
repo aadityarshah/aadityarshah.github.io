@@ -1,8 +1,13 @@
 ---
 title: "Recovering hidden structure from the Enigma"
+homepageTitle: "Enigma Cryptanalysis"
 question: "Can the machine's internal wiring be recovered from intercepted messages without relying on historical clues?"
-summary: "An ongoing study of how permutation equations from intercepted Enigma indicators can recover rotor wirings, twists, and the limits of those methods."
+summary: "A mathematical investigation of Rejewski's cryptanalysis and the conditions under which hidden Enigma rotor structure can be recovered."
+homepageSummary: "Testing how far Rejewski's permutation methods can recover Enigma rotor structure—and where their ambiguities remain."
 status: "continuing"
+category: "Research"
+context: "SRIP 2026 · IIT Gandhinagar"
+homepageFeatured: true
 startDate: 2026-05-07
 lastUpdated: 2026-08-09
 modes: ["Formalizing", "Simulating", "Testing", "Writing"]

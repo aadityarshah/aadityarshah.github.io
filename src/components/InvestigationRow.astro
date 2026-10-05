@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  investigation: CollectionEntry<'investigations'>;
+  index: number;
+}
+
+const { investigation, index } = Astro.props;
+---
+
+<article class="investigation-row">
+  <span class="index-number">I.{String(index + 1).padStart(2, '0')}</span>
+  <div>
+    <div class="work-context meta"><span class="kind">{investigation.data.category}</span>{investigation.data.context && <span>{investigation.data.context}</span>}</div>
+    <h2><a href={`/projects/${investigation.id}/`}>{investigation.data.title}</a></h2>
+    <p class="investigation-question">{investigation.data.question}</p>
+  </div>
+  <div class="investigation-summary">
+    <span class="status">{investigation.data.status}</span>
+    <p>{investigation.data.summary}</p>
+    {investigation.data.evidence.length > 0 && <div class="investigation-evidence" aria-label="Project evidence">{investigation.data.evidence.map((item) => <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{item.label} ↗</a>)}</div>}
+    <div class="modes meta">{investigation.data.modes.map((mode) => <span>{mode}</span>)}</div>
+  </div>
+  <a class="arrow" href={`/projects/${investigation.id}/`} aria-label={`Read ${investigation.data.title}`}>↗</a>
+</article>

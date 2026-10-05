@@ -12,7 +12,7 @@ const nodeByKey = Object.fromEntries(nodes.map((node) => [node.key, node]));
 ---
 
 <div class="constellation-wrap" data-reveal data-reveal-delay="1">
-  <span class="constellation-label coordinates">Current questions</span>
+  <span class="constellation-label coordinates">Choose a field to preview</span>
   <div class="constellation" data-constellation data-active="cryptography">
     <svg viewBox="0 0 100 100" role="img" aria-labelledby="constellation-title constellation-desc">
       <title id="constellation-title">A map of connected questions</title>
@@ -40,6 +40,7 @@ const nodeByKey = Object.fromEntries(nodes.map((node) => [node.key, node]));
     <strong>Cryptography</strong>
     How can hidden structure be recovered from incomplete evidence?
   </div>
+  <a class="section-link constellation-all-link" href="/questions">Browse all questions →</a>
   <noscript>
     <ul>{nodes.map((node) => <li><strong>{node.label}:</strong> {node.question}</li>)}</ul>
   </noscript>

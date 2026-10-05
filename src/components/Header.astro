@@ -1,8 +1,8 @@
 ---
 const navItems = [
-  { label: 'Index', href: '/' },
+  { label: 'Home', href: '/' },
   { label: 'Questions', href: '/questions' },
-  { label: 'Work', href: '/projects' },
+  { label: 'Projects', href: '/projects' },
   { label: 'Notes', href: '/notes' },
   { label: 'About', href: '/about' },
 ];
@@ -13,7 +13,7 @@ const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.st
 <header class="site-header" transition:persist="atlas-header">
   <div class="shell header-inner">
     <a class="brand" href="/" aria-label="Aaditya Shah, home">
-      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-mark" aria-hidden="true"><img src="/assets/brand-as-monogram.png" alt="" /></span>
       <span class="brand-copy"><strong>Aaditya Shah</strong><span>Questions worth staying with</span></span>
     </a>
 

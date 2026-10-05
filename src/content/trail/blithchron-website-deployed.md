@@ -4,7 +4,7 @@ title: "Deployed the Blithchron 2027 website"
 summary: "As a Design and Tech Coordinator, deployed the Blithchron 2027 website on 5 August 2026."
 kind: "leadership"
 relatedQuestions: []
-relatedInvestigations: []
+relatedInvestigations: ["blithchron-website"]
 relatedNotes: []
 url: "https://blithchron.iitgn.ac.in"
 ---

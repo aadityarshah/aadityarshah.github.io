@@ -2,16 +2,20 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import InvestigationRow from '../components/InvestigationRow.astro';
 import { getAtlasContent } from '../lib/atlas';
-const { investigations } = await getAtlasContent();
+const { investigations: allInvestigations } = await getAtlasContent();
+const selectedInvestigations = allInvestigations.filter((item) => item.data.homepageFeatured);
+const furtherInvestigations = allInvestigations.filter((item) => !item.data.homepageFeatured);
 ---
 
-<Layout title="Investigations — Aaditya Shah" description="Research and engineering work framed by the questions that started it.">
+<Layout title="Investigations — Things built to understand something" description="Research and engineering work framed by the questions that started it.">
   <Header />
   <main id="main-content">
-    <header class="page-hero"><div class="shell"><p class="eyebrow">Investigations</p><h1>Things built to understand something.</h1><p>Projects appear here as evidence of inquiry: the original question, the difficult middle, what changed in my understanding, and what remains open.</p></div></header>
-    <section class="page-body"><div class="shell investigation-list">
-      {investigations.map((investigation, index) => <a class="investigation-row" href={`/projects/${investigation.id}/`}><span class="index-number">I.{String(index + 1).padStart(2, '0')}</span><div><h2>{investigation.data.title}</h2><p class="investigation-question">{investigation.data.question}</p></div><div class="investigation-summary"><span class="status">{investigation.data.status}</span><p>{investigation.data.summary}</p><div class="modes meta">{investigation.data.modes.map((mode) => <span>{mode}</span>)}</div></div><span class="arrow" aria-hidden="true">↗</span></a>)}
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Investigations</p><h1>Things built to understand something.</h1><p>Projects appear here as evidence of inquiry: the original question, the difficult middle, what changed in my understanding, and what remains open. Each entry also makes my contribution, current state, and supporting evidence easy to find.</p></div></header>
+    <section class="page-body"><div class="shell">
+      <div class="investigation-list"><p class="eyebrow">Selected work</p>{selectedInvestigations.map((investigation, index) => <InvestigationRow investigation={investigation} index={index} />)}</div>
+      {furtherInvestigations.length > 0 && <div class="investigation-list further-investigations"><p class="eyebrow">Further investigations</p>{furtherInvestigations.map((investigation, index) => <InvestigationRow investigation={investigation} index={selectedInvestigations.length + index} />)}</div>}
     </div></section>
   </main>
   <Footer />

@@ -27,10 +27,11 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#151815" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f7fc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#071321" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/assets/favicon-cosmic-a.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/assets/favicon-cosmic-a.png" />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -50,7 +51,27 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : prefersDark);
       };
+      const initPointerFields = () => {
+        const supportsPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        const respectsMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!supportsPointer || !respectsMotion) return;
+        document.querySelectorAll('.hero, .page-hero').forEach((field) => {
+          if (!(field instanceof HTMLElement) || field.dataset.pointerReady === 'true') return;
+          field.dataset.pointerReady = 'true';
+          const updatePointer = (event) => {
+            const bounds = field.getBoundingClientRect();
+            field.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`);
+            field.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`);
+            field.dataset.pointerActive = 'true';
+          };
+          field.addEventListener('pointerenter', updatePointer, { passive: true });
+          field.addEventListener('pointermove', updatePointer, { passive: true });
+          field.addEventListener('pointerleave', () => { delete field.dataset.pointerActive; });
+        });
+      };
       applyTheme();
+      document.addEventListener('DOMContentLoaded', initPointerFields, { once: true });
+      document.addEventListener('astro:page-load', initPointerFields);
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (!motionQuery.matches && 'IntersectionObserver' in window) {
         document.documentElement.dataset.motionReady = 'true';

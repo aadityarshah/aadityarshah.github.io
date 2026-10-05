@@ -1,8 +1,13 @@
 ---
 title: "Building the Blithchron 2026 festival app"
+homepageTitle: "Blithchron App"
 question: "What does it take to turn a shared festival-app brief into a working release?"
 summary: "A cross-platform React Native app for Blithchron 2026, built by the student Design and Technology team after we learned basic web development with React. I worked as a Junior Technology and Design Executive, mostly on the frontend and campus map."
+homepageSummary: "Implemented frontend features, including the campus map, on the student team that shipped the React Native festival app."
 status: "complete"
+category: "Product Engineering"
+context: "React Native · Blithchron 2026"
+homepageFeatured: true
 startDate: 2025-08-31
 startDateLabel: "Late August 2025"
 lastUpdated: 2026-08-09
@@ -10,7 +15,7 @@ endDate: 2026-02-28
 endDateLabel: "February 2026"
 modes: ["Joined", "Learned", "Built", "Shipped"]
 relatedQuestions: []
-featuredOrder: 2
+featuredOrder: 4
 evidence:
   - label: "Blithchron 2026 PWA"
     url: "https://blith-website-26.web.app/"
