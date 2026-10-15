@@ -32,12 +32,13 @@ const { Content } = await render(investigation);
         {investigation.data.nextExperiment && <div class="next-experiment"><p class="eyebrow">Next experiment</p><p>{investigation.data.nextExperiment}</p></div>}
       </article>
       <aside class="detail-aside" aria-label="Investigation references">
+        {investigation.data.evidence.length > 0 && <div class="aside-block"><h2>Evidence</h2>{investigation.data.evidence.map((item) => <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{item.label} ↗</a>)}</div>}
         <div class="aside-block"><h2>State</h2><span class="status">{investigation.data.status}</span></div>
         {investigation.data.lastUpdated && <div class="aside-block"><h2>Last updated</h2><time class="meta" datetime={investigation.data.lastUpdated.toISOString()}>{formatDate(investigation.data.lastUpdated)}</time></div>}
         {investigation.data.milestones.length > 0 && <div class="aside-block"><h2>Process trail</h2><ol class="milestone-list">{investigation.data.milestones.map((milestone) => <li><time class="meta" datetime={milestone.date.toISOString()}>{milestone.dateLabel ?? formatDate(milestone.date, 'short')}</time><strong>{milestone.label}</strong><span>{milestone.summary}</span></li>)}</ol></div>}
         {investigation.data.lastRevisited && <div class="aside-block"><h2>Last revisited</h2><time class="meta" datetime={investigation.data.lastRevisited.toISOString()}>{formatDate(investigation.data.lastRevisited)}</time>{investigation.data.revisitReason && <p>{investigation.data.revisitReason}</p>}</div>}
         {questions.length > 0 && <div class="aside-block"><h2>Related question</h2>{questions.map((question) => <a href={`/questions/${question.id}/`}>{question.data.title}</a>)}</div>}
-        {investigation.data.evidence.length > 0 && <div class="aside-block"><h2>Evidence</h2>{investigation.data.evidence.map((item) => <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}>{item.label} ↗</a>)}</div>}
+
         <div class="aside-block"><a href="/projects">← All investigations</a></div>
       </aside>
     </div>

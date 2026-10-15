@@ -288,7 +288,7 @@ html[data-motion-ready] main.notes-page [data-reveal] { opacity: 1; transform: n
 .detail-question { max-width: 740px; color: var(--blue); font-family: var(--display); font-size: clamp(1.25rem, 2.1vw, 1.7rem); line-height: 1.3; }
 .detail-meta { display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; align-items: center; color: var(--muted); }
 .detail-grid { display: grid; grid-template-columns: minmax(0, 760px) 260px; justify-content: space-between; gap: 5rem; padding: 4rem 0 8rem; }
-.detail-aside { position: sticky; top: 110px; height: max-content; border-top: 1px solid var(--line); }
+.detail-aside { position: sticky; top: 96px; align-self: start; max-height: calc(100vh - 112px); max-height: calc(100svh - 112px); overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--line); }
 .aside-block { padding: 1rem 0; border-bottom: 1px solid var(--line); }
 .aside-block h2 { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 .aside-block a { display: block; margin-top: .55rem; font-size: .9rem; }
@@ -373,7 +373,7 @@ html[data-motion-ready] main.notes-page [data-reveal] { opacity: 1; transform: n
   .investigation-row { grid-template-columns: 70px 1fr 26px; }
   .investigation-summary { grid-column: 2; }
   .detail-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .detail-aside { position: static; display: grid; grid-template-columns: repeat(2, 1fr); }
+  .detail-aside { position: static; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 700px) {
@@ -429,7 +429,7 @@ html[data-motion-ready] main.notes-page [data-reveal] { opacity: 1; transform: n
 
 @media (max-width: 980px) {
   .detail-grid { grid-template-columns: minmax(0, 1fr); }
-  .detail-aside { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .detail-aside { position: static; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 700px) {
