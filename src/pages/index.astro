@@ -55,7 +55,7 @@ const latestNote = notes[0];
     </section>
 
     {latestNote && <section class="section last-section" data-reveal>
-      <div class="shell latest-note"><div><p class="eyebrow">Latest note</p><h2 class="section-title">From the notebook.</h2></div><div><time class="meta" datetime={latestNote.data.date.toISOString()}>{formatDate(latestNote.data.date)}</time><h3><a href={`/notes/${entrySlug(latestNote)}/`}>{latestNote.data.title}</a></h3><p>{latestNote.data.description}</p><a class="section-link" href="/notes">Read all notes →</a></div></div>
+      <div class="shell latest-note"><div><p class="eyebrow">Latest note</p><h2 class="section-title">From the notebook.</h2></div><div><time class="meta" datetime={latestNote.data.date.toISOString()}>{formatDate(latestNote.data.date)}</time><h3><a href={`/notes/${entrySlug(latestNote)}/`}>{latestNote.data.title}</a></h3><p>{latestNote.data.description}</p><a class="section-link" href="/notes/">Read all notes →</a></div></div>
     </section>}
   </main>
   <Footer />

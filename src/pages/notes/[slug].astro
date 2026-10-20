@@ -29,7 +29,7 @@ const { Content } = await render(note);
         <div class="aside-block"><h2>Published</h2><span class="meta">{formatDate(note.data.date)}</span></div>
         {questions.length > 0 && <div class="aside-block"><h2>Related questions</h2>{questions.map((question) => <a href={`/questions/${question.id}/`}>{question.data.title}</a>)}</div>}
         {investigations.length > 0 && <div class="aside-block"><h2>Related investigations</h2>{investigations.map((item) => <a href={`/projects/${item.id}/`}>{item.data.title}</a>)}</div>}
-        <div class="aside-block"><a href="/notes">← All notes</a></div>
+        <div class="aside-block"><a href="/notes/">← All notes</a></div>
       </aside>
     </div>
   </main>
