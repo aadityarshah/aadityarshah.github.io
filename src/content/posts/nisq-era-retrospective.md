@@ -1,7 +1,7 @@
 ---
 title: "The NISQ Era, Revisited: How Far Have We Come Since 2018"
 description: "A retrospective on John Preskill's vision for noisy quantum computers, the progress that followed, and the challenges that remain."
-date: 2026-10-13
+date: 2026-10-20
 slug: "nisq-era-retrospective"
 kind: "reflection"
 topics:
@@ -26,7 +26,7 @@ I aim to revisit his vision of the NISQ era, examine the progress made over the 
 
 Normal (classical) computers which we use in our day-to-day lives use bits which are equivalent to a switch, either ON or OFF. But with progress and developments made in 20th century and learning about quantum mechanics, we learnt that everything around us could be explained by more fundamental principles of quantum physics.
 
-This led to the birth of the abstract idea of Qubits which use the concept of [Quantum Superposition](https://en.wikipedia.org/wiki/Quantum_superposition), explained by abstract algebra of vector spaces and linear algebra.
+This led to the abstract idea of qubits, the fundamental units of quantum information. Unlike classical bits, which can only be in one of two states, 0 or 1, qubits can exist in a [superposition](https://en.wikipedia.org/wiki/Quantum_superposition) of these two basis states, with their quantum states mathematically represented using vectors in complex vector spaces.
 
 However, superposition does not mean that a quantum computer can simply evaluate every possible answer and read out the correct one. Quantum algorithms must exploit interference and other quantum effects to make useful outcomes more likely. Designing algorithms that achieve a genuine computational advantage is therefore a central challenge in quantum computing.
 
@@ -34,7 +34,7 @@ Quantum Computing is the method of computing relying on these principles of quan
 
 ### Why Quantum Computing?
 
-The properties that a qubit possesses such as superposition, entanglement, etc. give rise to enormous potential computation power. One of the most important examples of a potential quantum speedup is [*Shor's algorithm*](https://en.wikipedia.org/wiki/Shor%27s_algorithm), developed by Peter Shor, which can factor integers in polynomial time in their number of digits under the standard theoretical model. A sufficiently powerful quantum computer running this algorithm could threaten widely used public-key cryptosystems such as RSA, although today's quantum computers cannot factor cryptographically relevant integers. This contrasts with classical factorization methods such as the [general number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve).
+The properties that a qubit possesses such as superposition, entanglement, etc. give rise to enormous potential computation power. One of the most important examples of a potential quantum speedup is [*Shor's algorithm*](https://en.wikipedia.org/wiki/Shor%27s_algorithm), developed by *Peter Shor*, which can factor integers in polynomial time in their number of digits under the standard theoretical model. A sufficiently powerful quantum computer running this algorithm could threaten widely used public-key cryptosystems such as RSA, although today's quantum computers cannot factor cryptographically relevant integers. This contrasts with classical factorization methods such as the [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve).
 
 The reason behind this are the intrinsic properties of a quantum system. Although classical computers can efficiently simulate certain classes of quantum computations, simulating general quantum circuits is believed to become intractable as their size and complexity grow. Understanding exactly where quantum computers outperform classical ones remains an important question in theoretical computer science. Also, one could simulate quantum systems using quantum computers. 
 
