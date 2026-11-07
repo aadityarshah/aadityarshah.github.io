@@ -6,11 +6,11 @@ interface Props {
   index: number;
 }
 
-const { investigation, index } = Astro.props;
+const { investigation } = Astro.props;
 ---
 
 <article class="investigation-row">
-  <span class="index-number">I.{String(index + 1).padStart(2, '0')}</span>
+
   <div>
     <div class="work-context meta"><span class="kind">{investigation.data.category}</span>{investigation.data.context && <span>{investigation.data.context}</span>}</div>
     <h2><a href={`/projects/${investigation.id}/`}>{investigation.data.title}</a></h2>

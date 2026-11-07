@@ -33,7 +33,7 @@ milestones:
   - date: 2026-01-17
     dateLabel: "17 January–27 February 2026"
     label: "Alpha and beta testing"
-    summary: "Beta testing began on 17 January while alpha testing continued; both testing tracks ran simultaneously until 27 February."
+    summary: "Beta testing began on 17 January while alpha testing continued. Both testing tracks ran simultaneously until 27 February."
   - date: 2026-02-24
     dateLabel: "24 February–6 March 2026"
     label: "Final development period"
@@ -44,7 +44,7 @@ milestones:
   - date: 2026-03-31
     label: "Last published"
     summary: "Published the last update. The app has not been maintained since then."
-currentBelief: "A personal app is not carried by features alone; release, monetization, and maintenance determine whether it continues."
+currentBelief: "A personal app is not carried by features alone. Release, monetization, and maintenance determine whether it continues."
 evidenceSummary: "I built an Android app around short-form, lyric-free background music, integrated Firestore, experimented with AI generation through Modal and the Hugging Face API, and released it publicly."
 changedMind: "I expected feature development and AI generation to sustain the project, but advertising errors and the difficulty of continuing maintenance eventually ended my interest in the app."
 openQuestions: []

@@ -11,7 +11,7 @@ import { personalData } from '../data/personal.js';
     <header class="page-hero">
       <div class="shell">
         <p class="eyebrow">About</p>
-        <h1>Questions start the work. Building tells me what I understand.</h1>
+        <h1>A little about me.</h1>
         <p>I am Aaditya Shah, a second-year B.Tech student in Computer Science and Engineering at IIT Gandhinagar, graduating in 2029. I am drawn to difficult questions at the meeting point of mathematics, computation, and engineered systems.</p>
       </div>
     </header>
@@ -20,42 +20,24 @@ import { personalData } from '../data/personal.js';
       <div class="shell about-grid">
         <aside class="about-aside">
           <p class="eyebrow">Current focus</p>
-          <p>Mathematical foundations<br />Enigma cryptanalysis<br />Exploring quantum computing<br />Algorithms and data structures<br />Interactive systems as a medium<br />Design and collaboration<br />Philosophy of knowledge and mind</p>
+          <p>Mathematical foundations<br />Enigma cryptanalysis<br />Computational complexity theory<br />Exploring quantum computing<br />Algorithms and data structures<br />Interactive systems as a medium<br />Design and collaboration<br />Philosophy of knowledge and mind</p>
         </aside>
         <div class="about-copy">
-          <p class="about-lede">The common thread is not a fixed technology stack. It is curiosity: trying to understand why something works, what structure is hiding underneath, whether the explanation can be generalized, and what building it reveals.</p>
-          <p>I entered IIT Gandhinagar in Mechanical Engineering and changed to Computer Science after my first semester. I was certain that I wanted to move closer to computation; I was much less certain about what I wanted computation to lead toward. That uncertainty now feels less like a problem to eliminate and more like room to investigate.</p>
-          <p>Programming has been an important part of how I learn. I have built Android apps, simulations, web experiences, and small automated systems, but I increasingly see software as a medium rather than a professional identity: a way to make an idea concrete enough to test, share, or challenge.</p>
-          <p>Right now, the Enigma investigation is my main research thread. I am also beginning to study quantum computing through its mathematical foundations, learning algorithms more deliberately, and reading philosophy—especially questions about knowledge, consciousness, ethics, and what it means to understand something.</p>
-          <p>I have a habit of following questions further than I originally intended. Sometimes that becomes research; sometimes it becomes a prototype, a page of mathematics, or simply a better question.</p>
-          <p>Building with other people has widened that process. At Blithchron, I serve as a Design and Tech Coordinator. For the <a href="/projects/blithchron-website/">2027 website</a>, I built on Bruno Simon's open-source work, made major architecture decisions while adapting it for the festival, and deployed the finished site. Crediting a foundation and owning the decisions made on top of it both matter.</p>
+          <p class="about-lede">I use mathematics to understand a system, and programming to test whether that understanding holds.</p>
+          <p>I entered IIT Gandhinagar in Mechanical Engineering and changed to Computer Science after my first semester. Since then, I have built Android apps, simulations, and interactive web experiences while moving toward research in mathematics and computation.</p>
+          <p>Enigma cryptanalysis is my main research thread. Alongside it, I have started exploring computational complexity theory and, eventually, its intersection with quantum computing. I am also studying the mathematical foundations of quantum computing, learning algorithms more deliberately, and reading philosophy—especially questions about knowledge, consciousness, ethics, and what it means to understand something.</p>
         </div>
       </div>
     </section>
 
-    <section class="section philosophy-section">
-      <div class="shell philosophy-grid">
-        <div><p class="eyebrow">Why this atlas</p><h2 class="section-title">Make the work understandable.</h2></div>
-        <div class="philosophy-copy">
-          <p>I wanted this site to behave more like a working notebook than a polished résumé.</p>
-          <p>Questions can remain unfinished. Investigations can show failed assumptions and changed conclusions. A project can matter even when I no longer want it to define me.</p>
-          <p><strong>The aim is not to make everything look impressive. It is to leave an honest, useful record of what I was trying to understand.</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section method-section">
+    <section class="section" aria-labelledby="work-title">
       <div class="shell">
-        <header class="section-head"><div><p class="eyebrow">How I work</p><h2 class="section-title">A question becomes clearer by moving through a few forms.</h2><p class="section-intro">Every investigation can inherit this method, even when the order bends or a step sends me back to an earlier one.</p></div></header>
-        <ol class="method-list">
-          <li><span class="index-number">01</span><strong>Notice</strong><p>Find the thing that does not yet make sense.</p></li>
-          <li><span class="index-number">02</span><strong>Read</strong><p>Locate the history, language, and existing explanations.</p></li>
-          <li><span class="index-number">03</span><strong>Model</strong><p>Make the structure explicit enough to reason about.</p></li>
-          <li><span class="index-number">04</span><strong>Build</strong><p>Turn an idea into a system, simulation, or artifact.</p></li>
-          <li><span class="index-number">05</span><strong>Test</strong><p>Look for evidence, counterexamples, and constraints.</p></li>
-          <li><span class="index-number">06</span><strong>Explain</strong><p>Write down what changed and what still resists clarity.</p></li>
-          <li><span class="index-number">07</span><strong>Return</strong><p>Come back when a better question or method appears.</p></li>
-        </ol>
+        <header class="section-head"><div><p class="eyebrow">Research, contributions & leadership</p><h2 class="section-title" id="work-title">What I’ve been working on.</h2></div><a class="section-link" href="/projects/">All projects →</a></header>
+        <dl class="profile-record">
+          <div><dt><span class="meta">Research · SRIP 2026</span><a href="/projects/enigma-cryptanalysis/">Enigma cryptanalysis ↗</a></dt><dd>Modelled rotor recovery through permutations and group theory. Later analysis and simulations confirmed an additional spin ambiguity. The investigation continues beyond the summer internship.</dd></div>
+          <div><dt><span class="meta">Open source · September–November 2026</span><a href="/projects/open-source-contributions/">Contributing to Qiskit & Cirq ↗</a></dt><dd>Fixed Qiskit’s angle wrapping inside control flow and added NumPy’s modern random-generator API to Cirq, with tests. Qiskit PR #17349 merged on 3 November. Cirq PR #8382 merged in September.</dd></div>
+          <div><dt><span class="meta">Leadership · Blithchron 2027</span><a href="/projects/blithchron-website/">Design & Tech Coordinator ↗</a></dt><dd>Adapted Bruno Simon’s open-source work for the festival website, made major architecture decisions, and deployed the site in August 2026.</dd></div>
+        </dl>
       </div>
     </section>
 
@@ -63,9 +45,8 @@ import { personalData } from '../data/personal.js';
       <div class="shell horizon">
         <div><p class="eyebrow">Long horizon</p><blockquote>The horizon is larger than software.</blockquote></div>
         <div class="horizon-copy">
-          <p>Over time, I want to move closer to technologies that change what humans can understand or build—especially quantum systems, intelligence, robotics, energy, and computation that meets the physical world.</p>
-          <p>These are directions of attention, not a settled ten-year plan. For now, the work is to build strong foundations, follow difficult questions carefully, and notice which of them continue to hold my attention after the novelty disappears.</p>
-          <p>This atlas is meant to grow with that process: notes can become investigations, investigations can become research or tools, and questions can be revised without pretending they were ever settled.</p>
+          <p>Over time, I want to move closer to technologies that change what humans can understand or build—especially quantum systems, intelligence, energy, and computation that meets the physical world.</p>
+          <p>This site is my working notebook: a place to record experiments, explain changed conclusions, and return to questions as I learn more.</p>
         </div>
       </div>
     </section>

@@ -31,14 +31,14 @@ milestones:
   - date: 2026-01-01
     dateLabel: "January 2026"
     label: "App build began"
-    summary: "The team was asked to build the Blithchron app independently with React Native, a framework for cross-platform mobile applications. Senior members provided the main ideas; our team handled the execution."
+    summary: "The team was asked to build the Blithchron app independently with React Native, a framework for cross-platform mobile applications. Senior members provided the main ideas. Our team handled the execution."
   - date: 2026-02-01
     dateLabel: "First week of February 2026"
     label: "Launched"
     summary: "The app was launched in the first week of February, shortly before Blithchron 2026, with access through the earlier official website as a PWA and APK."
 currentBelief: "The project taught me that execution can be a substantial technical responsibility even when senior members set the initial product direction."
 evidenceSummary: "I worked mostly on the frontend and the campus map while the student team turned a senior-defined brief into a cross-platform React Native app under a fixed festival deadline."
-changedMind: "I did not originate the main product ideas or make major architectural decisions; my contribution was turning a shared brief into working frontend and map features."
+changedMind: "I did not originate the main product ideas or make major architectural decisions. My contribution was turning a shared brief into working frontend and map features."
 openQuestions: []
 ---
 
@@ -48,9 +48,9 @@ I was appointed Junior Technology and Design Executive near the end of August. T
 
 ## From a page to an app
 
-In December, I was assigned a page for the Campus Ambassador Program. The programme invites students from colleges outside IIT Gandhinagar to help market Blithchron; ambassadors are rewarded with merchandise and other benefits when they come to campus. In January, the team was asked to build a Blithchron mobile app independently. After learning basic web development with React, we implemented the app in React Native, a framework for developing cross-platform mobile applications. The senior members supplied the main ideas and direction; the implementation was carried out by us. It was made available through the earlier official website as both a working PWA and an APK, rather than through the Play Store.
+In December, I was assigned a page for the Campus Ambassador Program. The programme invites students from colleges outside IIT Gandhinagar to help market Blithchron. Ambassadors are rewarded with merchandise and other benefits when they come to campus. In January, the team was asked to build a Blithchron mobile app independently. After learning basic web development with React, we implemented the app in React Native, a framework for developing cross-platform mobile applications. The senior members supplied the main ideas and direction. The implementation was carried out by us. It was made available through the earlier official website as both a working PWA and an APK, rather than through the Play Store.
 
-My work was concentrated in the frontend and the campus map shown in the app. On the day of the events, the map helps visitors see live events and their locations. There were no major technical or design decisions that I originated; the important responsibility was executing the agreed direction accurately and getting the work ready for the festival.
+My work was concentrated in the frontend and the campus map shown in the app. On the day of the events, the map helps visitors see live events and their locations. There were no major technical or design decisions that I originated. The important responsibility was executing the agreed direction accurately and getting the work ready for the festival.
 
 ## The deadline
 
@@ -58,4 +58,4 @@ The app launched in the first week of February 2026, shortly before Blithchron. 
 
 ## What the project taught me
 
-This was less a story of inventing a product direction and more a story of learning how to execute inside a team. A working frontend feature or map is not only a technical artifact; it is also a commitment to the decisions and constraints shared by the people building the product together.
+This was less a story of inventing a product direction and more a story of learning how to execute inside a team. A working frontend feature or map is not only a technical artifact. It is also a commitment to the decisions and constraints shared by the people building the product together.

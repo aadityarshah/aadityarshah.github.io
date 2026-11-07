@@ -3,6 +3,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import EnigmaReconstruction from '../../components/EnigmaReconstruction.astro';
 import { formatDate, getAtlasContent } from '../../lib/atlas';
 
 export async function getStaticPaths() {
@@ -27,6 +28,7 @@ const { Content } = await render(investigation);
           {investigation.data.evidenceSummary && <div><p class="eyebrow">Evidence</p><p>{investigation.data.evidenceSummary}</p></div>}
           {investigation.data.changedMind && <div><p class="eyebrow">What changed my mind</p><p>{investigation.data.changedMind}</p></div>}
         </div>
+        {investigation.id === 'enigma-cryptanalysis' && <section id="rotor-reconstruction" aria-label="Explore the rotor reconstruction" style="scroll-margin-top: 100px; margin-block: 2rem;"><EnigmaReconstruction /></section>}
         <Content />
         {investigation.data.openQuestions.length > 0 && <section class="open-questions"><h2>What remains open</h2><ul>{investigation.data.openQuestions.map((item) => <li>{item}</li>)}</ul></section>}
         {investigation.data.nextExperiment && <div class="next-experiment"><p class="eyebrow">Next experiment</p><p>{investigation.data.nextExperiment}</p></div>}

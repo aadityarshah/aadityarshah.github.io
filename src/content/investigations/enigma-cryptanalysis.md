@@ -33,7 +33,7 @@ milestones:
     summary: "By late June and early July, developed the dual-triplet and middle-rotor-turnover approaches for recovering a remaining rotor wiring up to twist when the right rotor wiring is known up to twist."
   - date: 2026-07-09
     label: "SRIP ended"
-    summary: "The formal internship period ended; the cryptanalysis work continues as a project."
+    summary: "The formal internship period ended. The cryptanalysis work continues as a project."
   - date: 2026-07-31
     dateLabel: "Late July 2026"
     label: "Spin identified"
@@ -84,7 +84,7 @@ $$
 U = P^tU_0,\qquad t \in \{0,1,\ldots,25\}.
 $$
 
-The value $t$ is the rotor's twist. Thus, a method that recovers the set of possible $U$ values has recovered the wiring only *up to twist*; an additional constraint is needed to identify the absolute wiring.
+The value $t$ is the rotor's twist. Thus, a method that recovers the set of possible $U$ values has recovered the wiring only *up to twist*. An additional constraint is needed to identify the absolute wiring.
 
 For the reconstruction procedures, choose one representative from each known candidate set and write
 
@@ -127,7 +127,7 @@ $$
 N=P^rN_0,\qquad M=P^sM_0.
 $$
 
-Several independent triplets can then be used for right-twist recovery. Since $N$ and $M$ are known up to twist, each triplet gives an admissible set of values for $r$; intersecting those sets isolates the correct value and makes $N$ absolute. This is an example of the narrower setting in which the multi-triplet method is currently supported.
+Several independent triplets can then be used for right-twist recovery. Since $N$ and $M$ are known up to twist, each triplet gives an admissible set of values for $r$. Intersecting those sets isolates the correct value and makes $N$ absolute. This is an example of the narrower setting in which the multi-triplet method is currently supported.
 
 The next step is to recover $L$ using the dual-triplet approach. In the derivation presented in the SRIP report, the twist of the relevant known rotor was treated as fixed, so the equations were expected to return 26 candidates for $L$. Later simulations showed that recovering only $N$ absolutely is not enough: if $M$ remains known only up to twist, the dual-triplet equations contain an additional unknown factor involving the twist of $M$.
 
@@ -137,7 +137,7 @@ $$
 26 \times 26 = 676
 $$
 
-candidate configurations before the remaining twists are resolved. If the twist of the remaining relevant rotor—$M$ in this example—were also known exactly, this extra factor would be fixed and the dual-triplet equations are expected to return the intended 26 candidates for $L$. The number 676 belongs to this example; the broader lesson is that making only one rotor exact is not necessarily enough to fix the dual-triplet reconstruction. We use this case to introduce the general **spin** problem, not to claim that every rotor order produces exactly 676 candidates.
+candidate configurations before the remaining twists are resolved. If the twist of the remaining relevant rotor—$M$ in this example—were also known exactly, this extra factor would be fixed and the dual-triplet equations are expected to return the intended 26 candidates for $L$. The number 676 belongs to this example. The broader lesson is that making only one rotor exact is not necessarily enough to fix the dual-triplet reconstruction. We use this case to introduce the general **spin** problem, not to claim that every rotor order produces exactly 676 candidates.
 
 ## Methods and current limits
 
@@ -185,7 +185,7 @@ The report also contains alternative procedures for other rotor-order configurat
 
 The later simulations did not invalidate right-twist recovery under its stated assumptions. They verified that several independent triplets can determine the twist of a rightmost rotor when the rightmost and middle rotor wirings are known up to twist, by intersecting their admissible twist sets.
 
-The broader problem appears in dual-triplet recovery. Near the end of July, after the SRIP report, Jonah Weinbaum pointed out that an unknown twist contributes an additional factor—the spin. I then worked through the algebra independently and confirmed the observation. In the tested setting, the dual-triplet method gives 26 candidates for $L$ once the right rotor $N$ is known exactly and the relevant additional twist is fixed. If $N$ is exact but $M$ remains known only up to twist, each of $M$'s 26 twists can produce its own 26-candidate family for $L$, giving 676 candidates. The larger count is a by-product of the spin and twist ambiguity, not a failure of the dual-triplet equations; it identifies the additional exact-twist condition needed before they can be used as intended.
+The broader problem appears in dual-triplet recovery. Near the end of July, after the SRIP report, Jonah Weinbaum pointed out that an unknown twist contributes an additional factor—the spin. I then worked through the algebra independently and confirmed the observation. In the tested setting, the dual-triplet method gives 26 candidates for $L$ once the right rotor $N$ is known exactly and the relevant additional twist is fixed. If $N$ is exact but $M$ remains known only up to twist, each of $M$'s 26 twists can produce its own 26-candidate family for $L$, giving 676 candidates. The larger count is a by-product of the spin and twist ambiguity, not a failure of the dual-triplet equations. It identifies the additional exact-twist condition needed before they can be used as intended.
 
 The current methods therefore do not yet provide a general way to determine all absolute rotor twists or reduce every rotor-order case to one fixed candidate family. New methods are being developed to characterize and resolve this additional ambiguity.
 
@@ -194,7 +194,7 @@ The current methods therefore do not yet provide a general way to determine all 
 - **Mathematical foundation:** the permutation model, conjugacy relations, and twist ambiguity are formalized.
 - **Supported by current simulations:** Rejewski's fast-rotor recovery and multi-triplet right-twist recovery when the rightmost and middle rotor wirings are known up to twist.
 - **Conditionally promising:** the dual-triplet system should recover a third rotor up to twist once one more relevant rotor twist is known exactly and the triplet assumptions hold.
-- **Observed limitation:** knowing only one exact twist can leave spin in the dual-triplet equations; the representative example expands from 26 to 676 candidates.
+- **Observed limitation:** knowing only one exact twist can leave spin in the dual-triplet equations. The representative example expands from 26 to 676 candidates.
 - **Unresolved:** a general method for obtaining the additional exact twist and verifying the conditional recovery across rotor-order cases.
 
 ## What remains open

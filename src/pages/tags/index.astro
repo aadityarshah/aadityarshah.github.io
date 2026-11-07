@@ -16,8 +16,8 @@ const topics = [...counts.entries()].map(([slug, value]) => ({ slug, ...value })
 <Layout title="Topics — Aaditya Shah" description="Subject entrances into questions, investigations, and notes.">
   <Header />
   <main id="main-content">
-    <header class="page-hero"><div class="shell"><p class="eyebrow">Topics</p><h1>Entrances, not containers.</h1><p>Topics help locate the work, but they are not the structure of the mind. Follow one to see which questions and notes currently pass through it.</p></div></header>
-    <section class="page-body"><div class="shell topic-index">{topics.map((topic, index) => <a href={`/tags/${topic.slug}/`}><span class="index-number">{String(index + 1).padStart(2, '0')}</span><strong>{topic.label}</strong><span class="meta">{topic.count} {topic.count === 1 ? 'entry' : 'entries'} ↗</span></a>)}</div></section>
+    <header class="page-hero"><div class="shell"><h1>Topics</h1><p>Browse projects, questions, and notes by subject.</p></div></header>
+    <section class="page-body"><div class="shell topic-index">{topics.map((topic) => <a href={`/tags/${topic.slug}/`}><strong>{topic.label}</strong><span class="meta">{topic.count} {topic.count === 1 ? 'entry' : 'entries'} ↗</span></a>)}</div></section>
   </main>
   <Footer />
 </Layout>
@@ -26,7 +26,7 @@ const topics = [...counts.entries()].map(([slug, value]) => ({ slug, ...value })
   .topic-index { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
   .topic-index a { min-height: 160px; padding: 1.4rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-decoration: none; display: grid; grid-template-columns: auto 1fr; gap: .5rem 1rem; align-content: space-between; }
   .topic-index strong { font-family: var(--display); font-size: 2rem; font-weight: 470; }
-  .topic-index .meta { grid-column: 2; color: var(--muted); }
+  .topic-index .meta { grid-column: 1 / -1; color: var(--muted); }
   .topic-index a:hover { background: var(--surface); color: var(--rust); }
   @media (max-width: 700px) { .topic-index { grid-template-columns: 1fr; } }
 </style>

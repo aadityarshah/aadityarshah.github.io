@@ -65,7 +65,7 @@ My coursework reflected that widening curiosity. Ordinary Differential Equations
 
 At first, I was mainly thinking about the application itself. As the project grew, I had to think about content, interface decisions, maintenance, and what it means for something to be usable beyond a prototype. MusicLib remains a personal project and an Android passion, but it also helped me understand that software is a tool I can use to investigate and make things concrete. It does not have to become my entire professional identity.
 
-Near the end of August, I joined Blithchron's Design and Tech team as a Junior Technology and Design Executive. I first learned the basics of web development using React, then worked on a Campus Ambassador Program page in December and contributed to the [2026 festival mobile application](/projects/blithchron-app/) in January. The app was built with React Native, a framework for developing cross-platform mobile applications; I worked mostly on the frontend and the campus map while senior members provided the main ideas and direction. I now serve as a Design and Tech Coordinator for Blithchron.
+Near the end of August, I joined Blithchron's Design and Tech team as a Junior Technology and Design Executive. I first learned the basics of web development using React, then worked on a Campus Ambassador Program page in December and contributed to the [2026 festival mobile application](/projects/blithchron-app/) in January. The app was built with React Native, a framework for developing cross-platform mobile applications. I worked mostly on the frontend and the campus map while senior members provided the main ideas and direction. I now serve as a Design and Tech Coordinator for Blithchron.
 
 That experience taught me a different kind of lesson. A product is not only the code or the interface. It is also the communication around the work: how decisions are made, how changes are absorbed, and how a group keeps a shared system understandable.
 
@@ -75,7 +75,7 @@ The most important shift in the year came through the [Summer Research Internshi
 
 I began by learning how the machine could be represented through permutations and how the historical indicator attack worked. That was already challenging: I was learning group theory while trying to understand a real historical system. But the work became more interesting when the mathematics exposed a gap between recovering a structure up to a transformation and recovering its absolute configuration.
 
-I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. The first recovery formulation was not enough to settle every part of the problem; different approaches needed more observations or additional constraints. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas.
+I built simulations, read technical material, wrote proofs, and tested approaches that did not always behave as expected. The first recovery formulation was not enough to settle every part of the problem. Different approaches needed more observations or additional constraints. **That failure was not a dead end.** It showed me which assumptions needed more care and led to further ideas.
 
 The project also introduced me to a form of work I had not experienced before: staying with a question after the first implementation stops being satisfying. The formal internship ended in July, but the [Enigma investigation](/projects/enigma-cryptanalysis/) continues. I am carrying that experience into second year as a reminder that understanding often develops through a sequence of models, failures, revisions, and returns.
 
@@ -89,7 +89,7 @@ One of the less visible changes in my first year was social. I arrived highly fo
 
 The change was not dramatic or complete. I still need time alone, and I am still not naturally the most outgoing person in a room. But I became more open to the possibility that other people could expand the way I understood a problem.
 
-Some friends also made me more comfortable with being deeply interested in things. I have been called a nerd, as have many people whose curiosity has led them to meaningful work. If you have heard the same label, I hope it never makes you feel that you should shrink your interests or hide how much you care. Curiosity is not something to be embarrassed by; it is a part of myself I want to protect. First year also taught me that curiosity does not grow through reading and thinking alone. It grows through conversation, collaboration, disagreement, and attention to experiences different from my own.
+Some friends also made me more comfortable with being deeply interested in things. I have been called a nerd, as have many people whose curiosity has led them to meaningful work. If you have heard the same label, I hope it never makes you feel that you should shrink your interests or hide how much you care. Curiosity is not something to be embarrassed by. It is a part of myself I want to protect. First year also taught me that curiosity does not grow through reading and thinking alone. It grows through conversation, collaboration, disagreement, and attention to experiences different from my own.
 
 ## What I am carrying into second year
 

@@ -12,7 +12,7 @@ const furtherInvestigations = allInvestigations.filter((item) => !item.data.home
 <Layout title="Investigations — Things built to understand something" description="Research and engineering work framed by the questions that started it.">
   <Header />
   <main id="main-content">
-    <header class="page-hero"><div class="shell"><p class="eyebrow">Investigations</p><h1>Things built to understand something.</h1><p>Projects appear here as evidence of inquiry: the original question, the difficult middle, what changed in my understanding, and what remains open. Each entry also makes my contribution, current state, and supporting evidence easy to find.</p></div></header>
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Research & engineering</p><h1>Projects & investigations.</h1><p>Research, software contributions, and systems built to understand an idea. Each project records my contribution, its current state, and the evidence behind it.</p></div></header>
     <section class="page-body"><div class="shell">
       <div class="investigation-list"><p class="eyebrow">Selected work</p>{selectedInvestigations.map((investigation, index) => <InvestigationRow investigation={investigation} index={index} />)}</div>
       {furtherInvestigations.length > 0 && <div class="investigation-list further-investigations"><p class="eyebrow">Further investigations</p>{furtherInvestigations.map((investigation, index) => <InvestigationRow investigation={investigation} index={selectedInvestigations.length + index} />)}</div>}

@@ -1,0 +1,123 @@
+---
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+const contacts = Array.from({ length: 26 }, (_, i) => {
+  const angle = (i * 2 * Math.PI) / 26 - Math.PI / 2;
+  return { x: Math.cos(angle) * 43, y: Math.sin(angle) * 43 };
+});
+const rotors = [
+  { name: 'L', position: 'Left rotor', state: 'To recover', x: 65 },
+  { name: 'M', position: 'Middle rotor', state: 'Twist unknown', x: 195 },
+  { name: 'N', position: 'Right rotor', state: 'Known exactly', x: 325 },
+];
+---
+
+<enigma-reconstruction data-view="wiring" class:list={[{ compact }]}>
+  <figure>
+    <header>
+      <h4>Inside the Enigma</h4>
+      <p>{compact ? 'Three wired rotors scramble each letter. My research asks what intercepted messages reveal about their wiring.' : 'Its rotors connect 26 letter contacts through scrambled wiring. Can intercepted messages reveal those hidden connections?'}</p>
+    </header>
+    <svg viewBox={compact ? '0 0 390 158' : '0 0 390 195'} role="img" aria-labelledby="enigma-rotors-title enigma-rotors-desc">
+      <title id="enigma-rotors-title">Three rotors in an Enigma reconstruction</title>
+      <desc id="enigma-rotors-desc">In this research example, right rotor N is known exactly, middle rotor M is known only up to twist, and left rotor L is being recovered. The circles represent rotor contacts. The drawn wires are illustrative.</desc>
+      {rotors.map(rotor => <g class="rotor" data-rotor={rotor.name} transform={`translate(${rotor.x} 76)`}>
+        <text class="position" y="-64" text-anchor="middle">{rotor.position}</text>
+        <circle class="rim" r="52" />
+        <g class="wires" aria-hidden="true">{[0, 3, 7, 10, 14, 18, 21, 24].map((i, j) => {
+          const start = contacts[i];
+          const end = contacts[(i + 9 + j * 2) % 26];
+          return <path d={`M ${start.x} ${start.y} Q 0 ${j % 2 ? 22 : -22} ${end.x} ${end.y}`} />;
+        })}</g>
+        <g class="contacts" aria-hidden="true">{contacts.map(point => <circle cx={point.x} cy={point.y} r="1.9" />)}</g>
+        <circle class="hub" r="15" />
+        <text class="rotor-name" y="6" text-anchor="middle">{rotor.name}</text>
+        <text class="rotor-state" y="76" text-anchor="middle">{rotor.state}</text>
+      </g>)}
+      {!compact && <><path class="spin-link" d="M 195 164 Q 130 195 65 164" />
+      <text class="link-label" x="130" y="194" text-anchor="middle">Changes L’s candidate family</text></>}
+    </svg>
+    {!compact && <><div class="views" role="group" aria-label="Explore the rotor reconstruction" hidden>
+      <button type="button" data-view="wiring" aria-pressed="true">The wiring</button>
+      <button type="button" data-view="twist" aria-pressed="false">Twist</button>
+      <button type="button" data-view="spin" aria-pressed="false">Spin</button>
+    </div>
+    <div class="explanation" aria-live="polite" aria-atomic="true">
+      <h5 data-title>Recovering the left rotor</h5>
+      <p data-explanation>In this example, the right rotor is known exactly. The middle rotor’s wiring is known only up to a shift. I’m trying to reconstruct the left rotor, but that remaining uncertainty matters.</p>
+    </div></>}
+    <figcaption>{compact ? <>One tested reconstruction, with illustrative wiring. <a href="/projects/enigma-cryptanalysis/#rotor-reconstruction">Explore twist and spin</a></> : <>A schematic of the tested rotor order. The wires are illustrative. <a href="#a-representative-example-lmnlmnlmn-and-nlmnlmnlm">Follow the reconstruction</a></>}</figcaption>
+  </figure>
+</enigma-reconstruction>
+
+<script>
+  const explanations = {
+    wiring: {
+      title: 'Recovering the left rotor',
+      text: 'In this example, the right rotor is known exactly. The middle rotor’s wiring is known only up to a shift. I’m trying to reconstruct the left rotor, but that remaining uncertainty matters.',
+    },
+    twist: {
+      title: 'Twist belongs to the rotor being recovered',
+      text: 'The reconstruction can leave 26 shifted versions of the left rotor’s wiring. This is its twist ambiguity: recovering a family of wirings does not yet tell us which shift is the actual one.',
+    },
+    spin: {
+      title: 'Spin comes from another unresolved rotor',
+      text: 'The middle rotor still has an unknown twist. Each choice can change the family recovered for the left rotor. That extra freedom is what we call spin. Fixing it still leaves the left rotor’s own twist to resolve.',
+    },
+  };
+  class EnigmaReconstruction extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      this.dataset.ready = 'true';
+      const controls = this.querySelector<HTMLElement>('.views');
+      if (!controls) return;
+      controls.hidden = false;
+      controls.addEventListener('click', event => {
+        const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-view]');
+        if (!button) return;
+        const view = button.dataset.view as keyof typeof explanations;
+        this.dataset.view = view;
+        controls.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        this.querySelector('[data-title]')!.textContent = explanations[view].title;
+        this.querySelector('[data-explanation]')!.textContent = explanations[view].text;
+      });
+    }
+  }
+  if (!customElements.get('enigma-reconstruction')) customElements.define('enigma-reconstruction', EnigmaReconstruction);
+</script>
+
+<style>
+  enigma-reconstruction { display: block; min-width: 0; align-self: start; }
+  figure { margin: 0; padding: 1.5rem; border: 1px solid var(--line); background: var(--paper-deep); }
+  h4 { font-family: var(--display); font-size: 1.7rem; line-height: 1.2; font-weight: 470; margin: 0 0 .6rem; }
+  header p { color: var(--ink-soft); font-size: .86rem; line-height: 1.6; margin: 0; }
+  svg { display: block; width: 100%; max-width: 440px; height: auto; margin: 1.5rem auto 1rem; overflow: visible; }
+  .compact svg { max-width: 390px; margin-block: 1.25rem; }
+  .rim { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
+  .contacts { fill: var(--ink-soft); }
+  .wires { fill: none; stroke: var(--ink-soft); stroke-width: 1; opacity: .35; }
+  .hub { fill: var(--paper-deep); }
+  .rotor-name { fill: var(--ink); font-family: var(--display); font-size: 20px; }
+  .position { fill: var(--ink); font-family: var(--sans); font-size: 12px; }
+  .rotor-state { fill: var(--ink-soft); font-family: var(--sans); font-size: 11px; }
+  .spin-link { fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-dasharray: 3 4; }
+  .link-label { fill: var(--blue); font-family: var(--sans); font-size: 10px; }
+  .spin-link, .link-label { opacity: 0; }
+  [data-view='wiring'] [data-rotor='L'] .wires { stroke: var(--blue); opacity: .8; }
+  [data-view='twist'] [data-rotor='L'] .rim,
+  [data-view='spin'] [data-rotor='M'] .rim { stroke: var(--blue); stroke-width: 3; stroke-dasharray: 5 3; }
+  [data-view='spin'] [data-rotor='L'] .rim { stroke: var(--blue); }
+  [data-view='spin'] .spin-link, [data-view='spin'] .link-label { opacity: 1; }
+  .views { display: flex; border-bottom: 1px solid var(--line-strong); gap: 1.25rem; }
+  .views[hidden] { display: none; }
+  button { appearance: none; font: inherit; font-size: .85rem; color: var(--ink-soft); background: none; border: 0; border-bottom: 2px solid transparent; padding: .65rem 0; min-height: 44px; cursor: pointer; }
+  button[aria-pressed='true'] { color: var(--blue); border-bottom-color: var(--blue); }
+  button:hover { color: var(--ink); }
+  button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+  .explanation { padding-block: 1rem; }
+  h5 { font: 500 .9rem/1.5 var(--sans); margin: 0 0 .45rem; color: var(--ink); }
+  .explanation p { font-size: .84rem; line-height: 1.65; color: var(--ink-soft); margin: 0; }
+  figcaption { border-top: 1px solid var(--line); padding-top: .8rem; font-size: .72rem; line-height: 1.6; color: var(--ink-soft); }
+  figcaption a { color: var(--blue); text-underline-offset: .2em; }
+  @media (max-width: 520px) { figure { padding: 1rem; } }
+</style>

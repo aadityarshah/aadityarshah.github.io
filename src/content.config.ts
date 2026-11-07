@@ -31,7 +31,7 @@ const investigations = defineCollection({
     question: z.string(),
     summary: z.string(),
     homepageSummary: z.string().optional(),
-    status: z.enum(['active', 'complete', 'continuing', 'paused']),
+    status: z.enum(['active', 'in progress', 'complete', 'continuing', 'live and evolving', 'paused']),
     category: z.enum(['Research', 'Systems', 'Open Source', 'Product Engineering']),
     context: z.string().optional(),
     homepageFeatured: z.boolean().default(false),

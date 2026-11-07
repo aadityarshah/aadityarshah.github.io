@@ -9,4 +9,4 @@ relatedInvestigations: []
 relatedNotes: []
 ---
 
-Building software repeatedly returns me to this question. The cleanest model is rarely the whole system; constraints, users, failure modes, and maintenance reveal what the original abstraction missed.
+Building software repeatedly returns me to this question. The cleanest model is rarely the whole system. Constraints, users, failure modes, and maintenance reveal what the original abstraction missed.
