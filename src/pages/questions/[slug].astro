@@ -21,7 +21,7 @@ const { Content } = await render(question);
 <Layout title={`${question.data.title} — Questions`} description={question.data.summary} type="article">
   <Header />
   <main id="main-content">
-    <header class="detail-header"><div class="shell"><p class="eyebrow">Question · {question.data.status}</p><h1>{question.data.title}</h1><p class="detail-question">{question.data.summary}</p><div class="detail-meta meta">{question.data.started && <span>Followed since {formatDate(question.data.started, 'short')}</span>}<span class="tag-list">{question.data.domains.map((domain) => <span class="tag-chip">{domain}</span>)}</span></div></div></header>
+    <header class="detail-header"><div class="shell"><p class="eyebrow">Question · {question.data.status}</p><h1>{question.data.title}</h1><p class="detail-question">{question.data.summary}</p><div class="detail-meta meta">{question.data.started && <span>Followed since {formatDate(question.data.started, 'short')}</span>}<span class="tag-list">{question.data.domains.map((domain) => <a class="tag-chip" href={`/tags/${domain.toLowerCase().replace(/[^a-z0-9]+/g, '-')}/`}>{domain}</a>)}</span></div></div></header>
     <div class="shell detail-grid">
       <article class="prose"><Content /></article>
       <aside class="detail-aside" aria-label="Related material">
