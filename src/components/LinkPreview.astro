@@ -56,6 +56,8 @@
 </style>
 
 <script>
+  import katex from 'katex';
+
   type Preview = {
     kind?: string;
     title?: string;
@@ -197,11 +199,38 @@
     kind.hidden = !preview.kind;
     title.textContent = preview.title ?? '';
     title.hidden = !preview.title;
-    card.querySelector<HTMLElement>('.preview-summary')!.textContent = preview.summary;
+    renderTextWithMath(card.querySelector<HTMLElement>('.preview-summary')!, preview.summary);
     byline.textContent = preview.byline ?? '';
     byline.hidden = !preview.byline;
     card.classList.toggle('is-extract-only', !preview.kind && !preview.title && !preview.byline);
     card.setAttribute('aria-hidden', 'false');
+  }
+
+  function renderTextWithMath(element: HTMLElement, value: string) {
+    const pattern = /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)|\$([^$\n]+?)\$/g;
+    const fragment = document.createDocumentFragment();
+    let start = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = pattern.exec(value))) {
+      fragment.append(value.slice(start, match.index));
+      const expression = match[1] ?? match[2] ?? match[3] ?? match[4];
+      const math = document.createElement('span');
+      try {
+        katex.render(expression, math, {
+          displayMode: Boolean(match[1] || match[2]),
+          throwOnError: false,
+          trust: false,
+        });
+      } catch {
+        math.textContent = match[0];
+      }
+      fragment.append(math);
+      start = pattern.lastIndex;
+    }
+
+    fragment.append(value.slice(start));
+    element.replaceChildren(fragment);
   }
 
   function show(link: HTMLAnchorElement, event?: PointerEvent) {
