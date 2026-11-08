@@ -289,7 +289,7 @@ a.investigation-row > .arrow { grid-column: 2; grid-row: 1 / span 2; align-self:
 .horizon blockquote { margin: 0; font-family: var(--display); font-size: clamp(2.4rem, 5vw, 4.8rem); line-height: 1.02; letter-spacing: -.04em; }
 .horizon-copy { color: var(--ink-soft); font-size: 1.08rem; }
 
-.page-hero { position: relative; isolation: isolate; padding: 6rem 0 4rem; border-bottom: 1px solid var(--line); }
+.page-hero { position: relative; isolation: isolate; padding: 6rem 0 4rem; }
 .page-hero::before { inset: 0; }
 .page-hero h1 { max-width: 850px; font-family: var(--display); font-size: clamp(3.4rem, 7vw, 6rem); line-height: 1; letter-spacing: -.025em; font-weight: 430; margin-bottom: 1.6rem; }
 .page-hero p { max-width: 670px; color: var(--ink-soft); font-size: 1.15rem; }
@@ -420,9 +420,6 @@ a.tag-chip:hover { border-color: var(--ink-soft); color: var(--ink); background:
   .investigation-row { grid-template-columns: 42px 1fr 20px; gap: .8rem; }
   .investigation-summary { grid-column: 2 / 4; }
   .note-item { grid-template-columns: 76px 1fr; }
-  .page-hero { padding: 4rem 0 3rem; }
-  .detail-header { padding-top: 2.75rem; }
-  .detail-grid { padding-top: 2.5rem; }
   .detail-aside { grid-template-columns: 1fr; }
   .method-list { grid-template-columns: repeat(2, 1fr); }
   .footer-inner { grid-template-columns: 1fr; text-align: left; }
@@ -456,7 +453,8 @@ a.tag-chip:hover { border-color: var(--ink-soft); color: var(--ink); background:
 }
 
 @media (max-width: 700px) {
-  .detail-grid { gap: 2rem; padding: 2.5rem 0 5rem; }
+  .detail-header { padding: 1.75rem 0 1.25rem; }
+  .detail-grid { gap: 1.5rem; padding: 1.5rem 0 2.5rem; }
   .detail-aside { grid-template-columns: minmax(0, 1fr); }
   .prose { font-size: 1.08rem; }
   .prose h2 { font-size: clamp(1.7rem, 8vw, 2.25rem); }
@@ -561,7 +559,6 @@ a.tag-chip:hover { border-color: var(--ink-soft); color: var(--ink); background:
   .work-entry { padding-block: 1.4rem; }
   .work-entry-title h3 { font-size: 1.5rem; }
   .notebook-heading .section-link { font-size: .59rem; }
-  .page-hero { padding: 2.5rem 0 2rem; }
   .section { padding-block: 3rem; }
 }
 /* Titles and dates carry the hierarchy without decorative numbering. */
@@ -573,4 +570,28 @@ a.tag-chip:hover { border-color: var(--ink-soft); color: var(--ink); background:
   .work-entry-detail { grid-column: 1; }
   .investigation-row { grid-template-columns: minmax(0, 1fr) 24px; }
   .investigation-summary { grid-column: 1 / 3; }
+}
+
+@media (max-width: 700px) {
+  .page-hero { padding: 1.75rem 0 1.25rem; }
+  .page-hero .eyebrow { margin-bottom: .75rem; }
+  .page-hero h1 { margin-bottom: .75rem; }
+  .page-hero .shell > :last-child { margin-bottom: 0; }
+  .page-body { padding: 1.25rem 0 2.5rem; }
+
+  main:not(.notebook-home) > .section { padding-block: 1.75rem; }
+  main:not(.notebook-home) .section-head { margin-bottom: 1.25rem; }
+  .about-grid, main:not(.notebook-home) .horizon { gap: 1.25rem; }
+  .about-grid p:last-child, .horizon-copy > :last-child { margin-bottom: 0; }
+  .horizon-copy .hero-actions { margin-top: 1rem; }
+  main:not(.notebook-home) .profile-record > div { padding-block: 1.25rem; }
+
+  .further-investigations { margin-top: 2rem; }
+  .investigation-list > .eyebrow { margin-bottom: .5rem; }
+  .investigation-row { padding-block: 1.25rem; }
+  .investigation-row .investigation-question { margin-bottom: 0; }
+  .investigation-row .modes { margin-top: .75rem; }
+  main:not(.notebook-home) .question-card h2,
+  main:not(.notebook-home) .question-card h3 { margin-top: 0; }
+  main:not(.notebook-home) .question-card p { margin-bottom: .75rem; }
 }

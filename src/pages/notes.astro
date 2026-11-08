@@ -23,5 +23,9 @@ const { notes } = await getAtlasContent();
   .note-item { grid-template-columns: 150px 1fr; padding: 2rem 0; }
   .note-item h2 { font-family: var(--display); font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 460; line-height: 1.08; margin-bottom: .75rem; }
   .note-item .kind { display: block; color: var(--rust); margin-top: .45rem; }
-  @media (max-width: 700px) { .note-item { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) {
+    .note-item { grid-template-columns: minmax(0, 1fr); gap: .5rem; padding-block: 1.25rem; }
+    .note-item .kind { display: inline-block; margin: 0 0 0 .75rem; }
+    .note-item .modes { margin-top: .75rem; }
+  }
 </style>

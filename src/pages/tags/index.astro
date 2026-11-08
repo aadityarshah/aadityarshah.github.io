@@ -28,5 +28,8 @@ const topics = [...counts.entries()].map(([slug, value]) => ({ slug, ...value })
   .topic-index strong { font-family: var(--display); font-size: 2rem; font-weight: 470; }
   .topic-index .meta { grid-column: 1 / -1; color: var(--muted); }
   .topic-index a:hover { background: var(--surface); color: var(--rust); }
-  @media (max-width: 700px) { .topic-index { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) {
+    .topic-index { grid-template-columns: 1fr; }
+    .topic-index a { min-height: 0; padding: .85rem 1rem; gap: .25rem; }
+  }
 </style>

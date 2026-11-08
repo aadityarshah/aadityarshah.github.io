@@ -22,5 +22,9 @@ const { trail } = await getAtlasContent();
   .trail-page h2 { font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.16; }
   .trail-date { display: grid; align-content: start; gap: .5rem; }
   .kind { color: var(--rust); }
-  @media (max-width: 700px) { .trail-page .trail-item { grid-template-columns: 1fr; gap: 1rem; } }
+  @media (max-width: 700px) {
+    .trail-page .trail-item { grid-template-columns: minmax(0, 1fr); gap: .35rem; padding: 1.25rem 0 1.25rem 1rem; }
+    .trail-page .trail-item::before { top: 1.5rem; }
+    .trail-page h2 { margin-bottom: .45rem; }
+  }
 </style>
