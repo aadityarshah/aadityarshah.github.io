@@ -1,0 +1,252 @@
+<div id="external-link-preview" role="tooltip" aria-hidden="true">
+  <div class="preview-copy">
+    <span class="preview-kind meta"></span>
+    <strong class="preview-title"></strong>
+    <p class="preview-byline" hidden></p>
+    <p class="preview-summary"></p>
+  </div>
+</div>
+
+<style>
+  #external-link-preview {
+    position: fixed;
+    z-index: 60;
+    width: min(26rem, calc(100vw - 24px));
+    border: 1px solid var(--line-strong);
+    border-radius: .35rem;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(6px) scale(.985);
+    transform-origin: top left;
+    transition:
+      opacity 160ms ease,
+      transform 190ms cubic-bezier(.2, .75, .25, 1),
+      visibility 0s linear 190ms;
+  }
+  #external-link-preview.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+  }
+  .preview-copy { padding: .9rem 1rem; }
+  .preview-kind { display: block; margin-bottom: .35rem; color: var(--blue); }
+  .preview-title { display: block; font-family: var(--display); font-size: 1.35rem; font-weight: 520; line-height: 1.15; }
+  .preview-byline { margin: .35rem 0 0; color: var(--muted); font-size: .76rem; line-height: 1.35; }
+  .preview-summary {
+    display: -webkit-box;
+    margin: .45rem 0 0;
+    overflow: hidden;
+    color: var(--ink-soft);
+    font-size: .88rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+  #external-link-preview.is-extract-only .preview-summary { margin-top: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    #external-link-preview { transition: none; transform: none; }
+  }
+</style>
+
+<script>
+  type Preview = {
+    kind?: string;
+    title?: string;
+    summary: string;
+    byline?: string;
+  };
+
+  const previewId = 'external-link-preview';
+  const cache = new Map<string, Promise<Preview | undefined>>();
+  let active: HTMLAnchorElement | undefined;
+  let openTimer: number;
+  let closeTimer: number;
+  let request = 0;
+
+  function wikipediaEndpoint(url: URL) {
+    if (!/(^|\.)wikipedia\.org$/.test(url.hostname)) return;
+    const match = url.pathname.match(/^\/wiki\/(.+)$/);
+    if (!match) return;
+    return `${url.origin}/api/rest_v1/page/summary/${encodeURIComponent(decodeURIComponent(match[1]))}`;
+  }
+
+  function paperId(url: URL) {
+    if (url.hostname === 'arxiv.org') {
+      const match = url.pathname.match(/^\/(?:abs|pdf)\/(.+)$/);
+      if (match) return `ARXIV:${match[1].replace(/\.pdf$/, '').replace(/v\d+$/, '')}`;
+    }
+    if (url.hostname === 'doi.org' || url.hostname === 'dx.doi.org') {
+      return `DOI:${decodeURIComponent(url.pathname.slice(1))}`;
+    }
+    if (url.hostname.endsWith('nature.com')) {
+      const match = url.pathname.match(/^\/articles\/(s[\w.-]+)$/);
+      if (match) return `DOI:10.1038/${match[1]}`;
+    }
+  }
+
+  function previewTarget(link: HTMLAnchorElement) {
+    const url = new URL(link.href);
+    const wikipedia = wikipediaEndpoint(url);
+    if (wikipedia) return { key: link.href, kind: 'wikipedia', endpoint: wikipedia };
+    const identifier = paperId(url);
+    if (identifier) {
+      if (identifier.startsWith('ARXIV:')) {
+        return { key: identifier, kind: 'arxiv', endpoint: '/paper-previews.json' };
+      }
+      return {
+        key: identifier,
+        kind: 'crossref',
+        endpoint: `https://api.crossref.org/works/${encodeURIComponent(identifier.slice(4))}`,
+      };
+    }
+  }
+
+  async function fetchPreview(target: NonNullable<ReturnType<typeof previewTarget>>) {
+    const response = await fetch(target.endpoint);
+    if (!response.ok) return;
+    const data = await response.json();
+    if (target.kind === 'arxiv') return data[target.key] as Preview | undefined;
+    if (target.kind === 'wikipedia') {
+      if (!data.title || !data.extract) return;
+      return {
+        summary: data.extract,
+      } satisfies Preview;
+    }
+    const work = data.message;
+    if (!work?.title?.[0]) return;
+    const authors = Array.isArray(work.author)
+      ? work.author.slice(0, 3).map((author: { given?: string; family?: string }) =>
+        [author.given, author.family].filter(Boolean).join(' ')).filter(Boolean)
+      : [];
+    const remaining = Array.isArray(work.author) ? work.author.length - authors.length : 0;
+    const authorLine = authors.join(', ') + (remaining > 0 ? ` + ${remaining} more` : '');
+    const dateParts = work.published?.['date-parts']?.[0] ?? work.issued?.['date-parts']?.[0];
+    const abstract = typeof work.abstract === 'string'
+      ? new DOMParser().parseFromString(work.abstract, 'text/html').body.textContent?.trim()
+      : undefined;
+    if (!abstract) return;
+    return {
+      kind: 'Research paper',
+      title: work.title[0],
+      summary: abstract,
+      byline: [authorLine, work['container-title']?.[0], dateParts?.[0]].filter(Boolean).join(' · '),
+    } satisfies Preview;
+  }
+
+  function getPreview(target: NonNullable<ReturnType<typeof previewTarget>>) {
+    let pending = cache.get(target.key);
+    if (!pending) {
+      pending = fetchPreview(target).catch(() => undefined);
+      cache.set(target.key, pending);
+    }
+    return pending;
+  }
+
+  function linkAt(target: EventTarget | null) {
+    return target instanceof Element ? target.closest<HTMLAnchorElement>('a[href]') : null;
+  }
+
+  function hide() {
+    window.clearTimeout(openTimer);
+    window.clearTimeout(closeTimer);
+    request++;
+    if (active) {
+      const descriptions = (active.getAttribute('aria-describedby') ?? '').split(/\s+/)
+        .filter((id) => id && id !== previewId);
+      if (descriptions.length) active.setAttribute('aria-describedby', descriptions.join(' '));
+      else active.removeAttribute('aria-describedby');
+    }
+    active = undefined;
+    const card = document.getElementById(previewId);
+    if (card) {
+      card.classList.remove('is-visible');
+      card.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function position() {
+    const card = document.getElementById(previewId);
+    if (!active || !card) return;
+    const bounds = active.getBoundingClientRect();
+    const inset = 12;
+    const below = bounds.bottom + 10;
+    const above = bounds.top - card.offsetHeight - 10;
+    const top = below + card.offsetHeight <= innerHeight - inset ? below : above;
+    card.style.left = `${Math.max(inset, Math.min(bounds.left, innerWidth - card.offsetWidth - inset))}px`;
+    card.style.top = `${Math.max(inset, Math.min(top, innerHeight - card.offsetHeight - inset))}px`;
+  }
+
+  function render(preview: Preview) {
+    const card = document.getElementById(previewId);
+    if (!card) return;
+    const byline = card.querySelector<HTMLElement>('.preview-byline')!;
+    const kind = card.querySelector<HTMLElement>('.preview-kind')!;
+    const title = card.querySelector<HTMLElement>('.preview-title')!;
+    kind.textContent = preview.kind ?? '';
+    kind.hidden = !preview.kind;
+    title.textContent = preview.title ?? '';
+    title.hidden = !preview.title;
+    card.querySelector<HTMLElement>('.preview-summary')!.textContent = preview.summary;
+    byline.textContent = preview.byline ?? '';
+    byline.hidden = !preview.byline;
+    card.classList.toggle('is-extract-only', !preview.kind && !preview.title && !preview.byline);
+    card.setAttribute('aria-hidden', 'false');
+  }
+
+  function show(link: HTMLAnchorElement, event?: PointerEvent) {
+    const target = previewTarget(link);
+    if (!target) return;
+    window.clearTimeout(closeTimer);
+    if (link === active) return;
+    hide();
+    active = link;
+    const pending = request;
+    const previewRequest = getPreview(target);
+    openTimer = window.setTimeout(async () => {
+      const preview = await previewRequest;
+      if (pending !== request) return;
+      if (!preview || !link.isConnected) {
+        hide();
+        return;
+      }
+      render(preview);
+      const description = link.getAttribute('aria-describedby');
+      link.setAttribute('aria-describedby', description ? `${description} ${previewId}` : previewId);
+      position();
+      requestAnimationFrame(() => {
+        if (pending === request) document.getElementById(previewId)?.classList.add('is-visible');
+      });
+    }, event ? 180 : 0);
+  }
+
+  document.addEventListener('pointerover', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    const link = linkAt(event.target);
+    if (link) show(link, event);
+  });
+  document.addEventListener('pointerout', (event) => {
+    if (event.pointerType !== 'mouse' || !active) return;
+    if (linkAt(event.target) !== active) return;
+    if (linkAt(event.relatedTarget) === active) return;
+    if (!active.matches(':focus-visible')) closeTimer = window.setTimeout(hide, 110);
+  });
+  document.addEventListener('focusin', (event) => {
+    const link = linkAt(event.target);
+    if (link?.matches(':focus-visible')) show(link);
+  });
+  document.addEventListener('focusout', (event) => {
+    if (active && linkAt(event.target) === active) hide();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') hide();
+  });
+  document.addEventListener('astro:before-swap', hide);
+  window.addEventListener('scroll', position, { passive: true, capture: true });
+  window.addEventListener('resize', position);
+</script>

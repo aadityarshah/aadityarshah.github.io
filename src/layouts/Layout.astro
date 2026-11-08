@@ -3,6 +3,7 @@ import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 import { ClientRouter } from 'astro:transitions';
 import { personalData } from '../data/personal.js';
+import LinkPreview from '../components/LinkPreview.astro';
 
 export interface Props {
   title: string;
@@ -88,5 +89,6 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <slot />
+    <LinkPreview />
   </body>
 </html>
