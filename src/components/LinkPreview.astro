@@ -243,7 +243,7 @@
     if (event.pointerType !== 'mouse' || !active) return;
     if (linkAt(event.target) !== active && !overCard(event.target)) return;
     if (linkAt(event.relatedTarget) === active || overCard(event.relatedTarget)) return;
-    if (!active.matches(':focus-visible')) closeTimer = window.setTimeout(hide, 110);
+    if (!active.matches(':focus-visible')) closeTimer = window.setTimeout(hide, 450);
   });
   document.addEventListener('focusin', (event) => {
     const link = linkAt(event.target);
