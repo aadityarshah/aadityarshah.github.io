@@ -94,7 +94,7 @@ const trail = defineCollection({
     dateLabel: z.string().optional(),
     title: z.string(),
     summary: z.string(),
-    kind: z.enum(['research', 'release', 'leadership', 'learning']),
+    kind: z.enum(['research', 'release', 'contribution', 'leadership', 'learning']),
     relatedQuestions: z.array(z.string()).default([]),
     relatedInvestigations: z.array(z.string()).default([]),
     relatedNotes: z.array(z.string()).default([]),

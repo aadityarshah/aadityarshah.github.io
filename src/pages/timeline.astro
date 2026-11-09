@@ -18,13 +18,20 @@ const { trail } = await getAtlasContent();
 </Layout>
 
 <style>
-  .trail-page .trail-item { display: grid; grid-template-columns: 210px 1fr; gap: 3rem; padding: 2.3rem 0 2.3rem 2rem; }
-  .trail-page h2 { font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.16; }
-  .trail-date { display: grid; align-content: start; gap: .5rem; }
+  .trail-page .trail-item {
+    --row-padding: 1.4rem;
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: var(--row-padding) 0 var(--row-padding) 1.4rem;
+  }
+  .trail-page .trail-item::before { top: calc(var(--row-padding) + .5rem - 3.5px); }
+  .trail-page h2 { margin: .25rem 0 .4rem; font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.25; font-weight: 600; }
+  .trail-page h2 a { text-decoration-thickness: 1px; }
+  .trail-page p { max-width: 72ch; line-height: 1.5; }
+  .trail-date time, .kind { display: block; }
   .kind { color: var(--rust); }
   @media (max-width: 700px) {
-    .trail-page .trail-item { grid-template-columns: minmax(0, 1fr); gap: .35rem; padding: 1.25rem 0 1.25rem 1rem; }
-    .trail-page .trail-item::before { top: 1.5rem; }
-    .trail-page h2 { margin-bottom: .45rem; }
+    .trail-page .trail-item { --row-padding: 1.05rem; grid-template-columns: minmax(0, 1fr); gap: .35rem; padding-left: 1rem; }
   }
 </style>
